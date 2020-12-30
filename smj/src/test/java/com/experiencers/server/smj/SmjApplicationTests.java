@@ -1,10 +1,10 @@
-package com.smj.server;
+package com.experiencers.server.smj;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ServerApplicationTests {
+class SmjApplicationTests {
 
     @Test
     void contextLoads() {

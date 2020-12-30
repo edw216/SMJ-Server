@@ -1,13 +1,13 @@
-package com.smj.server;
+package com.experiencers.server.smj;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ServerApplication {
+public class SmjApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServerApplication.class, args);
+        SpringApplication.run(SmjApplication.class, args);
     }
 
 }
