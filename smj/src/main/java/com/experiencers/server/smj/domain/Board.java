@@ -1,0 +1,87 @@
+package com.experiencers.server.smj.domain;
+
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "board")
+public class Board {
+    public Board(){
+        final LocalDateTime now = LocalDateTime.now();
+        created_date = now;
+    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "board_id")
+    private Long board_id;
+    @Column(nullable = false, length = 50)
+    private String type;
+    @Column(nullable = false, length = 255)
+    private String title;
+    @Column(nullable = false, length = 5000)
+    private String content;
+    @Column(nullable = false)
+    @CreationTimestamp
+    private LocalDateTime created_date;
+    /*@Column(name = "category")
+    private Category category;
+    @Column(name = "user")
+    private User user;
+    @Column(name = "comment")
+    private Comment comment;*/
+
+    public Long getBoard_id() {
+        return board_id;
+    }
+
+    public void setBoard_id(Long board_id) {
+        this.board_id = board_id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public LocalDateTime getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(LocalDateTime created_date) {
+        this.created_date = created_date;
+    }
+
+    @Override
+    public String toString() {
+        return "Board{"+
+                "board_id="+board_id+
+                ", type='" +type+'\''+
+                ", title='"+title+'\''+
+                ", content='"+content+'\''+
+                ", created_date='"+created_date+'\''+
+                '}';
+
+    }
+}

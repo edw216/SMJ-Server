@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width-device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CRUD main</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #content {
+            height: 10rem;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/navbar-top.css" rel="stylesheet">
+</head>
+<body>
+<main role="main" class="container mt-3">
+    <div class="jumbotron pt-3">
+        <div class="row">
+            <a href="/board" role="button" class="btn btn-primary ml-auto mr-0">back</a>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>{{board.board_id}}번 게시글</h2>
+            </div>
+        </div>
+        <hr/>
+        <div class="row mb-2">
+            <div class="col">
+                <h4>제목 : {{board.title}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h5>유형 : {{board.type}}</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>{{board.content}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>{{board.created_date}}</p>
+            </div>
+        </div>
+    </div>
+</main>
+<hr/>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.slim.min.js"></script>
+</body>
+</html>
