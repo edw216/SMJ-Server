@@ -27,11 +27,11 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime created_date;
     /*@Column(name = "category")
-    private Category category;
+    private Category category; // FK - Category
     @Column(name = "user")
-    private User user;
+    private User user; // FK - User
     @Column(name = "comment")
-    private Comment comment;*/
+    private Comment comment; // FK - Comment */
 
     public Long getBoard_id() {
         return board_id;
