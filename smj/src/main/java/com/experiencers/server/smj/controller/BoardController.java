@@ -13,9 +13,9 @@ import java.util.List;
 @Controller
 public class BoardController {
 
-
     @Autowired
     private BoardService boardService;
+    
     @GetMapping({"","/","/board"})
     public ModelAndView getIndex(){
         List<Board> boardList = boardService.readAllBoard();

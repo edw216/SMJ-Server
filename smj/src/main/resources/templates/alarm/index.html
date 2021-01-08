@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width-device-width, initial-scale=1, shrink-to-fit=no">
+    <title>알람 설정</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #content {
+            height: 10rem;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+    </style>
+    <script>
+        function checkOnlyOne(element) {
+
+            const checkboxes
+                = document.getElementsByName("repeat");
+
+            checkboxes.forEach((cb) => {
+                cb.checked = false;
+            })
+
+            element.checked = true;
+        }
+
+        document.getElementById('day').value = new Date().toISOString().substring(0, 10);;
+        document.getElementById('time').value = new Date().toISOString().slice(11, 16);
+    </script>
+    <!-- Custom styles for this template -->
+    <link href="/css/navbar-top.css" rel="stylesheet">
+</head>
+<body>
+<main role="main" class="container mt-3">
+    <div class="jumbotron">
+        <h3>알람설정</h3>
+        <form method="POST" action="/alarm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" name="title" class="form-control" id="title" placeholder="제목을 입력하세요">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="day">날짜</label>
+                <input type="date" name="day"  id="day" required>
+            </div>
+            <div class="form-group">
+                <label for="time">시간</label>
+                <input type="time" name="time"  id="time" step="2" required>
+            </div>
+            <div class="form-group">
+                <label >반복주기</label>
+                <input type='checkbox'
+                       name='repeat'
+                       value='once'
+                       onclick='checkOnlyOne(this)' checked/> 한번만
+                <br />
+                <input type='checkbox'
+                       name='repeat'
+                       value='hourly'
+                       onclick='checkOnlyOne(this)'/> 매시간마다
+                <br />
+                <input type='checkbox'
+                       name='repeat'
+                       value='daily'
+                       onclick='checkOnlyOne(this)'/> 매일마다
+                <br />
+                <input type='checkbox'
+                       name='repeat'
+                       value='monthly'
+                       onclick='checkOnlyOne(this)'/> 매달마다
+                <br />
+                <input type='checkbox'
+                       name='repeat'
+                       value='yearly'
+                       onclick='checkOnlyOne(this)'/> 매년마다
+                <br />
+            </div>
+            <button type="submit" class="btn btn-primary">생성하기</button>
+        </form>
+    </div>
+</main>
+<hr/>
+<main role="main" class="container mt-3">
+    <h2 class="mt-1">알람 목록</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">제목</th>
+            <th scope="col">날짜</th>
+            <th scope="col">시간</th>
+            <th scope="col">주기</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#alarmList}}
+        <tr>
+            <td scope="row">{{title}}</td>
+            <td>{{day}}</td>
+            <td>{{time}}</td>
+            <td>{{repeat}}</td>
+        </tr>
+        {{/alarmList}}
+        {{^alarmList}}
+        <tr>
+            <td colspan="4" class="text-center">알람이 없습니다.</td>
+        </tr>
+        {{/alarmList}}
+        </tbody>
+    </table>
+</main>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.slim.min.js"></script>
+</body>
+</html>
