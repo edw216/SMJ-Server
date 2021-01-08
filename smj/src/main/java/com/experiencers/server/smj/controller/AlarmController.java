@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,6 +35,31 @@ public class AlarmController {
 
         return "redirect:/alarm";
     }
+
+    @PostMapping("/alarm/{alarm_id}/delete")
+    public String deleteAlarm(@PathVariable("alarm_id") Long alarm_id){
+        alarmService.removeAlarm(alarm_id);
+
+        return "redirect:/alarm";
+    }
+
+    @PostMapping("/alarm/{alarm_id}/edit")
+    public ModelAndView editAlarm(@PathVariable("alarm_id") Long alarm_id){
+        Alarm alarm = alarmService.readAlarm(alarm_id);
+
+        ModelAndView response = new ModelAndView("alarm/edit");
+        response.addObject(alarm);
+
+        return response;
+    }
+
+    @PostMapping("/alarm/{alarm_id}/edit/update")
+    public String updateAlarm(Alarm alarm){
+        alarmService.updateAlarm(alarm);
+
+        return "redirect:/alarm";
+    }
+
 
 
 }

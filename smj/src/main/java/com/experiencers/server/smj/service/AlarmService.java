@@ -23,5 +23,19 @@ public class AlarmService {
 
     public List<Alarm> readAllAlarm(){return alarmRepository.findAll();}
 
+    public void removeAlarm(Long alarm_id){
+        alarmRepository.deleteById(alarm_id);
+    }
+
+    public void updateAlarm(Alarm alarm){
+        Alarm beforeAlarm = alarmRepository.findById(alarm.getAlarm_id()).get();
+        beforeAlarm.setTitle(alarm.getTitle());
+        beforeAlarm.setDay(alarm.getDay());
+        beforeAlarm.setTime(alarm.getTime());
+        beforeAlarm.setRepeat(alarm.getRepeat());
+
+        alarmRepository.save(beforeAlarm);
+
+    }
     //remove, update
 }
