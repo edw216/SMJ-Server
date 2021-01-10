@@ -1,6 +1,5 @@
 package com.experiencers.server.smj.service;
 
-import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,5 @@
 package com.experiencers.server.smj.controller;
 
-import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +12,9 @@ import java.util.List;
 @Controller
 public class BoardController {
 
+
     @Autowired
     private BoardService boardService;
-    
     @GetMapping({"","/","/board"})
     public ModelAndView getIndex(){
         List<Board> boardList = boardService.readAllBoard();
