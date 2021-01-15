@@ -1,5 +1,8 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.alarm;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import jdk.nashorn.internal.objects.annotations.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,11 +15,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "alarm")
+@JsonRootName("alarm")
 public class Alarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="alarm_id")
-    private Long alarm_id;
+    @JsonProperty(value = "alarm_id", index = 1)
+    private Long id;
     @Column(length = 50)
     private String title;
     @Column(nullable = false)
@@ -26,12 +31,12 @@ public class Alarm {
     @Column(nullable = false)
     private String repeat; //Enum 타입
 
-    public Long getAlarm_id() {
-        return alarm_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setAlarm_id(Long alarm_id) {
-        this.alarm_id = alarm_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -76,7 +81,7 @@ public class Alarm {
     @Override
     public String toString() {
         return "Alarm{"+
-                "alarm_id="+alarm_id+
+                "id="+id+
                 ", title='" +title+'\''+
                 ", day='"+day+'\''+
                 ", time='"+time+'\''+

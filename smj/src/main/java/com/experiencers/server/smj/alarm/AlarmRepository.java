@@ -1,6 +1,5 @@
-package com.experiencers.server.smj.repository;
+package com.experiencers.server.smj.alarm;
 
-import com.experiencers.server.smj.domain.Alarm;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
