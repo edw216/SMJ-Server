@@ -1,7 +1,5 @@
-package com.experiencers.server.smj.service;
+package com.experiencers.server.smj.comment;
 
-import com.experiencers.server.smj.domain.Comment;
-import com.experiencers.server.smj.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

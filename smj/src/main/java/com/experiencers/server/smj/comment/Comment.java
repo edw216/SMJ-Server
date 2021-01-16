@@ -1,4 +1,4 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.comment;
 
 import org.hibernate.annotations.CreationTimestamp;
 
