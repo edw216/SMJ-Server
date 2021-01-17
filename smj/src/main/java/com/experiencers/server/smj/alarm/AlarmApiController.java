@@ -31,6 +31,7 @@ public class AlarmApiController {
     }
 
     @PostMapping("")
+    // 성공: 201 Created
     public Alarm postAlarm(@RequestBody Alarm alarm){
         Alarm savedAlarm = alarmService.saveAlarm(alarm);
 
@@ -38,12 +39,14 @@ public class AlarmApiController {
     }
 
     @PutMapping("/{alarm_id}")
+    // 성공: 200 OK
+    // 실패: 404 NOT FOUND
     public ResponseEntity<Alarm> putAlarm(@PathVariable("alarm_id") Long alarmId, @RequestBody Alarm alarm){
         Alarm updatedAlarm = alarmService.readAndUpdateAlarm(alarmId, alarm);
 
         if (updatedAlarm == null) {
             alarm.setId(alarmId);
-            return new ResponseEntity<>(alarm, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(alarm, HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(updatedAlarm, HttpStatus.OK);
