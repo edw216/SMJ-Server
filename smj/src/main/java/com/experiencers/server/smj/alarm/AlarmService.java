@@ -1,8 +1,8 @@
-package com.experiencers.server.smj.service;
+package com.experiencers.server.smj.alarm;
 
 
-import com.experiencers.server.smj.domain.Alarm;
-import com.experiencers.server.smj.repository.AlarmRepository;
+import com.experiencers.server.smj.alarm.Alarm;
+import com.experiencers.server.smj.alarm.AlarmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

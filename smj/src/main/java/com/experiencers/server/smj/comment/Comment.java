@@ -1,5 +1,6 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.comment;
 
+import com.experiencers.server.smj.board.Board;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -23,9 +24,21 @@ public class Comment {
     @CreationTimestamp
     private LocalDateTime created_date;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "board_id")
-    private Board board; FK - Board */
+    private Board board;
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+
+        if(!board.getComments().contains(this)){
+            board.getComments().add(this);
+        }
+    }
 
     public Long getComment_id() {
         return comment_id;

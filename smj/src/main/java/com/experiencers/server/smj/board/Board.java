@@ -1,10 +1,12 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.board;
 
-import org.hibernate.annotations.CollectionId;
+import com.experiencers.server.smj.comment.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "board")
@@ -32,6 +34,19 @@ public class Board {
     private User user; // FK - User
     @Column(name = "comment")
     private Comment comment; // FK - Comment */
+    @OneToMany(mappedBy = "board")
+    private List<Comment> comments = new ArrayList<>();
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void addComments(Comment comment){
+        this.comments.add(comment);
+        if(comment.getBoard() != this){
+            comment.setBoard(this);
+        }
+    }
 
     public Long getBoard_id() {
         return board_id;

@@ -1,13 +1,8 @@
-package com.experiencers.server.smj.domain;
-
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+package com.experiencers.server.smj.alarm;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDateTime;
 
 
 @Entity
@@ -57,13 +52,6 @@ public class Alarm {
     public void setTime(Time time) {
         this.time = time;
     }
-/*public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }*/
 
     public String getRepeat() {
         return repeat;

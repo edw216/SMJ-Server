@@ -1,7 +1,5 @@
-package com.experiencers.server.smj.controller;
+package com.experiencers.server.smj.comment;
 
-import com.experiencers.server.smj.domain.Comment;
-import com.experiencers.server.smj.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,7 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @GetMapping("/comment")
+    /*@GetMapping("/comment")
     public ModelAndView getIndex(){
         List<Comment> commentList = commentService.readAllComment();
 
@@ -27,26 +25,27 @@ public class CommentController {
 
 
         return response;
-    }
-    @PostMapping("/comment")
-    public String postComment(@ModelAttribute Comment inputtedComment,
+    }*/
+    @PostMapping("/board/{board_id}/comment")
+    public String postComment(@PathVariable("board_id") Long board_id,
+            @ModelAttribute Comment inputtedComment,
                               HttpServletRequest request){
         System.out.println(inputtedComment.toString());
-        Comment savedComment = commentService.writeComment(inputtedComment);
+        commentService.writeComment(inputtedComment,board_id);
 
-        return "redirect:/comment";
+        return "redirect:"+request.getHeader("referer");
     }
 
-    @PostMapping("/comment/{comment_id}/delete")
+    @PostMapping("/board/{board_id}/comment/{comment_id}/delete")
     public String deleteComment(@PathVariable("comment_id") Long comment_id,
+                                @PathVariable("board_id")Long board_id,
                                 HttpServletRequest request){
         commentService.removeComment(comment_id);
-
-        return "redirect:/comment";
+        return "redirect:/board/"+board_id;
     }
     //@PostMapping
-    @PostMapping("/comment/{comment_id}/edit")
-    public ModelAndView editComment(@PathVariable("comment_id") Long comment_id){
+    @PostMapping("/board/{board_id}/comment/{comment_id}/edit")
+    public ModelAndView editComment(@PathVariable("comment_id") Long comment_id,@PathVariable("board_id")Long board_id){
         Comment comment = commentService.readComment(comment_id);
 
         ModelAndView response = new ModelAndView("comment/edit");
@@ -55,12 +54,12 @@ public class CommentController {
         return response;
 
     }
-    @PostMapping("/comment/{comment_id}/edit/update")
-    public String updateComment(Comment comment){
+    @PostMapping("/board/{board_id}/comment/{comment_id}/edit/update")
+    public String updateComment(Comment comment,@PathVariable("board_id") Long board_id){
 
         commentService.updateComment(comment);
 
-        return "redirect:/comment";
+        return "redirect:/board/"+board_id;
     }
 
 }
