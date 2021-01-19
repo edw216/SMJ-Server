@@ -11,10 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "board")
 public class Board {
-    public Board(){
-        final LocalDateTime now = LocalDateTime.now();
-        createdDate = now;
-    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")

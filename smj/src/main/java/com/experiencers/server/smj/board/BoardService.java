@@ -31,10 +31,11 @@ public class BoardService {
     }
 
     public void deleteBoard(Long boardId){
-
-        List<Comment> comment = boardRepository.getOne(boardId).getComments();
-        for(int i = 0; i<comment.size();i++){
-            commentRepository.deleteById(comment.get(i).getComment_id());
+        if(boardRepository.getOne(boardId).getComments() != null) {
+            List<Comment> comment = boardRepository.getOne(boardId).getComments();
+            for (int i = 0; i < comment.size(); i++) {
+                commentRepository.deleteById(comment.get(i).getCommentId());
+            }
         }
         boardRepository.deleteById(boardId);
     }

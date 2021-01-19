@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CommentService {
     @Autowired
@@ -15,8 +17,8 @@ public class CommentService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public Comment writeComment(Comment inputtedComment,Long board_id){
-        Board board = boardRepository.getOne(board_id);
+    public Comment saveComment(Comment inputtedComment,Long boardId){
+        Board board = boardRepository.getOne(boardId);
         inputtedComment.setBoard(board);
 
 
@@ -25,20 +27,32 @@ public class CommentService {
 
         return savedComment;
     }
-    public Comment readComment(Long comment_id){return commentRepository.getOne(comment_id);}
-
-    public List<Comment> readAllComment(){return commentRepository.findAll();}
-
-    public void removeComment(Long comment_id){
-        //commentRepository.delete(comment);
-        commentRepository.deleteById(comment_id);
+    public Comment readComment(Long commentId){
+        return commentRepository.getOne(commentId);
     }
 
-    public void updateComment(Comment comment){
-        Comment beforeComment = commentRepository.findById(comment.getComment_id()).get();
-        beforeComment.setUser(comment.getUser());
-        beforeComment.setContent(comment.getContent());
+    public List<Comment> readAllComment(){
+        return commentRepository.findAll();
+    }
 
-        commentRepository.save(beforeComment);
+    public void deleteComment(Long commentId){
+
+        commentRepository.deleteById(commentId);
+    }
+
+    public Comment readAndUpdateComment(Long commentId,Comment comment){
+        Optional<Comment> data = commentRepository.findById(commentId);
+
+        if(data.isPresent()){
+            Comment target = data.get();
+            target.setUser(comment.getUser());
+            target.setContent(comment.getContent());
+
+            target = commentRepository.save(target);
+
+            return target;
+        }
+
+        return null;
     }
 }
