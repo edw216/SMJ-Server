@@ -13,12 +13,12 @@ import java.util.List;
 public class Board {
     public Board(){
         final LocalDateTime now = LocalDateTime.now();
-        created_date = now;
+        createdDate = now;
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
-    private Long board_id;
+    private Long boardId;
     @Column(nullable = false, length = 50)
     private String type;
     @Column(nullable = false, length = 255)
@@ -27,7 +27,7 @@ public class Board {
     private String content;
     @Column(nullable = false)
     @CreationTimestamp
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
     /*@Column(name = "category")
     private Category category; // FK - Category
     @Column(name = "user")
@@ -48,12 +48,12 @@ public class Board {
         }
     }
 
-    public Long getBoard_id() {
-        return board_id;
+    public Long getBoardId() {
+        return boardId;
     }
 
-    public void setBoard_id(Long board_id) {
-        this.board_id = board_id;
+    public void setBoardId(Long boardId) {
+        this.boardId = boardId;
     }
 
     public String getType() {
@@ -80,22 +80,22 @@ public class Board {
         this.content = content;
     }
 
-    public LocalDateTime getCreated_date() {
-        return created_date;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreated_date(LocalDateTime created_date) {
-        this.created_date = created_date;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     @Override
     public String toString() {
         return "Board{"+
-                "board_id="+board_id+
+                "board_id="+boardId+
                 ", type='" +type+'\''+
                 ", title='"+title+'\''+
                 ", content='"+content+'\''+
-                ", created_date='"+created_date+'\''+
+                ", created_date='"+createdDate+'\''+
                 '}';
 
     }

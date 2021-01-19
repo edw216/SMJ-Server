@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardService {
@@ -16,30 +17,40 @@ public class BoardService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public Board writeBoard(Board inputtedBoard){
+    public Board saveBoard(Board inputtedBoard){
         Board savedBoard = boardRepository.save(inputtedBoard);
 
         return savedBoard;
     }
-    public Board readBoard(Long board_id){return boardRepository.getOne(board_id);}
+    public Board readBoard(Long boardId){
+        return boardRepository.getOne(boardId);
+    }
 
-    public List<Board> readAllBoard(){return boardRepository.findAll();}
+    public List<Board> readAllBoard(){
+        return boardRepository.findAll();
+    }
 
-    public void removeBoard(Long board_id){
+    public void deleteBoard(Long boardId){
 
-        List<Comment> comment = boardRepository.getOne(board_id).getComments();
+        List<Comment> comment = boardRepository.getOne(boardId).getComments();
         for(int i = 0; i<comment.size();i++){
             commentRepository.deleteById(comment.get(i).getComment_id());
         }
-        boardRepository.deleteById(board_id);
+        boardRepository.deleteById(boardId);
     }
 
-    public void updateBoard(Board board){
-        Board beforeBoard = boardRepository.findById(board.getBoard_id()).get();
-        beforeBoard.setTitle(board.getTitle());
-        beforeBoard.setContent(board.getContent());
-        beforeBoard.setType(board.getType());
+    public Board readAndUpdateBoard(Long boardId, Board board){
+        Optional<Board> data = boardRepository.findById(boardId);
 
-        boardRepository.save(beforeBoard);
+        if(data.isPresent()){
+            Board target = data.get();
+            target.setTitle(board.getTitle());
+            target.setContent(board.getContent());
+
+            target = boardRepository.save(target);
+
+            return target;
+        }
+        return null;
     }
 }

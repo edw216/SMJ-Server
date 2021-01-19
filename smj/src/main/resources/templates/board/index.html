@@ -74,16 +74,16 @@
             <tbody>
             {{#boardList}}
             <tr>
-                <td scope="row">{{board_id}}</td>
-                <td><a href="/board/{{board_id}}" target="_self">{{type}}</a></td>
-                <td><a href="/board/{{board_id}}" target="_self">{{title}}</a> </td>
+                <td scope="row">{{boardId}}</td>
+                <td><a href="/board/{{boardId}}" target="_self">{{type}}</a></td>
+                <td><a href="/board/{{boardId}}" target="_self">{{title}}</a> </td>
                 <td>
-                    <form action="/board/{{board_id}}/delete" method="post">
+                    <form action="/board/{{boardId}}/delete" method="post">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
                 <td>
-                    <form action="/board/{{board_id}}/edit" method="post">
+                    <form action="/board/{{boardId}}/edit" method="post">
                         <button type="submit" class="btn btn-dark">Update</button>
                     </form>
                 </td>

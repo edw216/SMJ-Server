@@ -26,13 +26,13 @@ public class BoardController {
     @PostMapping("/board")
     public String postBoard(@ModelAttribute Board inputtedBoard,
                             HttpServletRequest request){
-        Board savedBoard = boardService.writeBoard(inputtedBoard);
+        Board savedBoard = boardService.saveBoard(inputtedBoard);
 
-        return "redirect:/board/"+savedBoard.getBoard_id();
+        return "redirect:/board/"+savedBoard.getBoardId();
     }
-    @GetMapping("/board/{id}")
-    public ModelAndView getPost(@PathVariable("id") Long board_id){
-        Board board = boardService.readBoard(board_id);
+    @GetMapping("/board/{board_id}")
+    public ModelAndView getPost(@PathVariable("board_id") Long boardId){
+        Board board = boardService.readBoard(boardId);
 
         //System.out.println(board.getComments().toString());
         ModelAndView response = new ModelAndView("board/post");
@@ -41,15 +41,15 @@ public class BoardController {
         return response;
     }
     @PostMapping("/board/{board_id}/delete")
-    public String deleteBoard(@PathVariable("board_id") Long board_id,
+    public String deleteBoard(@PathVariable("board_id") Long boardId,
                               HttpServletRequest request){
-        boardService.removeBoard(board_id);
+        boardService.deleteBoard(boardId);
 
         return "redirect:/board";
     }
     @PostMapping("/board/{board_id}/edit")
-    public ModelAndView editBoard(@PathVariable("board_id") Long board_id){
-        Board board = boardService.readBoard(board_id);
+    public ModelAndView editBoard(@PathVariable("board_id") Long boardId){
+        Board board = boardService.readBoard(boardId);
 
         ModelAndView response = new ModelAndView("board/edit");
         response.addObject(board);
@@ -58,9 +58,10 @@ public class BoardController {
     }
 
     @PostMapping("/board/{board_id}/edit/update")
-    public String updateBoard(Board board,
+    public String updateBoard(@PathVariable("board_id")Long boardId,
+                                Board board,
                               HttpServletRequest request){
-        boardService.updateBoard(board);
+        boardService.readAndUpdateBoard(boardId,board);
 
         return "redirect:/board";
     }

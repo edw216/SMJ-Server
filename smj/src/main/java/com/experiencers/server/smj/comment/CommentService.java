@@ -14,6 +14,7 @@ public class CommentService {
     private CommentRepository commentRepository;
     @Autowired
     private BoardRepository boardRepository;
+
     public Comment writeComment(Comment inputtedComment,Long board_id){
         Board board = boardRepository.getOne(board_id);
         inputtedComment.setBoard(board);

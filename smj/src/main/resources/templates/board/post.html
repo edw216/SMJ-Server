@@ -38,7 +38,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <h2>{{board.board_id}}번 게시글</h2>
+                <h2>{{board.boardId}}번 게시글</h2>
             </div>
         </div>
         <hr/>
@@ -59,7 +59,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <p>{{board.created_date}}</p>
+                <p>{{board.createdDate}}</p>
             </div>
         </div>
     </div>
@@ -68,7 +68,7 @@
 <main role="main" class="container mt-3">
     <div class="jumbotron">
         <h3>댓글 작성</h3>
-        <form method="post" action="/board/{{board.board_id}}/comment">
+        <form method="post" action="/board/{{board.boardId}}/comment">
             <div class="form-row">
                 <div class="form-group">
                     <label for="user">작성자</label>
@@ -103,12 +103,12 @@
             <td scope="row">{{user}}</td>
             <td>{{content}}</td>
             <td>
-                <form action="/board/{{board.board_id}}/comment/{{comment_id}}/delete" method="post">
+                <form action="/board/{{board.boardId}}/comment/{{comment_id}}/delete" method="post">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
             <td>
-                <form action="/board/{{board.board_id}}/comment/{{comment_id}}/edit" method="post">
+                <form action="/board/{{board.boardId}}/comment/{{comment_id}}/edit" method="post">
                     <button type="submit" class="btn btn-dark">Update</button>
                 </form>
             </td>
