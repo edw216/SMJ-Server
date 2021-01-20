@@ -1,7 +1,5 @@
-package com.experiencers.server.smj.controller;
+package com.experiencers.server.smj.message;
 
-import com.experiencers.server.smj.domain.Message;
-import com.experiencers.server.smj.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

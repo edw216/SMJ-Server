@@ -1,4 +1,4 @@
-package com.experiencers.server.smj.controller;
+package com.experiencers.server.smj.category;
 
 import com.experiencers.server.smj.category.Category;
 import com.experiencers.server.smj.category.CategoryService;
@@ -19,7 +19,7 @@ public class CategoryController{
 
     @GetMapping("/category")
     public ModelAndView getIndex(){
-        List<Category> categoryList = categoryService.raalAllCategory();
+        List<Category> categoryList = categoryService.readAllCategory();
 
         ModelAndView response = new ModelAndView("category/list");
         response.addObject(categoryList);

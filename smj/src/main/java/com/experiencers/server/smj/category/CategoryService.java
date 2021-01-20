@@ -23,10 +23,10 @@ public class CategoryService {
     }
 
     public void updateCategory(Category category){
-        Category beforeCategory = categoryRepository.findById(category.getCategory_id()).get();
-        beforeCategory.setUser(category.getUser());
-        beforeCategory.setCategory(category.getCategory());
+//        Category beforeCategory = categoryRepository.findById(category.()).get();
+//        beforeCategory.setUser(category.getUser());
+//        beforeCategory.setCategory(category.getCategory());
 
-        categoryRepository.save(beforeCategory);
+//        categoryRepository.save(beforeCategory);
     }
 }

@@ -1,4 +1,4 @@
-package com.experiencers.server.smj.controller;
+package com.experiencers.server.smj.admin;
 
 //import com.experiencers.server.smj.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,20 +9,25 @@ import org.springframework.web.bind.annotation.*;
 //
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
 
     @Autowired
 //    private AdminService adminService;
     /*private static final Logger logger = LoggerFactory.getLogger(AdminController.class);*/
 
+    @RequestMapping({"", "/", "/index"})
+    public String getIndex() {
+        return "admin/index";
+    }
+
     @GetMapping({"/login"})
-    public String login(String ID) {
+    public String login() {
 
         return "admin/login";
     }
     @GetMapping({"/admin"})
     public String admin() {
-
 
         return "admin/admin";
     }

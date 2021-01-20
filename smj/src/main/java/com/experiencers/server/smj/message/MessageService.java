@@ -1,7 +1,5 @@
-package com.experiencers.server.smj.service;
+package com.experiencers.server.smj.message;
 
-import com.experiencers.server.smj.domain.Message;
-import com.experiencers.server.smj.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
