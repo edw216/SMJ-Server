@@ -1,7 +1,9 @@
-package com.experiencers.server.smj.service;
+package com.experiencers.server.smj.comment;
 
-import com.experiencers.server.smj.domain.Comment;
-import com.experiencers.server.smj.repository.CommentRepository;
+import com.experiencers.server.smj.board.Board;
+import com.experiencers.server.smj.board.BoardRepository;
+import com.experiencers.server.smj.comment.Comment;
+import com.experiencers.server.smj.comment.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +12,15 @@ import java.util.List;
 public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private BoardRepository boardRepository;
+    public Comment writeComment(Comment inputtedComment,Long board_id){
+        Board board = boardRepository.getOne(board_id);
+        inputtedComment.setBoard(board);
 
-    public Comment writeComment(Comment inputtedComment){
+
         Comment savedComment = commentRepository.save(inputtedComment);
+
 
         return savedComment;
     }
@@ -21,6 +29,7 @@ public class CommentService {
     public List<Comment> readAllComment(){return commentRepository.findAll();}
 
     public void removeComment(Long comment_id){
+        //commentRepository.delete(comment);
         commentRepository.deleteById(comment_id);
     }
 

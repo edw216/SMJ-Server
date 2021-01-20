@@ -1,7 +1,5 @@
-package com.experiencers.server.smj.controller;
+package com.experiencers.server.smj.board;
 
-import com.experiencers.server.smj.domain.Board;
-import com.experiencers.server.smj.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +45,7 @@ public class BoardController {
                               HttpServletRequest request){
         boardService.removeBoard(board_id);
 
-        return "redirect:"+request.getHeader("referer");
+        return "redirect:/board";
     }
     @PostMapping("/board/{board_id}/edit")
     public ModelAndView editBoard(@PathVariable("board_id") Long board_id){
@@ -64,6 +62,6 @@ public class BoardController {
                               HttpServletRequest request){
         boardService.updateBoard(board);
 
-        return "redirect:/";
+        return "redirect:/board";
     }
 }

@@ -10,7 +10,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDateTime;
 
 
 @Entity
@@ -62,13 +61,6 @@ public class Alarm {
     public void setTime(Time time) {
         this.time = time;
     }
-/*public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }*/
 
     public String getRepeat() {
         return repeat;

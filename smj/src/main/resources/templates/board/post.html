@@ -65,7 +65,63 @@
     </div>
 </main>
 <hr/>
+<main role="main" class="container mt-3">
+    <div class="jumbotron">
+        <h3>댓글 작성</h3>
+        <form method="post" action="/board/{{board.board_id}}/comment">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="user">작성자</label>
+                    <input type="text" name="user" class="form-control" id="user" required placeholder="작성자 명">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea class="form-control" name="content" id="content" placeholder="내용 입력"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">댓글달기</button>
+        </form>
+    </div>
+</main>
+<hr/>
 
+
+<main role="main" class="container mt-3">
+    <h2 class="mt-1">댓글 목록</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">작성자</th>
+            <th scope="col">댓글</th>
+            <th scope="col">#</th>
+            <th scope="col">#</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#board.comments}}
+        <tr>
+            <td scope="row">{{user}}</td>
+            <td>{{content}}</td>
+            <td>
+                <form action="/board/{{board.board_id}}/comment/{{comment_id}}/delete" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form action="/board/{{board.board_id}}/comment/{{comment_id}}/edit" method="post">
+                    <button type="submit" class="btn btn-dark">Update</button>
+                </form>
+            </td>
+        </tr>
+        {{/board.comments}}
+        {{^board.comments}}
+        <tr>
+            <td colspan="4" class="text-center">댓글이 없습니다.</td>
+        </tr>
+        {{/board.comments}}
+        </tbody>
+    </table>
+</main>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script src="/js/jquery.slim.min.js"></script>
 </body>
