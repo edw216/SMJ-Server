@@ -1,6 +1,6 @@
 package com.experiencers.server.smj.controller;
 
-import com.experiencers.server.smj.service.AdminService;
+//import com.experiencers.server.smj.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     @Autowired
-    private AdminService adminService;
+//    private AdminService adminService;
     /*private static final Logger logger = LoggerFactory.getLogger(AdminController.class);*/
 
     @GetMapping({"/login"})
