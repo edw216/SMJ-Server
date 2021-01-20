@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Member</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #content {
+            height: 10rem;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/navbar-top.css" rel="stylesheet">
+</head>
+<body>
+<main role="main" class="container mt-3">
+    <div class="jumbotron">
+        <h2>회원정보수정</h2>
+        <form method="POST" action="/user/{{user_id}}/edit/update">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="email">이메일</label>
+                    <input type="text" name="email" class="form-control" id="email" value="{{user.email}}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="nickname">닉네임</label>
+                    <input type="text" name="nickname" class="form-control" id="nickname" value="{{user.nickname}}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="image">사진</label>
+                    <input type="text" name="image" class="form-control" id="image" value="{{user.image}}">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+    </div>
+</main>
+<hr />
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.slim.min.js"></script>
+</body>
+</html>
