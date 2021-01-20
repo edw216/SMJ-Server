@@ -1,6 +1,6 @@
-package com.experiencers.server.smj.repository;
+package com.experiencers.server.smj.message;
 
-import com.experiencers.server.smj.domain.Message;
+import com.experiencers.server.smj.message.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

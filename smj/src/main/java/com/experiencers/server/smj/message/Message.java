@@ -1,5 +1,6 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.message;
 
+import com.experiencers.server.smj.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -24,6 +25,21 @@ public class Message {
     private String receiver;
     @CreationTimestamp
     private LocalDateTime date;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user){
+        this.user = user;
+
+        if(!user.getMessages().contains(this)){
+            user.getMessages().add(this);
+        }
+    }
 
     public Long getMessage_id() {
         return message_id;

@@ -32,29 +32,63 @@
 </head>
 <body>
 <main role="main" class="container mt-3">
-    <div class="jumbotron pt-3">
-        <div class="row">
-            <a href="/user" role="button" class="btn btn-primary ml-auto mr-0">Back</a>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h2>{{user.user_id}}번 회원</h2>
+    <div class="jumbotron">
+        <h2>쪽지</h2>
+        <form method="POST" action="/user/{{user.user_id}}/message">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="receiver">받는사람</label>
+                    <input type="text" name="receiver" class="form-control" id="receiver" required placeholder="받는사람을 입력하세요.">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="content">내용</label>
+                    <input type="text" name="content" class="form-control" id="content">
+                </div>
             </div>
-        </div>
-        <hr />
-        <div class="row mb-2">
-            <div class="col">
-                <h4>{{user.email}}</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <p>{{user.nickname}}</p>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary">작성</button>
+        </form>
     </div>
-    <hr />
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/jquery.slim.min.js"></script>
+</main>
+<hr />
+
+<main role="main" class="container mt-3">
+    <h2 class="mt-1">보낸쪽지목록</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">받는사람</th>
+            <th scope="col">내용</th>
+            <th scope="col">#</th>
+            <th scope="col">#</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#user.messages}}
+        <tr>
+            <th scope="row">{{receiver}}</th>
+            <td>{{content}}</td>
+            <td>
+                <form action="/user/{{user.user_id}}/message/{{message_id}}/delete" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form action="/user/{{user.user_id}}/message/{{message_id}}/edit" method="post">
+                    <button type="submit" class="btn btn-danger">Edit</button>
+                </form>
+            </td>
+        </tr>
+        {{/user.messages}}
+        {{^user.messages}}
+        <tr>
+            <td colspan="4" class="text-center">쪽지가 없습니다.</td>
+        </tr>
+        {{/user.messages}}
+        </tbody>
+    </table>
+</main>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.slim.min.js"></script>
 </body>
 </html>

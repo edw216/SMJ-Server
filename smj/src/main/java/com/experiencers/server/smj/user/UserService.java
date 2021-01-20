@@ -1,7 +1,9 @@
-package com.experiencers.server.smj.service;
+package com.experiencers.server.smj.user;
 
-import com.experiencers.server.smj.domain.User;
-import com.experiencers.server.smj.repository.UserRepository;
+import com.experiencers.server.smj.message.Message;
+import com.experiencers.server.smj.message.MessageRepository;
+import com.experiencers.server.smj.user.User;
+import com.experiencers.server.smj.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MessageRepository messageRepository;
 
     public User writeUser(User inputtedUser) {
         User savedUser = userRepository.save(inputtedUser);
@@ -22,11 +26,17 @@ public class UserService {
         return userRepository.getOne(user_id);
     }
 
+
     public List<User> readAllUser() {
         return userRepository.findAll();
     }
 
     public void removeUser(Long user_id){
+
+        List<Message> message = userRepository.getOne(user_id).getMessages();
+        for(int i = 0; i<message.size(); i++){
+            messageRepository.deleteById(message.get(i).getMessage_id());
+        }
         userRepository.deleteById(user_id);
     }
     public void updateUser(User user){

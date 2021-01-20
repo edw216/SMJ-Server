@@ -1,7 +1,7 @@
-package com.experiencers.server.smj.service;
+package com.experiencers.server.smj.message;
 
-import com.experiencers.server.smj.domain.Message;
-import com.experiencers.server.smj.repository.MessageRepository;
+import com.experiencers.server.smj.user.User;
+import com.experiencers.server.smj.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +11,14 @@ import java.util.List;
 public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public Message writeMessage(Message inputtedMessage) {
+    public Message writeMessage(Message inputtedMessage, Long user_id) {
+
+        User user = userRepository.getOne(user_id);
+        inputtedMessage.setUser(user);
+
         Message savedMessage = messageRepository.save(inputtedMessage);
 
         return savedMessage;

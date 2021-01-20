@@ -1,5 +1,9 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.user;
 
+import com.experiencers.server.smj.message.Message;
+
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +19,20 @@ public class User {
     private String nickname;
     @Column(nullable = false)
     private String image;
+
+    @OneToMany(mappedBy = "user")
+    private List<Message> messages = new ArrayList<>();
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+    public void addMessages(Message message){
+        this.messages.add(message);
+        if(message.getUser() != this){
+            message.setUser(this);
+        }
+    }
+
 
     public Long getUser_id() {
         return user_id;
@@ -47,6 +65,7 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
+
 
     @Override
     public String toString() {
