@@ -1,3 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>SMJ Admin Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header Section -->
+    {{> admin/header}}
+
+    <!-- Body Section -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Navigator Section -->
+            {{> admin/nav}}
+
+            <!-- Main Content Section -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                <!-- HERE::Main Content -->
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Board</h1>
+                </div>
+                <div class="jumbotron">
+                    <h2>게시글 입력</h2>
+                    <form method="POST" action="/board">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="title">제목</label>
+                                <input type="text" name="title" class="form-control" id="title" required placeholder="제목을 입력하세요.">
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label><input type="checkbox" name="type" value="주방" checked>주방</label>
+                                <label><input type="checkbox" name="type" value="생활용품">생활용품</label>
+                                <label><input type="checkbox" name="type" value="생활용품">운동기구</label>
+                                <label><input type="checkbox" name="type" value="생활용품">주방용품</label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="content">내용</label>
+                            <textarea class="form-control" name="content" id="content" placeholder="내용을 입력하세요."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">save</button>
+                    </form>
+                </div>
+            </main>
+        </div>
+    </div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+    <script src="/js/jquery.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+</body>
+</html>
+
+
+
+<!--
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -5,7 +82,7 @@
     <meta name="viewpoint" content="width-device-width, initial-scale=1, shrink-to-fit=no">
     <title>CRUD main</title>
 
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap core CSS
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .bd-placeholder-img {
@@ -27,79 +104,79 @@
             }
         }
     </style>
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this template
     <link href="/css/navbar-top.css" rel="stylesheet">
 </head>
 <body>
-    <main role="main" class="container mt-3">
-        <div class="jumbotron">
-            <h2>게시글 입력</h2>
-            <form method="POST" action="/board">
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                        <label for="title">제목</label>
-                        <input type="text" name="title" class="form-control" id="title" required placeholder="제목을 입력하세요.">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label><input type="checkbox" name="type" value="주방" checked>주방</label>
-                        <label><input type="checkbox" name="type" value="생활용품">생활용품</label>
-                        <label><input type="checkbox" name="type" value="생활용품">운동기구</label>
-                        <label><input type="checkbox" name="type" value="생활용품">주방용품</label>
-
-                    </div>
+<main role="main" class="container mt-3">
+    <div class="jumbotron">
+        <h2>게시글 입력</h2>
+        <form method="POST" action="/board">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="title">제목</label>
+                    <input type="text" name="title" class="form-control" id="title" required placeholder="제목을 입력하세요.">
+                </div>
+                <div class="form-group col-md-2">
+                    <label><input type="checkbox" name="type" value="주방" checked>주방</label>
+                    <label><input type="checkbox" name="type" value="생활용품">생활용품</label>
+                    <label><input type="checkbox" name="type" value="생활용품">운동기구</label>
+                    <label><input type="checkbox" name="type" value="생활용품">주방용품</label>
 
                 </div>
 
-                <div class="form-group">
-                    <label for="content">내용</label>
-                    <textarea class="form-control" name="content" id="content" placeholder="내용을 입력하세요."></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">save</button>
-            </form>
-        </div>
-    </main>
-    <hr/>
+            </div>
+
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea class="form-control" name="content" id="content" placeholder="내용을 입력하세요."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">save</button>
+        </form>
+    </div>
+</main>
+<hr/>
 
 
-    <main role="main" class="container mt-5">
-        <h2 class="mt-1">게시글 목록</h2>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">no.</th>
-                <th scope="col">유형</th>
-                <th scope="col">Title</th>
-                <th scope="col">#</th>
-                <th scope="col">#</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{#boardList}}
-            <tr>
-                <td scope="row">{{board_id}}</td>
-                <td><a href="/board/{{board_id}}" target="_self">{{type}}</a></td>
-                <td><a href="/board/{{board_id}}" target="_self">{{title}}</a> </td>
-                <td>
-                    <form action="/board/{{board_id}}/delete" method="post">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-                <td>
-                    <form action="/board/{{board_id}}/edit" method="post">
-                        <button type="submit" class="btn btn-dark">Update</button>
-                    </form>
-                </td>
-            </tr>
-            {{/boardList}}
-            {{^boardList}}
-            <tr>
-                <td colspan="5" class="text-center">게시글이 없습니다.</td>
-            </tr>
-            {{/boardList}}
-            </tbody>
-        </table>
-    </main>
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/jquery.slim.min.js"></script>
+<main role="main" class="container mt-5">
+    <h2 class="mt-1">게시글 목록</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">no.</th>
+            <th scope="col">유형</th>
+            <th scope="col">Title</th>
+            <th scope="col">#</th>
+            <th scope="col">#</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#boardList}}
+        <tr>
+            <td scope="row">{{board_id}}</td>
+            <td><a href="/board/{{board_id}}" target="_self">{{type}}</a></td>
+            <td><a href="/board/{{board_id}}" target="_self">{{title}}</a> </td>
+            <td>
+                <form action="/board/{{board_id}}/delete" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form action="/board/{{board_id}}/edit" method="post">
+                    <button type="submit" class="btn btn-dark">Update</button>
+                </form>
+            </td>
+        </tr>
+        {{/boardList}}
+        {{^boardList}}
+        <tr>
+            <td colspan="5" class="text-center">게시글이 없습니다.</td>
+        </tr>
+        {{/boardList}}
+        </tbody>
+    </table>
+</main>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.slim.min.js"></script>
 </body>
-</html>
+</html>-->

@@ -28,17 +28,17 @@
                 <!-- HERE::Main Content -->
                 <div class="jumbotron py-4 mb-2">
                     <h1 class="h2">User</h1>
-                    <form method="POST" action="/user/{{user.id}}/update">
+                    <form method="POST" action="/user">
                         <div class="form-group row">
                             <label for="email" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
                             <div class="col-sm-11">
-                                <input type="email" class="form-control form-control-sm" id="email" name="email" value="{{user.email}}" readonly>
+                                <input type="email" class="form-control form-control-sm" id="email" name="email" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="nickname" class="col-sm-1 col-form-label col-form-label-sm">Nickname</label>
                             <div class="col-sm-11">
-                                <input type="text" class="form-control form-control-sm" id="nickname" name="nickname" value="{{user.nickname}}" required>
+                                <input type="text" class="form-control form-control-sm" id="nickname" name="nickname" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -50,11 +50,46 @@
 
                         <div class="form-group row">
                             <div class="col-sm text-right">
-                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" class="btn btn-primary">Create</button>
                             </div>
                         </div>
                     </form>
                 </div>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Nickname</th>
+                        <th scope="col">hasImage</th>
+                        <th scope="col">Controller</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#userList}}
+                    <tr>
+                        <th scope="row">{{id}}</th>
+                        <td>{{email}}</td>
+                        <td>{{nickname}}</td>
+                        <td>{{#image}}Y{{/image}}{{^image}}N{{/image}}</td>
+                        <td colspan="2">
+                            <div class="btn-group" role="group">
+                                <a href="/user/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                                <form action="/user/{{id}}/delete" method="post">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/userList}}
+                    {{^userList}}
+                    <tr>
+                        <td colspan="5" class="text-center">회원이 없습니다.</td>
+                    </tr>
+                    {{/userList}}
+                    </tbody>
+                </table>
             </main>
         </div>
     </div>

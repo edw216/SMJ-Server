@@ -1,0 +1,66 @@
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-2 mb-1 text-muted">
+            <span>Domains</span>
+        </h6>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {{#admincontroller}}active{{/admincontroller}}" href="/">
+                    <span data-feather="home"></span>
+                    Dashboard <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{#usercontroller}}active{{/usercontroller}}" href="/user">
+                    <span data-feather="users"></span>
+                    User
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{#categorycontroller}}active{{/categorycontroller}}" href="/category">
+                    <span data-feather="list"></span>
+                    Category
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{#boardcontroller}}active{{/boardcontroller}}" href="/board">
+                    <span data-feather="file-text"></span>
+                    Board
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{#commentcontroller}}active{{/commentcontroller}}" href="/comment">
+                    <span data-feather="message-square"></span>
+                    Comment
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{#alarmcontroller}}active{{/alarmcontroller}}" href="/alarm">
+                    <span data-feather="clock"></span>
+                    Alarm
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{#messagecontroller}}active{{/messagecontroller}}" href="/message">
+                    <span data-feather="inbox"></span>
+                    Message
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{#settingcontroller}}active{{/settingcontroller}}" href="/setting">
+                    <span data-feather="tool"></span>
+                    Setting
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/docs">
+                    <span data-feather="book"></span>
+                    API Document
+                    <span class="float-right">
+                    <span data-feather="cast"></span>
+                  </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
