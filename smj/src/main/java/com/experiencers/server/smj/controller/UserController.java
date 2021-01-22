@@ -54,7 +54,7 @@ public class UserController {
     @PostMapping("/{user_id}/update")
     public String updateUser(@PathVariable("user_id") Long userId,
                              @RequestParam("profile_image") MultipartFile image,
-                             User user) throws IOException {
+                             @ModelAttribute User user) throws IOException {
         user.setId(userId);
         userService.updateUserWithConvertImage(image, user);
 

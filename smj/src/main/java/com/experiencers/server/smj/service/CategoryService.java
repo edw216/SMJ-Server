@@ -44,4 +44,9 @@ public class CategoryService {
 
         categoryRepository.save(data);
     }
+
+    public void updateCategory(Long categoryId, Category category) {
+        category.setId(categoryId);
+        categoryRepository.save(category);
+    }
 }
