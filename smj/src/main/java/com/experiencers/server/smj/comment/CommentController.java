@@ -1,7 +1,5 @@
-package com.experiencers.server.smj.controller;
+package com.experiencers.server.smj.comment;
 
-import com.experiencers.server.smj.domain.Comment;
-import com.experiencers.server.smj.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

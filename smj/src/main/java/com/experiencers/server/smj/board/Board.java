@@ -1,4 +1,4 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.board;
 
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.CreationTimestamp;

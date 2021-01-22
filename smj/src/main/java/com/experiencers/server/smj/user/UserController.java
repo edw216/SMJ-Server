@@ -32,27 +32,27 @@ public class UserController {
 
 
     @GetMapping("/user/{id}")
-    public ModelAndView getPost(@PathVariable("id") Long user_id) {
-        User user = userService.readUser(user_id);
+    public ModelAndView getPost(@PathVariable("id") Long userId) {
+        User user = userService.readUser(userId);
 
         ModelAndView response = new ModelAndView("user/detail");
         response.addObject(user);
 
         return response;
     }
-    @PostMapping("/user/{user_id}/delete")
-    public String deleteUser(@PathVariable("user_id") Long user_id, HttpServletRequest request){
-        userService.removeUser(user_id);
+    @PostMapping("/user/{userId}/delete")
+    public String deleteUser(@PathVariable("userId") Long userId, HttpServletRequest request){
+        userService.removeUser(userId);
         return "redirect:/user";
     }
-    @PostMapping("/user/{user_id}/edit")
-    public ModelAndView editUser(@PathVariable("user_id")Long user_id){
-        User user = userService.readUser(user_id);
+    @PostMapping("/user/{userId}/edit")
+    public ModelAndView editUser(@PathVariable("userId")Long userId){
+        User user = userService.readUser(userId);
         ModelAndView response = new ModelAndView("user/edit");
         response.addObject(user);
         return response;
     }
-    @PostMapping("/user/{user_id}/edit/update")
+    @PostMapping("/user/{userId}/edit/update")
     public String updateUser(User user, HttpServletRequest request){
         userService.updateUser(user);
 

@@ -69,15 +69,15 @@
         <tbody>
         {{#userList}}
         <tr>
-            <th scope="row">{{user_id}}</th>
-            <td><a href="/user/{{user_id}}" target="_self">{{nickname}}</a></td>
+            <th scope="row">{{userId}}</th>
+            <td><a href="/user/{{userId}}" target="_self">{{nickname}}</a></td>
             <td>
-                <form action="/user/{{user_id}}/delete" method="post">
+                <form action="/user/{{userId}}/delete" method="post">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
             <td>
-                <form action="/user/{{user_id}}/edit" method="post">
+                <form action="/user/{{userId}}/edit" method="post">
                     <button type="submit" class="btn btn-danger">Edit</button>
                 </form>
             </td>

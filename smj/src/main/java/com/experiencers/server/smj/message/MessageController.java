@@ -23,32 +23,32 @@ public class MessageController {
         return response;
     }
 
-    @PostMapping("/user/{user_id}/message")
-    public String postMessage(@PathVariable("user_id") Long user_id,
+    @PostMapping("/user/{userId}/message")
+    public String postMessage(@PathVariable("userId") Long userId,
                               @ModelAttribute Message inputtedMessage, HttpServletRequest request) {
-        messageService.writeMessage(inputtedMessage,user_id);
+        messageService.writeMessage(inputtedMessage,userId);
         return "redirect:"+request.getHeader("referer");
     }
 
-    @PostMapping("/user/{user_id}/message/{message_id}/delete")
-    public String deleteMessage(@PathVariable("message_id") Long message_id,
-                                @PathVariable("user_id") Long user_id,
+    @PostMapping("/user/{userId}/message/{messageId}/delete")
+    public String deleteMessage(@PathVariable("messageId") Long messageId,
+                                @PathVariable("userId") Long userId,
                                 HttpServletRequest request){
-        messageService.removeMessage(message_id);
-        return "redirect:"+ user_id;
+        messageService.removeMessage(messageId);
+        return "redirect:"+ userId;
     }
-    @PostMapping("/user/{user_id}/message/{message_id}/edit")
-    public ModelAndView editMessage(@PathVariable("message_id")Long message_id,
-                                    @PathVariable("user_id") Long user_id){
-        Message message = messageService.readMessage(message_id);
+    @PostMapping("/user/{userId}/message/{messageId}/edit")
+    public ModelAndView editMessage(@PathVariable("messageId")Long messageId,
+                                    @PathVariable("userId") Long userId){
+        Message message = messageService.readMessage(messageId);
         ModelAndView response = new ModelAndView("message/edit");
         response.addObject(message);
         return response;
     }
-    @PostMapping("/user/{user_id}/message/{message_id}/edit/update")
-    public String updateMessage(Message message, @PathVariable("user_id") Long user_id){
+    @PostMapping("/user/{userId}/message/{messageId}/edit/update")
+    public String updateMessage(Message message, @PathVariable("userId") Long userId){
         messageService.updateMessage(message);
 
-        return "redirect:/user/" + user_id;
+        return "redirect:/user/" + userId;
     }
 }

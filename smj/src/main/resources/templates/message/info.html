@@ -72,12 +72,12 @@
             <th scope="row">{{sender}}</th>
             <td><a href="/message/{{sender}}" target="_self">{{receiver}}</a></td>
             <td>
-                <form action="/message/{{message_id}}/delete" method="post">
+                <form action="/message/{{messageId}}/delete" method="post">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
             <td>
-                <form action="/message/{{message_id}}/edit" method="post">
+                <form action="/message/{{messageId}}/edit" method="post">
                     <button type="submit" class="btn btn-danger">Edit</button>
                 </form>
             </td>

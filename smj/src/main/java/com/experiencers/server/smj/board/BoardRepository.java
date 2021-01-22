@@ -1,6 +1,6 @@
-package com.experiencers.server.smj.repository;
+package com.experiencers.server.smj.board;
 
-import com.experiencers.server.smj.domain.Board;
+import com.experiencers.server.smj.board.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

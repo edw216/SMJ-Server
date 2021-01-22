@@ -34,7 +34,7 @@
 <main role="main" class="container mt-3">
     <div class="jumbotron">
         <h2>쪽지</h2>
-        <form method="POST" action="/user/{{user.user_id}}/message">
+        <form method="POST" action="/user/{{user.userId}}/message">
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="receiver">받는사람</label>
@@ -68,12 +68,12 @@
             <th scope="row">{{receiver}}</th>
             <td>{{content}}</td>
             <td>
-                <form action="/user/{{user.user_id}}/message/{{message_id}}/delete" method="post">
+                <form action="/user/{{user.userId}}/message/{{messageId}}/delete" method="post">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>
             <td>
-                <form action="/user/{{user.user_id}}/message/{{message_id}}/edit" method="post">
+                <form action="/user/{{user.userId}}/message/{{messageId}}/edit" method="post">
                     <button type="submit" class="btn btn-danger">Edit</button>
                 </form>
             </td>

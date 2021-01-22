@@ -15,8 +15,8 @@ public class Message {
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_id")
-    private Long message_id;
+    @Column(name = "messageId")
+    private Long messageId;
     @Column(nullable = false, length = 255)
     private String content;
     @Column(nullable = false, length = 50)
@@ -27,7 +27,7 @@ public class Message {
     private LocalDateTime date;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     public User getUser() {
@@ -41,12 +41,12 @@ public class Message {
         }
     }
 
-    public Long getMessage_id() {
-        return message_id;
+    public Long getMessageId() {
+        return messageId;
     }
 
-    public void setMessage_id(Long message_id) {
-        this.message_id = message_id;
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
     }
 
     public String getContent() {
@@ -79,7 +79,7 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "message_id=" + message_id +
+                "messageId=" + messageId +
                 ", content='" + content + '\'' +
                 ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +

@@ -22,8 +22,8 @@ public class UserService {
         return savedUser;
     }
 
-    public User readUser(Long user_id) {
-        return userRepository.getOne(user_id);
+    public User readUser(Long userId) {
+        return userRepository.getOne(userId);
     }
 
 
@@ -31,16 +31,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void removeUser(Long user_id){
+    public void removeUser(Long userId){
 
-        List<Message> message = userRepository.getOne(user_id).getMessages();
+        List<Message> message = userRepository.getOne(userId).getMessages();
         for(int i = 0; i<message.size(); i++){
-            messageRepository.deleteById(message.get(i).getMessage_id());
+            messageRepository.deleteById(message.get(i).getMessageId());
         }
-        userRepository.deleteById(user_id);
+        userRepository.deleteById(userId);
     }
     public void updateUser(User user){
-        User beforeUser = userRepository.findById(user.getUser_id()).get();
+        User beforeUser = userRepository.findById(user.getUserId()).get();
         beforeUser.setEmail(user.getEmail());
         beforeUser.setNickname(user.getNickname());
         beforeUser.setImage(user.getImage());

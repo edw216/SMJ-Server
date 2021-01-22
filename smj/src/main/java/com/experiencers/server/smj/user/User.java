@@ -11,8 +11,8 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long user_id;
+    @Column(name = "userId")
+    private Long userId;
     @Column(nullable = false, length = 50)
     private String email;
     @Column(nullable = false, length = 50)
@@ -34,12 +34,12 @@ public class User {
     }
 
 
-    public Long getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getEmail() {
@@ -70,7 +70,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + user_id +
+                "userId=" + userId +
                 ", email='" + email + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", image='" + image + '\'' +

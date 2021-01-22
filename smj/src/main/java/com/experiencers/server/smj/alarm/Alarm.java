@@ -1,4 +1,4 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.alarm;
 
 import jdk.nashorn.internal.objects.annotations.Getter;
 import jdk.nashorn.internal.objects.annotations.Setter;

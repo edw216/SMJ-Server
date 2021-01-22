@@ -1,12 +1,8 @@
-package com.experiencers.server.smj.controller;
-
-import com.experiencers.server.smj.service.AdminService;
+package com.experiencers.server.smj.admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-
-//
 
 @Controller
 public class AdminController {
@@ -15,17 +11,28 @@ public class AdminController {
     private AdminService adminService;
     /*private static final Logger logger = LoggerFactory.getLogger(AdminController.class);*/
 
-    @GetMapping({"/login"})
-    public String login(String ID) {
+
+    /*@GetMapping({"/login"})
+    public String Log(HttpSession session, Model model) throws Exception{
+
+        String ID = (String) session.getAttribute("ID");
+        if(ID == null || !(ID.equals("admin"))){
+            return "redirect:/admin";
+        }
 
         return "admin/login";
+    }*/
+
+    @GetMapping({"/login"})
+    public String login() {
+        return "admin/login";
     }
+
     @GetMapping({"/admin"})
     public String admin() {
-
-
         return "admin/admin";
     }
+
 
 
 
@@ -41,16 +48,6 @@ public class AdminController {
         return "admin/home";
     }*/
 
-    /*@GetMapping({"", "/", "/admin"})
-    public String admin(@ModelAttribute HttpServletRequest request, Model model) {
-        String login = request.getParameter("admin");
-
-        if(login == null || !login.equals("admin")){
-            model.addAttribute("message", "로그인 실패");
-            return "admin/admin";
-        }
-        return "admin/home";
-    }*/
 
 
 }
