@@ -2,9 +2,12 @@ package com.experiencers.server.smj.controller;
 
 import com.experiencers.server.smj.domain.User;
 import com.experiencers.server.smj.service.UserService;
+
+//import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +30,11 @@ public class UserController {
     }
 
     @PostMapping("")
-    public String postUser(@ModelAttribute User inputtedUser) {
+    public String postUser(@RequestParam("profile_image") MultipartFile image, @ModelAttribute User inputtedUser) {
+        System.out.println(image);
+
+//        byte[] fileContent = FileUti.readFileToByteArray(new File(filePath))
+
         User savedUser = userService.writeUser(inputtedUser);
 
         return "redirect:/user";

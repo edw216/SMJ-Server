@@ -28,7 +28,7 @@
                 <!-- HERE::Main Content -->
                 <div class="jumbotron py-4 mb-2">
                     <h1 class="h2">User</h1>
-                    <form method="POST" action="/user">
+                    <form name="userForm" method="POST" action="/user" enctype="multipart/form-data">
                         <div class="form-group row">
                             <label for="email" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
                             <div class="col-sm-11">
@@ -44,7 +44,7 @@
                         <div class="form-group row">
                             <label for="nickname" class="col-sm-1 col-form-label col-form-label-sm">Image</label>
                             <div class="col-sm-11">
-                                <input type="file" class="form-control form-control-file form-control-sm" id="image" name="image">
+                                <input type="file" class="form-control form-control-file form-control-sm" id="image" name="profile_image">
                             </div>
                         </div>
 
