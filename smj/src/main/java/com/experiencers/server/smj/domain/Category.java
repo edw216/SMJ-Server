@@ -1,6 +1,8 @@
 package com.experiencers.server.smj.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "category")
@@ -11,6 +13,21 @@ public class Category {
     public Long id;
     @Column(nullable = false, length = 255)
     public String name;
+
+    @OneToMany(mappedBy = "category")
+    public List<Board> boards = new ArrayList<>();
+
+    public List<Board> getBoards() {
+        return boards;
+    }
+
+    public void addBoards(Board board) {
+        this.boards.add(board);
+
+        if (board.getCategory() != this) {
+            board.setCategory(this);
+        }
+    }
 
     public Long getId() {
         return id;

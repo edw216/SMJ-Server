@@ -1,5 +1,6 @@
 package com.experiencers.server.smj.domain;
 
+import com.experiencers.server.smj.enumerate.BoardType;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,29 +11,31 @@ import java.util.List;
 @Entity
 @Table(name = "board")
 public class Board {
-    public Board(){
-        final LocalDateTime now = LocalDateTime.now();
-        created_date = now;
-    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
-    private Long board_id;
+    private Long id;
     @Column(nullable = false, length = 50)
-    private String type;
+    private BoardType type;
     @Column(nullable = false, length = 255)
     private String title;
-    @Column(nullable = false, length = 5000)
+    @Column(nullable = false, length = 10000)
     private String content;
-    @Column(nullable = false)
     @CreationTimestamp
-    private LocalDateTime created_date;
+    private LocalDateTime createdAt;
+
     /*@Column(name = "category")
     private Category category; // FK - Category
     @Column(name = "user")
     private User user; // FK - User
     @Column(name = "comment")
     private Comment comment; // FK - Comment */
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 
@@ -47,19 +50,31 @@ public class Board {
         }
     }
 
-    public Long getBoard_id() {
-        return board_id;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setBoard_id(Long board_id) {
-        this.board_id = board_id;
+    public void setCategory(Category category) {
+        this.category = category;
+
+        if (!category.getBoards().contains(this)) {
+            category.getBoards().add(this);
+        }
     }
 
-    public String getType() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public BoardType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(BoardType type) {
         this.type = type;
     }
     public String getTitle() {
@@ -78,22 +93,22 @@ public class Board {
         this.content = content;
     }
 
-    public LocalDateTime getCreated_date() {
-        return created_date;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_date(LocalDateTime created_date) {
-        this.created_date = created_date;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
     public String toString() {
         return "Board{"+
-                "board_id="+board_id+
+                "id="+id+
                 ", type='" +type+'\''+
                 ", title='"+title+'\''+
                 ", content='"+content+'\''+
-                ", created_date='"+created_date+'\''+
+                ", createdAt='"+createdAt+'\''+
                 '}';
 
     }

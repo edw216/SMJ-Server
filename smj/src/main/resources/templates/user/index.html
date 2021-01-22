@@ -67,7 +67,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{#userList}}
+                    {{#users}}
                     <tr>
                         <th scope="row">{{id}}</th>
                         <td>{{email}}</td>
@@ -82,12 +82,12 @@
                             </div>
                         </td>
                     </tr>
-                    {{/userList}}
-                    {{^userList}}
+                    {{/users}}
+                    {{^users}}
                     <tr>
                         <td colspan="5" class="text-center">회원이 없습니다.</td>
                     </tr>
-                    {{/userList}}
+                    {{/users}}
                     </tbody>
                 </table>
             </main>

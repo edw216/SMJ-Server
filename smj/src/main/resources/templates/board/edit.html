@@ -1,65 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewpoint" content="width-device-width, initial-scale=1, shrink-to-fit=no">
-    <title>게시글 수정</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>SMJ Admin Page</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
 
-        #content {
-            height: 10rem;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
     <!-- Custom styles for this template -->
-    <link href="/css/navbar-top.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
 </head>
+
 <body>
-<main role="main" class="container mt-3">
-    <div class="jumbotron">
-        <h2>게시글 수정</h2>
-        <form method="POST" action="/board/{{board_id}}/edit/update">
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="title">제목</label>
-                    <input type="text" name="title" class="form-control" id="title" value="{{board.title}}">
+<!-- Header Section -->
+{{> admin/header}}
+
+<!-- Body Section -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Navigator Section -->
+        {{> admin/nav}}
+
+        <!-- Main Content Section -->
+        <main role="main" class="col-sm-10 ml-sm-auto p-0">
+            <!-- HERE::Main Content -->
+            <div class="jumbotron py-4 mb-2">
+                <h1 class="h2 mb-4">Board</h1>
+                <form method="POST" action="/board/{{board.id}}/update">
+                    <div class="form-group row">
+                        <label for="type" class="col-sm-1 col-form-label col-form-label-sm">Type</label>
+                        <div class="col-sm-5">
+                            <select class="form-control form-control-sm" id="type" name="type">
+                                <option selected>Open this select menu</option>
+                                {{#types}}
+                                <option value="{{.}}">{{.}}</option>
+                                {{/types}}
+                            </select>
+                        </div>
+                        <label for="category" class="col-sm-1 col-form-label col-form-label-sm">Category</label>
+                        <div class="col-sm-5">
+                            <select class="form-control form-control-sm" id="category" name="category">
+                                <option selected>Open this select menu</option>
+                                {{#categories}}
+                                <option value="{{id}}">{{name}}</option>
+                                {{/categories}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="title" class="col-sm-1 col-form-label col-form-label-sm">Title</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control form-control-sm" id="title" name="title" value="{{board.title}}" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="content" class="col-sm-1 col-form-label col-form-label-sm">Content</label>
+                        <div class="col-sm">
+                            <textarea class="form-control form-control-sm" name="content" id="content" rows="5" placeholder="내용을 입력하세요.">{{board.content}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm">
+                            <a role="button" class="btn btn-dark" href="/board">Back</a>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </div>
+                </form>
+
+                <hr />
+                <div class="container">
+                    <p>현재 데이터</p>
+                    <p>Type: {{board.type}}</p>
+                    <p>Category: {{board.category.name}}</p>
                 </div>
-                <div class="form-group col-md-2">
-                    <label><input type="checkbox" name="type" value="꿀팁게시판" >꿀팁게시판</label>
-                    <label><input type="checkbox" name="type" value="거래게시판">거래게시판</label>
-
-                </div>
-
             </div>
-
-            <div class="form-group">
-                <label for="content">내용</label>
-                <textarea class="form-control" name="content" id="content" >{{board.content}}</textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">수정</button>
-        </form>
+        </main>
     </div>
-</main>
-<hr/>
+</div>
 
-</main>
-<script src="/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap core JavaScript
+================================================== -->
 <script src="/js/jquery.slim.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+        feather.replace()
+    </script>
 </body>
 </html>

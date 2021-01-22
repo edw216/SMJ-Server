@@ -1,7 +1,10 @@
 package com.experiencers.server.smj.controller;
 
 import com.experiencers.server.smj.domain.Board;
+import com.experiencers.server.smj.domain.Category;
+import com.experiencers.server.smj.enumerate.BoardType;
 import com.experiencers.server.smj.service.BoardService;
+import com.experiencers.server.smj.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,58 +14,60 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
+@RequestMapping("/board")
 public class BoardController {
-
     @Autowired
     private BoardService boardService;
-    @GetMapping({"/board"})
-    public ModelAndView getIndex(){
+    @Autowired
+    private CategoryService categoryService;
+
+    @GetMapping("")
+    public ModelAndView getBoards(){
+        ModelAndView response = new ModelAndView("board/index");
+
         List<Board> boardList = boardService.readAllBoard();
+        response.addObject("boards", boardList);
+        response.addObject("types", BoardType.values());
 
-        ModelAndView responce = new ModelAndView("board/index");
-        responce.addObject(boardList);
+        response = getCategories(response);
 
-        return responce;
+        return response;
     }
-    @PostMapping("/board")
-    public String postBoard(@ModelAttribute Board inputtedBoard,
-                            HttpServletRequest request){
+
+    @PostMapping("")
+    public String postBoard(@ModelAttribute Board inputtedBoard){
         Board savedBoard = boardService.writeBoard(inputtedBoard);
 
-        return "redirect:/board/"+savedBoard.getBoard_id();
-    }
-    @GetMapping("/board/{id}")
-    public ModelAndView getPost(@PathVariable("id") Long board_id){
-        Board board = boardService.readBoard(board_id);
-
-        //System.out.println(board.getComments().toString());
-        ModelAndView response = new ModelAndView("board/post");
-        response.addObject(board);
-
-        return response;
-    }
-    @PostMapping("/board/{board_id}/delete")
-    public String deleteBoard(@PathVariable("board_id") Long board_id,
-                              HttpServletRequest request){
-        boardService.removeBoard(board_id);
-
         return "redirect:/board";
     }
-    @PostMapping("/board/{board_id}/edit")
-    public ModelAndView editBoard(@PathVariable("board_id") Long board_id){
-        Board board = boardService.readBoard(board_id);
+
+    @GetMapping("/{board_id}/edit")
+    public ModelAndView editBoard(@PathVariable("board_id") Long boardId){
+        Board board = boardService.readBoard(boardId);
 
         ModelAndView response = new ModelAndView("board/edit");
-        response.addObject(board);
+        response.addObject("board", board);
+        response.addObject("types", BoardType.values());
+        response = getCategories(response);
 
         return response;
     }
 
-    @PostMapping("/board/{board_id}/edit/update")
-    public String updateBoard(Board board,
-                              HttpServletRequest request){
-        boardService.updateBoard(board);
+    @PostMapping("/{board_id}/update")
+    public String updateBoard(@PathVariable("board_id") Long boardId, @ModelAttribute Board board){
+        boardService.updateBoard(boardId, board);
 
         return "redirect:/board";
+    }
+
+    @PostMapping("/{board_id}/delete")
+    public String deleteBoard(@PathVariable("board_id") Long boardId){
+        boardService.removeBoard(boardId);
+
+        return "redirect:/board";
+    }
+
+    private ModelAndView getCategories(ModelAndView mav) {
+        return mav.addObject("categories", categoryService.readAllCategory());
     }
 }

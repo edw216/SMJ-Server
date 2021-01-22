@@ -14,49 +14,101 @@
 </head>
 
 <body>
-    <!-- Header Section -->
-    {{> admin/header}}
+<!-- Header Section -->
+{{> admin/header}}
 
-    <!-- Body Section -->
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Left Navigator Section -->
-            {{> admin/nav}}
+<!-- Body Section -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Navigator Section -->
+        {{> admin/nav}}
 
-            <!-- Main Content Section -->
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                <!-- HERE::Main Content -->
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Board</h1>
-                </div>
-                <div class="jumbotron">
-                    <h2>게시글 입력</h2>
-                    <form method="POST" action="/board">
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="title">제목</label>
-                                <input type="text" name="title" class="form-control" id="title" required placeholder="제목을 입력하세요.">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label><input type="checkbox" name="type" value="주방" checked>주방</label>
-                                <label><input type="checkbox" name="type" value="생활용품">생활용품</label>
-                                <label><input type="checkbox" name="type" value="생활용품">운동기구</label>
-                                <label><input type="checkbox" name="type" value="생활용품">주방용품</label>
-
-                            </div>
-
+        <!-- Main Content Section -->
+        <main role="main" class="col-sm-10 ml-sm-auto p-0">
+            <!-- HERE::Main Content -->
+            <div class="jumbotron py-4 mb-2">
+                <h1 class="h2 mb-4">Board</h1>
+                <form method="POST" action="/board">
+                    <div class="form-group row">
+                        <label for="type" class="col-sm-1 col-form-label col-form-label-sm">Type</label>
+                        <div class="col-sm-5">
+                            <select class="form-control form-control-sm" id="type" name="type">
+                                <option selected>Open this select menu</option>
+                                {{#types}}
+                                <option value="{{.}}">{{.}}</option>
+                                {{/types}}
+                            </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="content">내용</label>
-                            <textarea class="form-control" name="content" id="content" placeholder="내용을 입력하세요."></textarea>
+                        <label for="category" class="col-sm-1 col-form-label col-form-label-sm">Category</label>
+                        <div class="col-sm-5">
+                            <select class="form-control form-control-sm" id="category" name="category">
+                                <option selected>Open this select menu</option>
+                                {{#categories}}
+                                <option value="{{id}}">{{name}}</option>
+                                {{/categories}}
+                            </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">save</button>
-                    </form>
-                </div>
-            </main>
-        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="title" class="col-sm-1 col-form-label col-form-label-sm">Title</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control form-control-sm" id="title" name="title" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="content" class="col-sm-1 col-form-label col-form-label-sm">Content</label>
+                        <div class="col-sm">
+                            <textarea class="form-control form-control-sm" name="content" id="content" cols="5" placeholder="내용을 입력하세요."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Control</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#boards}}
+                <tr>
+                    <th scope="row">{{id}}</th>
+                    <td>{{type}}</td>
+                    <td>{{category.name}}</td>
+                    <td>{{title}}</td>
+                    <td>{{content}}</td>
+                    <td colspan="2">
+                        <div class="btn-group" role="group">
+                            <a href="/board/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                            <form action="/board/{{id}}/delete" method="post">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {{/boards}}
+                {{^boards}}
+                <tr>
+                    <td colspan="5" class="text-center">게시글이 없습니다.</td>
+                </tr>
+                {{/boards}}
+                </tbody>
+            </table>
+        </main>
     </div>
+</div>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -71,112 +123,3 @@
     </script>
 </body>
 </html>
-
-
-
-<!--
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewpoint" content="width-device-width, initial-scale=1, shrink-to-fit=no">
-    <title>CRUD main</title>
-
-    <!-- Bootstrap core CSS
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        #content {
-            height: 10rem;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
-    <!-- Custom styles for this template
-    <link href="/css/navbar-top.css" rel="stylesheet">
-</head>
-<body>
-<main role="main" class="container mt-3">
-    <div class="jumbotron">
-        <h2>게시글 입력</h2>
-        <form method="POST" action="/board">
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="title">제목</label>
-                    <input type="text" name="title" class="form-control" id="title" required placeholder="제목을 입력하세요.">
-                </div>
-                <div class="form-group col-md-2">
-                    <label><input type="checkbox" name="type" value="주방" checked>주방</label>
-                    <label><input type="checkbox" name="type" value="생활용품">생활용품</label>
-                    <label><input type="checkbox" name="type" value="생활용품">운동기구</label>
-                    <label><input type="checkbox" name="type" value="생활용품">주방용품</label>
-
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                <label for="content">내용</label>
-                <textarea class="form-control" name="content" id="content" placeholder="내용을 입력하세요."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">save</button>
-        </form>
-    </div>
-</main>
-<hr/>
-
-
-<main role="main" class="container mt-5">
-    <h2 class="mt-1">게시글 목록</h2>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">no.</th>
-            <th scope="col">유형</th>
-            <th scope="col">Title</th>
-            <th scope="col">#</th>
-            <th scope="col">#</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#boardList}}
-        <tr>
-            <td scope="row">{{board_id}}</td>
-            <td><a href="/board/{{board_id}}" target="_self">{{type}}</a></td>
-            <td><a href="/board/{{board_id}}" target="_self">{{title}}</a> </td>
-            <td>
-                <form action="/board/{{board_id}}/delete" method="post">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-            <td>
-                <form action="/board/{{board_id}}/edit" method="post">
-                    <button type="submit" class="btn btn-dark">Update</button>
-                </form>
-            </td>
-        </tr>
-        {{/boardList}}
-        {{^boardList}}
-        <tr>
-            <td colspan="5" class="text-center">게시글이 없습니다.</td>
-        </tr>
-        {{/boardList}}
-        </tbody>
-    </table>
-</main>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/jquery.slim.min.js"></script>
-</body>
-</html>-->

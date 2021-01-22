@@ -24,7 +24,7 @@ public class UserController {
         List<User> userList = userService.readAllUser();
 
         ModelAndView response = new ModelAndView("user/index");//뷰이름설정
-        response.addObject(userList);//뷰로 보낼 데이터 userlist
+        response.addObject("users", userList);//뷰로 보낼 데이터 userlist
 
         return response;
     }
@@ -55,8 +55,8 @@ public class UserController {
     public String updateUser(@PathVariable("user_id") Long userId,
                              @RequestParam("profile_image") MultipartFile image,
                              @ModelAttribute User user) throws IOException {
-        user.setId(userId);
-        userService.updateUserWithConvertImage(image, user);
+
+        userService.updateUserWithConvertImage(userId, image, user);
 
         return "redirect:/user";
     }

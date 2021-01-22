@@ -51,7 +51,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User updateUserWithConvertImage(MultipartFile image, User user) throws IOException {
+    public User updateUserWithConvertImage(Long userId, MultipartFile image, User user) throws IOException {
+        user.setId(userId);
         return saveUserWithConvertImage(image, user);
     }
 

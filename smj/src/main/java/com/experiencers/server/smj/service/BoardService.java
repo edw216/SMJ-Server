@@ -34,12 +34,14 @@ public class BoardService {
         boardRepository.deleteById(board_id);
     }
 
-    public void updateBoard(Board board){
-        Board beforeBoard = boardRepository.findById(board.getBoard_id()).get();
+    public void updateBoard(Long boardId, Board board){
+/*        Board beforeBoard = boardRepository.findById(boardId).get();
         beforeBoard.setTitle(board.getTitle());
         beforeBoard.setContent(board.getContent());
         beforeBoard.setType(board.getType());
+        beforeBoard.setCategory(board.getCategory());*/
 
-        boardRepository.save(beforeBoard);
+        board.setId(boardId);
+        boardRepository.save(board);
     }
 }
