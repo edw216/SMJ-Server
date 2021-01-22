@@ -1,4 +1,4 @@
-package com.experiencers.server.smj.controller;
+package com.experiencers.server.smj.category;
 
 import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.service.CategoryService;
@@ -24,7 +24,7 @@ public class CategoryController{
         ModelAndView response = new ModelAndView("category/list");
         response.addObject(categoryList);
 
-        return response;
+        return response; // category를 연결하면
     }
 
     @PostMapping("/category")

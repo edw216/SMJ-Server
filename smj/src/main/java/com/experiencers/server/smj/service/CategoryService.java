@@ -16,19 +16,32 @@ public class CategoryService {
 
         return savedCategory;
     }
-    public Category readCategory(Long category_id){return categoryRepository.getOne(category_id);}
 
-    public List<Category> readAllCategory(){return categoryRepository.findAll();}
+    public Category readCategory(Long categoryId){
+        Category result = categoryRepository.getOne(categoryId);
+
+        return result;
+    }
+
+    public List<Category> readAllCategory(){
+        List<Category> result = categoryRepository.findAll();
+
+        return result;
+    }
 
     public void removeCategory(Long category_id){
         categoryRepository.deleteById(category_id);
     }
 
     public void updateCategory(Category category){
-//        Category beforeCategory = categoryRepository.findById(category.()).get();
-//        beforeCategory.setUser(category.getUser());
-//        beforeCategory.setCategory(category.getCategory());
+        // 1. 저장된 데이터를 찾기
+        // 2. 찾은 데이터의 값을 바꿔주기
+        // 3. 바꾼 데이터를 다시 저장
+        // - #중요: id가 바뀌면 새로 생성, 동일하면 수정
+        Category data = categoryRepository.findById(category.getId()).get();
+        data.setId(category.getId());
+        data.setName(category.getName());
 
-//        categoryRepository.save(beforeCategory);
+        categoryRepository.save(data);
     }
 }
