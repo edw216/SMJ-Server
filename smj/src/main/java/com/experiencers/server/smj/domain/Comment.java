@@ -8,10 +8,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "comment")
 public class Comment {
-    public Comment(){
-        final LocalDateTime now = LocalDateTime.now();
-        created_date = now;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
@@ -21,7 +17,7 @@ public class Comment {
     @Column(nullable = false, length = 50)
     private String user; //FK - User
     @CreationTimestamp
-    private LocalDateTime created_date;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "board_id")
@@ -63,12 +59,12 @@ public class Comment {
         this.user = user;
     }
 
-    public LocalDateTime getCreated_date() {
-        return created_date;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_date(LocalDateTime created_date) {
-        this.created_date = created_date;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -77,7 +73,7 @@ public class Comment {
                 "comment_id="+comment_id+
                 ", content='" +content+'\''+
                 ", user='"+user+'\''+
-                ", created_date='"+created_date+'\''+
+                ", createdAt='"+createdAt+'\''+
                 '}';
 
     }
