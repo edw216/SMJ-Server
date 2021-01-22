@@ -3,7 +3,6 @@ package com.experiencers.server.smj.controller;
 import com.experiencers.server.smj.domain.User;
 import com.experiencers.server.smj.service.UserService;
 
-//import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -30,12 +30,8 @@ public class UserController {
     }
 
     @PostMapping("")
-    public String postUser(@RequestParam("profile_image") MultipartFile image, @ModelAttribute User inputtedUser) {
-        System.out.println(image);
-
-//        byte[] fileContent = FileUti.readFileToByteArray(new File(filePath))
-
-        User savedUser = userService.writeUser(inputtedUser);
+    public String postUser(@RequestParam("profile_image") MultipartFile image, @ModelAttribute User inputtedUser) throws IOException {
+        userService.saveUserWithConvertImage(image, inputtedUser);
 
         return "redirect:/user";
     }
@@ -56,11 +52,11 @@ public class UserController {
     }
 
     @PostMapping("/{user_id}/update")
-    public String updateUser(@PathVariable("user_id") Long userId, User user, HttpServletRequest request){
-        System.out.println(user);
+    public String updateUser(@PathVariable("user_id") Long userId,
+                             @RequestParam("profile_image") MultipartFile image,
+                             User user) throws IOException {
         user.setId(userId);
-        System.out.println(user);
-        userService.updateUser(user);
+        userService.updateUserWithConvertImage(image, user);
 
         return "redirect:/user";
     }
