@@ -14,50 +14,50 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/member")
 public class MemberController {
     @Autowired
     private MemberService memberService;
 
     @GetMapping("")
     public ModelAndView getIndex() {
-        List<Member> memberList = memberService.readAllUser();
+        List<Member> memberList = memberService.readAllMember();
 
-        ModelAndView response = new ModelAndView("user/index");//뷰이름설정
-        response.addObject("users", memberList);//뷰로 보낼 데이터 userlist
+        ModelAndView response = new ModelAndView("member/index");//뷰이름설정
+        response.addObject("members", memberList);//뷰로 보낼 데이터 Memberlist
 
         return response;
     }
 
     @PostMapping("")
-    public String postUser(@RequestParam("profile_image") MultipartFile image, @ModelAttribute Member inputtedMember) throws IOException {
-        memberService.saveUserWithConvertImage(image, inputtedMember);
+    public String postMember(@RequestParam("profile_image") MultipartFile image, @ModelAttribute Member inputtedMember) throws IOException {
+        memberService.saveMemberWithConvertImage(image, inputtedMember);
 
-        return "redirect:/user";
+        return "redirect:/member";
     }
 
-    @PostMapping("/{user_id}/delete")
-    public String deleteUser(@PathVariable("user_id") Long user_id, HttpServletRequest request){
-        memberService.removeUser(user_id);
+    @PostMapping("/{member_id}/delete")
+    public String deleteMember(@PathVariable("member_id") Long member_id, HttpServletRequest request){
+        memberService.removeMember(member_id);
         return "redirect:"+request.getHeader("referer");
     }
 
-    @GetMapping("/{user_id}/edit")
-    public ModelAndView editUser(@PathVariable("user_id") Long user_id){
-        Member member = memberService.readUser(user_id);
-        ModelAndView response = new ModelAndView("user/edit");
-        response.getModel().put("user", member);
+    @GetMapping("/{member_id}/edit")
+    public ModelAndView editMember(@PathVariable("member_id") Long member_id){
+        Member member = memberService.readMember(member_id);
+        ModelAndView response = new ModelAndView("member/edit");
+        response.getModel().put("member", member);
 
         return response;
     }
 
-    @PostMapping("/{user_id}/update")
-    public String updateUser(@PathVariable("user_id") Long userId,
+    @PostMapping("/{member_id}/update")
+    public String updateMember(@PathVariable("member_id") Long memberId,
                              @RequestParam("profile_image") MultipartFile image,
                              @ModelAttribute Member member) throws IOException {
 
-        memberService.updateUserWithConvertImage(userId, image, member);
+        memberService.updateMemberWithConvertImage(memberId, image, member);
 
-        return "redirect:/user";
+        return "redirect:/member";
     }
 }

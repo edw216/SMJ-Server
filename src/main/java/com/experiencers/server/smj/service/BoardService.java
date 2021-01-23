@@ -21,13 +21,13 @@ public class BoardService {
 
         return savedBoard;
     }
-    public Board readBoard(Long board_id){return boardRepository.getOne(board_id);}
+    public Board readBoard(Long board_id){return boardRepository.findById(board_id).get();}
 
     public List<Board> readAllBoard(){return boardRepository.findAll();}
 
     public void removeBoard(Long board_id){
 
-        List<Comment> comment = boardRepository.getOne(board_id).getComments();
+        List<Comment> comment = boardRepository.findById(board_id).get().getComments();
         for(int i = 0; i<comment.size();i++){
             commentRepository.deleteById(comment.get(i).getComment_id());
         }

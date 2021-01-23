@@ -19,7 +19,7 @@ public class MessageService {
     }
 
     public Message readMessage(Long message_id) {
-        return messageRepository.getOne(message_id);
+        return messageRepository.findById(message_id).get();
     }
 
     public List<Message> readMessage() {

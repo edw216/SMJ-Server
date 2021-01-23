@@ -15,13 +15,13 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public Member writeUser(Member inputtedMember) {
+    public Member writeMember(Member inputtedMember) {
         Member savedMember = memberRepository.save(inputtedMember);
 
         return savedMember;
     }
 
-    public Member saveUserWithConvertImage(MultipartFile image, Member member) throws IOException {
+    public Member saveMemberWithConvertImage(MultipartFile image, Member member) throws IOException {
         if (!image.isEmpty()) {
             String stringImage = convertImageToString(image);
             member.setImage(stringImage);
@@ -30,30 +30,34 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member readUser(Long user_id) {
-        return memberRepository.getOne(user_id);
+    public Member readMember(Long user_id) {
+        return memberRepository.findById(user_id).get();
     }
 
-    public List<Member> readAllUser() {
+    public List<Member> readAllMember() {
         return memberRepository.findAll();
     }
 
-    public void removeUser(Long user_id){
+    public void removeMember(Long user_id){
         memberRepository.deleteById(user_id);
     }
-    public void updateUser(Member member){
-       /* User beforeUser = userRepository.findById(user.getId()).get();
-        beforeUser.setEmail(user.getEmail());
-        beforeUser.setNickname(user.getNickname());
-        beforeUser.setImage(user.getImage());
+    public void updateMember(Member member){
+       /* Member beforeMember = userRepository.findById(user.getId()).get();
+        beforeMember.setEmail(user.getEmail());
+        beforeMember.setNickname(user.getNickname());
+        beforeMember.setImage(user.getImage());
 
-        userRepository.save(beforeUser);*/
+        userRepository.save(beforeMember);*/
         memberRepository.save(member);
     }
 
-    public Member updateUserWithConvertImage(Long userId, MultipartFile image, Member member) throws IOException {
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email).get();
+    }
+
+    public Member updateMemberWithConvertImage(Long userId, MultipartFile image, Member member) throws IOException {
         member.setId(userId);
-        return saveUserWithConvertImage(image, member);
+        return saveMemberWithConvertImage(image, member);
     }
 
     private String convertImageToString(MultipartFile image) throws IOException {

@@ -18,7 +18,7 @@ public class CategoryService {
     }
 
     public Category readCategory(Long categoryId){
-        Category result = categoryRepository.getOne(categoryId);
+        Category result = categoryRepository.findById(categoryId).get();
 
         return result;
     }

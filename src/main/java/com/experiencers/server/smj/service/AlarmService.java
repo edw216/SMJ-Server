@@ -20,7 +20,7 @@ public class AlarmService {
 
         return savedAlarm;
     }
-    public Alarm readAlarm(Long alarm_id){return alarmRepository.getOne(alarm_id);}
+    public Alarm readAlarm(Long alarm_id){return alarmRepository.findById(alarm_id).get();}
 
     public List<Alarm> readAllAlarm(){return alarmRepository.findAll();}
 

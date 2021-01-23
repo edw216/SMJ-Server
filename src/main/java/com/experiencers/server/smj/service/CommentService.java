@@ -15,7 +15,7 @@ public class CommentService {
     @Autowired
     private BoardRepository boardRepository;
     public Comment writeComment(Comment inputtedComment,Long board_id){
-        Board board = boardRepository.getOne(board_id);
+        Board board = boardRepository.findById(board_id).get();
         inputtedComment.setBoard(board);
 
 
@@ -24,7 +24,7 @@ public class CommentService {
 
         return savedComment;
     }
-    public Comment readComment(Long comment_id){return commentRepository.getOne(comment_id);}
+    public Comment readComment(Long comment_id){return commentRepository.findById(comment_id).get();}
 
     public List<Comment> readAllComment(){return commentRepository.findAll();}
 
