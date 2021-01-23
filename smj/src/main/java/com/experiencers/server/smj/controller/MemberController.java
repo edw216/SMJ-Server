@@ -1,7 +1,7 @@
 package com.experiencers.server.smj.controller;
 
-import com.experiencers.server.smj.domain.User;
-import com.experiencers.server.smj.service.UserService;
+import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,38 +15,38 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class MemberController {
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
 
     @GetMapping("")
     public ModelAndView getIndex() {
-        List<User> userList = userService.readAllUser();
+        List<Member> memberList = memberService.readAllUser();
 
         ModelAndView response = new ModelAndView("user/index");//뷰이름설정
-        response.addObject("users", userList);//뷰로 보낼 데이터 userlist
+        response.addObject("users", memberList);//뷰로 보낼 데이터 userlist
 
         return response;
     }
 
     @PostMapping("")
-    public String postUser(@RequestParam("profile_image") MultipartFile image, @ModelAttribute User inputtedUser) throws IOException {
-        userService.saveUserWithConvertImage(image, inputtedUser);
+    public String postUser(@RequestParam("profile_image") MultipartFile image, @ModelAttribute Member inputtedMember) throws IOException {
+        memberService.saveUserWithConvertImage(image, inputtedMember);
 
         return "redirect:/user";
     }
 
     @PostMapping("/{user_id}/delete")
     public String deleteUser(@PathVariable("user_id") Long user_id, HttpServletRequest request){
-        userService.removeUser(user_id);
+        memberService.removeUser(user_id);
         return "redirect:"+request.getHeader("referer");
     }
 
     @GetMapping("/{user_id}/edit")
     public ModelAndView editUser(@PathVariable("user_id") Long user_id){
-        User user = userService.readUser(user_id);
+        Member member = memberService.readUser(user_id);
         ModelAndView response = new ModelAndView("user/edit");
-        response.getModel().put("user", user);
+        response.getModel().put("user", member);
 
         return response;
     }
@@ -54,9 +54,9 @@ public class UserController {
     @PostMapping("/{user_id}/update")
     public String updateUser(@PathVariable("user_id") Long userId,
                              @RequestParam("profile_image") MultipartFile image,
-                             @ModelAttribute User user) throws IOException {
+                             @ModelAttribute Member member) throws IOException {
 
-        userService.updateUserWithConvertImage(userId, image, user);
+        memberService.updateUserWithConvertImage(userId, image, member);
 
         return "redirect:/user";
     }

@@ -1,7 +1,7 @@
 package com.experiencers.server.smj.service;
 
-import com.experiencers.server.smj.domain.User;
-import com.experiencers.server.smj.repository.UserRepository;
+import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.repository.MemberRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,49 +11,49 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class UserService {
+public class MemberService {
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
-    public User writeUser(User inputtedUser) {
-        User savedUser = userRepository.save(inputtedUser);
+    public Member writeUser(Member inputtedMember) {
+        Member savedMember = memberRepository.save(inputtedMember);
 
-        return savedUser;
+        return savedMember;
     }
 
-    public User saveUserWithConvertImage(MultipartFile image, User user) throws IOException {
+    public Member saveUserWithConvertImage(MultipartFile image, Member member) throws IOException {
         if (!image.isEmpty()) {
             String stringImage = convertImageToString(image);
-            user.setImage(stringImage);
+            member.setImage(stringImage);
         }
 
-        return userRepository.save(user);
+        return memberRepository.save(member);
     }
 
-    public User readUser(Long user_id) {
-        return userRepository.getOne(user_id);
+    public Member readUser(Long user_id) {
+        return memberRepository.getOne(user_id);
     }
 
-    public List<User> readAllUser() {
-        return userRepository.findAll();
+    public List<Member> readAllUser() {
+        return memberRepository.findAll();
     }
 
     public void removeUser(Long user_id){
-        userRepository.deleteById(user_id);
+        memberRepository.deleteById(user_id);
     }
-    public void updateUser(User user){
+    public void updateUser(Member member){
        /* User beforeUser = userRepository.findById(user.getId()).get();
         beforeUser.setEmail(user.getEmail());
         beforeUser.setNickname(user.getNickname());
         beforeUser.setImage(user.getImage());
 
         userRepository.save(beforeUser);*/
-        userRepository.save(user);
+        memberRepository.save(member);
     }
 
-    public User updateUserWithConvertImage(Long userId, MultipartFile image, User user) throws IOException {
-        user.setId(userId);
-        return saveUserWithConvertImage(image, user);
+    public Member updateUserWithConvertImage(Long userId, MultipartFile image, Member member) throws IOException {
+        member.setId(userId);
+        return saveUserWithConvertImage(image, member);
     }
 
     private String convertImageToString(MultipartFile image) throws IOException {

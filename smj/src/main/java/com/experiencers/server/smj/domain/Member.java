@@ -1,22 +1,23 @@
 package com.experiencers.server.smj.domain;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "member")
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     private Long id;
     @Column(nullable = false, length = 50)
     private String email;
     @Column(nullable = false, length = 50)
     private String nickname;
-//    @Column(length = 100000)
     @Lob
     private String image;
     @CreationTimestamp

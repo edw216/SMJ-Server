@@ -10,8 +10,6 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
 
-
-
     <!-- Bootstrap core CSS -->
     <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
@@ -29,9 +27,9 @@
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
+            -webkit-member-select: none;
+            -moz-member-select: none;
+            member-select: none;
         }
 
         @media (min-width: 768px) {
@@ -48,16 +46,12 @@
    <body class="text-center">
 
 <main class="form-signin">
-    <form>
+    <form class="form-signin" action="/auth/validation" method="post">
         <img class="mb-4" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Admin Page</h1>
-        <label for="ID" class="visually-hidden">Admin ID</label>
-        <input type="text" id="ID" class="form-control">
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>
+        <label for="email" class="visually-hidden">Admin ID</label>
+        <input type="text" id="email" class="form-control" name="email">
+        <input type="hidden" id="pw" class="form-control" name="pw" value="">
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
     </form>
 </main>
