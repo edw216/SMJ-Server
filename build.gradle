@@ -4,7 +4,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.experiencers.server'
+group = 'com.experiencers.server.smj'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -23,8 +23,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
-
 
     runtimeOnly 'com.h2database:h2'
 

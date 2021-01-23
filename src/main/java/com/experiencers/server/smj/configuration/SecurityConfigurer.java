@@ -7,7 +7,6 @@ import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.enumerate.Role;
 import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,8 +53,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .antMatchers("/static/**", "/css/**",
+                .antMatchers("/static/**",
                         "/**/favicon.ico",
                         "/h2-console/**",
                         "/webjars/**"
@@ -69,10 +67,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests()
-                .antMatchers("/static/**", "/css/**",
+        http.authorizeRequests()
+                .antMatchers(
+                        "/static/**",
                         "/**/favicon.ico",
+                        "/v2/api-docs",
                         "/error",
                         LOGIN_URL_PATH).permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")

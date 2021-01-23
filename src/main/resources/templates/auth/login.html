@@ -41,12 +41,13 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="/css/signin.css" rel="stylesheet">
+    <link href="/static/css/signin.css" rel="stylesheet">
    </head>
    <body class="text-center">
 
 <main class="form-signin">
     <form class="form-signin" action="/auth/validation" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
         <img class="mb-4" src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Admin Page</h1>
         <label for="email" class="visually-hidden">Admin ID</label>
