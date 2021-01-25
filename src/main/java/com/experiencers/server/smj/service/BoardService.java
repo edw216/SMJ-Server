@@ -2,12 +2,15 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.domain.Comment;
+import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.repository.CommentRepository;
+import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardService {
@@ -15,33 +18,49 @@ public class BoardService {
     private BoardRepository boardRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
-    public Board writeBoard(Board inputtedBoard){
+    public Board saveBoard(Board inputtedBoard,Long memberId){
+        Member member = memberRepository.findById(memberId).get();
+        inputtedBoard.setMember(member);
+
         Board savedBoard = boardRepository.save(inputtedBoard);
 
         return savedBoard;
     }
-    public Board readBoard(Long board_id){return boardRepository.findById(board_id).get();}
+    public Board readBoard(Long boardId){return boardRepository.findById(boardId).get();}
 
     public List<Board> readAllBoard(){return boardRepository.findAll();}
 
-    public void removeBoard(Long board_id){
-
-        List<Comment> comment = boardRepository.findById(board_id).get().getComments();
-        for(int i = 0; i<comment.size();i++){
-            commentRepository.deleteById(comment.get(i).getComment_id());
+    public void deleteBoard(Long boardId){
+        if(boardRepository.getOne(boardId).getComments() != null) {
+            List<Comment> comment = boardRepository.findById(boardId).get().getComments();
+            for (int i = 0; i < comment.size(); i++) {
+                commentRepository.deleteById(comment.get(i).getCommentId());
+            }
         }
-        boardRepository.deleteById(board_id);
+        boardRepository.deleteById(boardId);
     }
 
-    public void updateBoard(Long boardId, Board board){
+    public Board readAndUpdateBoard(Long boardId, Board board){
 /*        Board beforeBoard = boardRepository.findById(boardId).get();
         beforeBoard.setTitle(board.getTitle());
         beforeBoard.setContent(board.getContent());
         beforeBoard.setType(board.getType());
         beforeBoard.setCategory(board.getCategory());*/
+        Optional<Board> data = boardRepository.findById(boardId);
+        if(!data.isPresent()){
+            return null;
+        }
+        Board updateData = data.get();
+        updateData.setTitle(board.getTitle());
+        updateData.setContent(board.getContent());
+        updateData.setCategory(board.getCategory());
+        updateData.setType(board.getType());
+        //board.setId(boardId);
+        //boardRepository.save(board);
 
-        board.setId(boardId);
-        boardRepository.save(board);
+        return updateData;
     }
 }

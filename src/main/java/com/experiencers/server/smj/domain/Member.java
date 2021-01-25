@@ -5,7 +5,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -22,6 +23,20 @@ public class Member {
     private String image;
     @CreationTimestamp
     private LocalDateTime createAt;
+
+    @OneToMany(mappedBy = "member")
+    private List<Board> boards = new ArrayList<>();
+
+    public List<Board> getBoards() {
+        return boards;
+    }
+
+    public void setBoard(Board board) {
+        this.boards.add(board);
+        if(board.getMember() != this){
+            board.setMember(this);
+        }
+    }
 
     public Long getId() {
         return id;

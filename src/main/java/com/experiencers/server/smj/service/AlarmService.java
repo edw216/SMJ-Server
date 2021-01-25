@@ -20,12 +20,12 @@ public class AlarmService {
 
         return savedAlarm;
     }
-    public Alarm readAlarm(Long alarm_id){return alarmRepository.findById(alarm_id).get();}
+    public Alarm readAlarm(Long alarmId){return alarmRepository.findById(alarmId).get();}
 
     public List<Alarm> readAllAlarm(){return alarmRepository.findAll();}
 
-    public void removeAlarm(Long alarm_id){
-        alarmRepository.deleteById(alarm_id);
+    public void removeAlarm(Long alarmId){
+        alarmRepository.deleteById(alarmId);
     }
 
     public void updateAlarm(Alarm alarm){

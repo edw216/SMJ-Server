@@ -25,16 +25,14 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    /*@Column(name = "category")
-    private Category category; // FK - Category
-    @Column(name = "user")
-    private User user; // FK - User
-    @Column(name = "comment")
-    private Comment comment; // FK - Comment */
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name ="member_id")
+    private Member member;
 
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
@@ -62,6 +60,17 @@ public class Board {
         }
     }
 
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+
+        if(!member.getBoards().contains(this)){
+            member.getBoards().add(this);
+        }
+    }
     public Long getId() {
         return id;
     }

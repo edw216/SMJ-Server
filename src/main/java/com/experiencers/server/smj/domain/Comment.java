@@ -11,11 +11,11 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private Long comment_id;
+    private Long commentId;
     @Column(nullable = false, length = 1000)
     private String content;
     @Column(nullable = false, length = 50)
-    private String user; //FK - User
+    private String user;
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -35,12 +35,12 @@ public class Comment {
         }
     }
 
-    public Long getComment_id() {
-        return comment_id;
+    public Long getCommentId() {
+        return commentId;
     }
 
-    public void setComment_id(Long comment_id) {
-        this.comment_id = comment_id;
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
     }
 
     public String getContent() {
@@ -70,7 +70,7 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{"+
-                "comment_id="+comment_id+
+                "comment_id="+commentId+
                 ", content='" +content+'\''+
                 ", user='"+user+'\''+
                 ", createdAt='"+createdAt+'\''+

@@ -30,16 +30,16 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member readMember(Long user_id) {
-        return memberRepository.findById(user_id).get();
+    public Member readMember(Long memberId) {
+        return memberRepository.findById(memberId).get();
     }
 
     public List<Member> readAllMember() {
         return memberRepository.findAll();
     }
 
-    public void removeMember(Long user_id){
-        memberRepository.deleteById(user_id);
+    public void removeMember(Long memberId){
+        memberRepository.deleteById(memberId);
     }
     public void updateMember(Member member){
        /* Member beforeMember = userRepository.findById(user.getId()).get();

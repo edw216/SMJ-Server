@@ -31,26 +31,26 @@ public class CommentController {
     }
 
     @PostMapping("/board/{board_id}/comment")
-    public String postComment(@PathVariable("board_id") Long board_id,
+    public String postComment(@PathVariable("board_id") Long boardId,
             @ModelAttribute Comment inputtedComment,
                               HttpServletRequest request){
         System.out.println(inputtedComment.toString());
-        commentService.writeComment(inputtedComment,board_id);
+        commentService.saveComment(inputtedComment,boardId);
 
         return "redirect:"+request.getHeader("referer");
     }
 
     @PostMapping("/board/{board_id}/comment/{comment_id}/delete")
-    public String deleteComment(@PathVariable("comment_id") Long comment_id,
-                                @PathVariable("board_id")Long board_id,
+    public String deleteComment(@PathVariable("comment_id") Long commentId,
+                                @PathVariable("board_id")Long boardId,
                                 HttpServletRequest request){
-        commentService.removeComment(comment_id);
-        return "redirect:/board/"+board_id;
+        commentService.deleteComment(commentId);
+        return "redirect:/board/"+boardId;
     }
     //@PostMapping
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit")
-    public ModelAndView editComment(@PathVariable("comment_id") Long comment_id,@PathVariable("board_id")Long board_id){
-        Comment comment = commentService.readComment(comment_id);
+    public ModelAndView editComment(@PathVariable("comment_id") Long commentId,@PathVariable("board_id")Long boardId){
+        Comment comment = commentService.readComment(commentId);
 
         ModelAndView response = new ModelAndView("comment/edit");
         response.addObject(comment);
@@ -59,11 +59,11 @@ public class CommentController {
 
     }
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit/update")
-    public String updateComment(Comment comment,@PathVariable("board_id") Long board_id){
+    public String updateComment(@PathVariable("comment_id")Long commentId,@ModelAttribute Comment comment,@PathVariable("board_id") Long boardId){
 
-        commentService.updateComment(comment);
+        commentService.readAndUpdateComment(commentId,comment);
 
-        return "redirect:/board/"+board_id;
+        return "redirect:/board/"+boardId;
     }
 
 }

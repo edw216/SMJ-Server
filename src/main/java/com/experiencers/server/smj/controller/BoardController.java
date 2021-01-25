@@ -35,8 +35,8 @@ public class BoardController {
     }
 
     @PostMapping("")
-    public String postBoard(@ModelAttribute Board inputtedBoard){
-        Board savedBoard = boardService.writeBoard(inputtedBoard);
+    public String postBoard(@ModelAttribute Board inputtedBoard,@RequestParam("member_id") Long memberId){
+        Board savedBoard = boardService.saveBoard(inputtedBoard,memberId);
 
         return "redirect:/board";
     }
@@ -55,14 +55,14 @@ public class BoardController {
 
     @PostMapping("/{board_id}/update")
     public String updateBoard(@PathVariable("board_id") Long boardId, @ModelAttribute Board board){
-        boardService.updateBoard(boardId, board);
+        boardService.readAndUpdateBoard(boardId, board);
 
         return "redirect:/board";
     }
 
     @PostMapping("/{board_id}/delete")
     public String deleteBoard(@PathVariable("board_id") Long boardId){
-        boardService.removeBoard(boardId);
+        boardService.deleteBoard(boardId);
 
         return "redirect:/board";
     }
