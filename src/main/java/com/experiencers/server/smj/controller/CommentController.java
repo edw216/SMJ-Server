@@ -35,7 +35,11 @@ public class CommentController {
             @ModelAttribute Comment inputtedComment,
                               HttpServletRequest request){
         System.out.println(inputtedComment.toString());
+<<<<<<< HEAD:src/main/java/com/experiencers/server/smj/controller/CommentController.java
         commentService.saveComment(inputtedComment,boardId);
+=======
+        commentService.saveComment(inputtedComment,board_id);
+>>>>>>> dongwoo:smj/src/main/java/com/experiencers/server/smj/comment/CommentController.java
 
         return "redirect:"+request.getHeader("referer");
     }
@@ -44,8 +48,13 @@ public class CommentController {
     public String deleteComment(@PathVariable("comment_id") Long commentId,
                                 @PathVariable("board_id")Long boardId,
                                 HttpServletRequest request){
+<<<<<<< HEAD:src/main/java/com/experiencers/server/smj/controller/CommentController.java
         commentService.deleteComment(commentId);
         return "redirect:/board/"+boardId;
+=======
+        commentService.deleteComment(comment_id);
+        return "redirect:/board/"+board_id;
+>>>>>>> dongwoo:smj/src/main/java/com/experiencers/server/smj/comment/CommentController.java
     }
     //@PostMapping
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit")
@@ -59,7 +68,11 @@ public class CommentController {
 
     }
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit/update")
+<<<<<<< HEAD:src/main/java/com/experiencers/server/smj/controller/CommentController.java
     public String updateComment(@PathVariable("comment_id")Long commentId,@ModelAttribute Comment comment,@PathVariable("board_id") Long boardId){
+=======
+    public String updateComment(@PathVariable("comment_id")Long commentId,Comment comment,@PathVariable("board_id") Long board_id){
+>>>>>>> dongwoo:smj/src/main/java/com/experiencers/server/smj/comment/CommentController.java
 
         commentService.readAndUpdateComment(commentId,comment);
 

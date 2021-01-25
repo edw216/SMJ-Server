@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width-device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CRUD main</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #content {
+            height: 10rem;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/navbar-top.css" rel="stylesheet">
+</head>
+<body>
+<main role="main" class="container mt-3">
+    <div class="jumbotron pt-3">
+        <div class="row">
+            <a href="/board" role="button" class="btn btn-primary ml-auto mr-0">back</a>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>{{board.boardId}}번 게시글</h2>
+            </div>
+        </div>
+        <hr/>
+        <div class="row mb-2">
+            <div class="col">
+                <h4>제목 : {{board.title}}</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h5>유형 : {{board.type}}</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>{{board.content}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>{{board.createdDate}}</p>
+            </div>
+        </div>
+    </div>
+</main>
+<hr/>
+<main role="main" class="container mt-3">
+    <div class="jumbotron">
+        <h3>댓글 작성</h3>
+        <form method="post" action="/board/{{board.boardId}}/comment">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="user">작성자</label>
+                    <input type="text" name="user" class="form-control" id="user" required placeholder="작성자 명">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea class="form-control" name="content" id="content" placeholder="내용 입력"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">댓글달기</button>
+        </form>
+    </div>
+</main>
+<hr/>
+
+
+<main role="main" class="container mt-3">
+    <h2 class="mt-1">댓글 목록</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">작성자</th>
+            <th scope="col">댓글</th>
+            <th scope="col">#</th>
+            <th scope="col">#</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#board.comments}}
+        <tr>
+            <td scope="row">{{user}}</td>
+            <td>{{content}}</td>
+            <td>
+                <form action="/board/{{board.boardId}}/comment/{{commentId}}/delete" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form action="/board/{{board.boardId}}/comment/{{commentId}}/edit" method="post">
+                    <button type="submit" class="btn btn-dark">Update</button>
+                </form>
+            </td>
+        </tr>
+        {{/board.comments}}
+        {{^board.comments}}
+        <tr>
+            <td colspan="4" class="text-center">댓글이 없습니다.</td>
+        </tr>
+        {{/board.comments}}
+        </tbody>
+    </table>
+</main>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery.slim.min.js"></script>
+</body>
+</html>

@@ -92,8 +92,51 @@
     </table>
 </main>
 
+<<<<<<< HEAD:src/main/resources/templates/message/info.html
 <script src="/static/js/jquery.slim.min.js"></script>
 <script src="/static/js/popper.min.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
+=======
+    <main role="main" class="container mt-5">
+        <h2 class="mt-1">게시글 목록</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">no.</th>
+                <th scope="col">유형</th>
+                <th scope="col">Title</th>
+                <th scope="col">#</th>
+                <th scope="col">#</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#boardList}}
+            <tr>
+                <td scope="row">{{boardId}}</td>
+                <td><a href="/board/{{boardId}}" target="_self">{{type}}</a></td>
+                <td><a href="/board/{{boardId}}" target="_self">{{title}}</a> </td>
+                <td>
+                    <form action="/board/{{boardId}}/delete" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="/board/{{boardId}}/edit" method="post">
+                        <button type="submit" class="btn btn-dark">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {{/boardList}}
+            {{^boardList}}
+            <tr>
+                <td colspan="5" class="text-center">게시글이 없습니다.</td>
+            </tr>
+            {{/boardList}}
+            </tbody>
+        </table>
+    </main>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery.slim.min.js"></script>
+>>>>>>> dongwoo:smj/src/main/resources/templates/board/index.html
 </body>
 </html>
