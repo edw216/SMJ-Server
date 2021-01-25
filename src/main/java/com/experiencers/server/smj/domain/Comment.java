@@ -8,10 +8,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "comment")
 public class Comment {
-<<<<<<< HEAD:src/main/java/com/experiencers/server/smj/domain/Comment.java
-=======
-
->>>>>>> dongwoo:smj/src/main/java/com/experiencers/server/smj/comment/Comment.java
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
@@ -21,12 +17,8 @@ public class Comment {
     @Column(nullable = false, length = 50)
     private String user;
     @CreationTimestamp
-<<<<<<< HEAD:src/main/java/com/experiencers/server/smj/domain/Comment.java
     private LocalDateTime createdAt;
-=======
 
-    private LocalDateTime createdDate;
->>>>>>> dongwoo:smj/src/main/java/com/experiencers/server/smj/comment/Comment.java
 
     @ManyToOne
     @JoinColumn(name = "board_id")
@@ -50,17 +42,14 @@ public class Comment {
 
     public void setCommentId(Long commentId) {
         this.commentId = commentId;
-<<<<<<< HEAD:src/main/java/com/experiencers/server/smj/domain/Comment.java
-=======
     }
 
     public LocalDateTime getCreatedDate() {
-        return createdDate;
+        return createdAt;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
->>>>>>> dongwoo:smj/src/main/java/com/experiencers/server/smj/comment/Comment.java
+    public void setCreatedDate(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getContent() {
@@ -79,7 +68,6 @@ public class Comment {
         this.user = user;
     }
 
-<<<<<<< HEAD:src/main/java/com/experiencers/server/smj/domain/Comment.java
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -88,19 +76,13 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
-=======
->>>>>>> dongwoo:smj/src/main/java/com/experiencers/server/smj/comment/Comment.java
     @Override
     public String toString() {
         return "Comment{"+
                 "comment_id="+commentId+
                 ", content='" +content+'\''+
                 ", user='"+user+'\''+
-<<<<<<< HEAD:src/main/java/com/experiencers/server/smj/domain/Comment.java
                 ", createdAt='"+createdAt+'\''+
-=======
-                ", created_date='"+createdDate+'\''+
->>>>>>> dongwoo:smj/src/main/java/com/experiencers/server/smj/comment/Comment.java
                 '}';
 
     }
