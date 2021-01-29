@@ -20,7 +20,7 @@ public class MessageController {
     public ModelAndView getIndex() {
         List<Message> messageList = messageService.readAllMessage();
 
-        ModelAndView response = new ModelAndView("message/info");//뷰이름설정
+        ModelAndView response = new ModelAndView("message/index");//뷰이름설정
         response.addObject(messageList);//뷰로 보낼 데이터 userlist
 
         return response;
@@ -38,7 +38,7 @@ public class MessageController {
     public ModelAndView getPost(@PathVariable("id") Long messageId) {
         Message message = messageService.readMessage(messageId);
 
-        ModelAndView response = new ModelAndView("message/detail");
+        ModelAndView response = new ModelAndView("message/index");
         response.addObject(message);
 
         return response;
