@@ -15,7 +15,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
-    private Long message_id;
+    private Long messageId;
     @Column(nullable = false, length = 255)
     private String content;
     @Column(nullable = false, length = 50)
@@ -25,12 +25,28 @@ public class Message {
     @CreationTimestamp
     private LocalDateTime date;
 
-    public Long getMessage_id() {
-        return message_id;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    public Member getMember(){
+        return member;
     }
 
-    public void setMessage_id(Long message_id) {
-        this.message_id = message_id;
+    public void setMember(Member member){
+        this.member = member;
+
+        if(!member.getMessages().contains(this)){
+            member.getMessages().add(this);
+        }
+    }
+
+    public Long getMessage_id() {
+        return messageId;
+    }
+
+    public void setMessage_id(Long messageId) {
+        this.messageId = messageId;
     }
 
     public String getContent() {
@@ -63,7 +79,7 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "message_id=" + message_id +
+                "message_id=" + messageId +
                 ", content='" + content + '\'' +
                 ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +

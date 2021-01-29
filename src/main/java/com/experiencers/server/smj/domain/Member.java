@@ -5,6 +5,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +24,19 @@ public class Member {
     private String image;
     @CreationTimestamp
     private LocalDateTime createAt;
+
+    @OneToMany(mappedBy = "member")
+    private List<Message> messages = new ArrayList<>();
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+    public void addMessages(Message message){
+        this.messages.add(message);
+        if(message.getMember() != this){
+            message.setMember(this);
+        }
+    }
 
     public Long getId() {
         return id;
@@ -73,4 +88,5 @@ public class Member {
                 ", createAt='" + createAt + '\'' +
                 '}';
     }
+
 }

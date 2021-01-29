@@ -1,7 +1,9 @@
 package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.domain.Message;
 import com.experiencers.server.smj.repository.MemberRepository;
+import com.experiencers.server.smj.repository.MessageRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,13 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private MessageRepository messageRepository;
 
-    public Member writeMember(Member inputtedMember) {
+    public Member saveMember(Member inputtedMember) {
         Member savedMember = memberRepository.save(inputtedMember);
 
         return savedMember;
@@ -30,25 +35,35 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member readMember(Long user_id) {
-        return memberRepository.findById(user_id).get();
+    public Member readMember(Long memberId) {
+        return memberRepository.findById(memberId).get();
     }
 
     public List<Member> readAllMember() {
         return memberRepository.findAll();
     }
 
-    public void removeMember(Long user_id){
-        memberRepository.deleteById(user_id);
-    }
-    public void updateMember(Member member){
-       /* Member beforeMember = userRepository.findById(user.getId()).get();
-        beforeMember.setEmail(user.getEmail());
-        beforeMember.setNickname(user.getNickname());
-        beforeMember.setImage(user.getImage());
+    public void deleteMember(Long memberId){
 
-        userRepository.save(beforeMember);*/
-        memberRepository.save(member);
+        List<Message> message = memberRepository.getOne(memberId).getMessages();
+        for(int i = 0; i<message.size(); i++){
+            messageRepository.deleteById(message.get(i).getMessage_id());
+        }
+        memberRepository.deleteById(memberId);
+    }
+    public Member readAndUpdateMember(Long memberId, Member member){
+        Optional<Member> data = memberRepository.findById(memberId);
+
+        if(data.isPresent()){
+            Member target = data.get();
+            target.setNickname(member.getNickname());
+            target.setEmail(member.getEmail());
+
+            target = memberRepository.save(target);
+
+            return target;
+        }
+        return null;
     }
 
     public Member findByEmail(String email) {

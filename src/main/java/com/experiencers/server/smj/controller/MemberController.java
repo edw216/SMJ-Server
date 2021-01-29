@@ -37,14 +37,14 @@ public class MemberController {
     }
 
     @PostMapping("/{member_id}/delete")
-    public String deleteMember(@PathVariable("member_id") Long member_id, HttpServletRequest request){
-        memberService.removeMember(member_id);
+    public String deleteMember(@PathVariable("member_id") Long memberId, HttpServletRequest request){
+        memberService.deleteMember(memberId);
         return "redirect:"+request.getHeader("referer");
     }
 
     @GetMapping("/{member_id}/edit")
-    public ModelAndView editMember(@PathVariable("member_id") Long member_id){
-        Member member = memberService.readMember(member_id);
+    public ModelAndView editMember(@PathVariable("member_id") Long memberId){
+        Member member = memberService.readMember(memberId);
         ModelAndView response = new ModelAndView("member/edit");
         response.getModel().put("member", member);
 
