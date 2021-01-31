@@ -29,6 +29,7 @@
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Board</h1>
                 <form method="POST" action="/board">
+                    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
                     <div class="form-group row">
                         <label for="type" class="col-sm-1 col-form-label col-form-label-sm">Type</label>
                         <div class="col-sm-5">

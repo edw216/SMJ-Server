@@ -73,7 +73,7 @@ public class Alarm {
     @Override
     public String toString() {
         return "Alarm{"+
-                "id="+id+
+                "alarm_id="+id+
                 ", title='" +title+'\''+
                 ", day='"+day+'\''+
                 ", time='"+time+'\''+

@@ -26,7 +26,7 @@ public class BoardApiController {
 
     @PostMapping("")
     public Board postBoard(@RequestBody Board board,@RequestParam("member_id") Long memberId){
-        Board savedBoard = boardService.saveBoard(board,memberId);
+        Board savedBoard = boardService.saveBoard(board,memberId,board.getCategory().getId());
 
 
         return savedBoard;

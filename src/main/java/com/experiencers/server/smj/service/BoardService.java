@@ -1,9 +1,11 @@
 package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Board;
+import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.domain.Comment;
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.repository.BoardRepository;
+import com.experiencers.server.smj.repository.CategoryRepository;
 import com.experiencers.server.smj.repository.CommentRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,14 @@ public class BoardService {
     private CommentRepository commentRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-    public Board saveBoard(Board inputtedBoard,Long memberId){
+    public Board saveBoard(Board inputtedBoard, Long memberId, Long categoryId){
+        System.out.println("asd"+inputtedBoard.getCategory());
         Member member = memberRepository.findById(memberId).get();
+        Category category = categoryRepository.findById(categoryId).get();
+        inputtedBoard.setCategory(category);
         inputtedBoard.setMember(member);
 
         Board savedBoard = boardRepository.save(inputtedBoard);

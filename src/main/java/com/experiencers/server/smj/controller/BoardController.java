@@ -5,6 +5,7 @@ import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.enumerate.BoardType;
 import com.experiencers.server.smj.service.BoardService;
 import com.experiencers.server.smj.service.CategoryService;
+import com.experiencers.server.smj.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,8 @@ public class BoardController {
 
     @PostMapping("")
     public String postBoard(@ModelAttribute Board inputtedBoard,@RequestParam("member_id") Long memberId){
-        Board savedBoard = boardService.saveBoard(inputtedBoard,memberId);
+        Long categoryId = inputtedBoard.getCategory().getId();
+        Board savedBoard = boardService.saveBoard(inputtedBoard,memberId,categoryId);
 
         return "redirect:/board";
     }
