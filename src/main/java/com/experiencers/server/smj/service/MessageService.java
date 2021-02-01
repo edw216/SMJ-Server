@@ -19,10 +19,8 @@ public class MessageService {
     private MemberRepository memberRepository;
 
 
-    public Message saveMessage(Message inputtedMessage, Long member_id) {
+    public Message saveMessage(Message inputtedMessage) {
 
-        Member member = memberRepository.getOne(member_id);
-        inputtedMessage.setMember(member);
         Message savedMessage = messageRepository.save(inputtedMessage);
         return savedMessage;
 

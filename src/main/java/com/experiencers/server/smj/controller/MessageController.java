@@ -26,10 +26,9 @@ public class MessageController {
         return response;
     }
 
-    @PostMapping("/member/{member_id/message")
-    public String postMessage(@PathVariable("member_id") Long memberId,
-            @ModelAttribute Message inputtedMessage, HttpServletRequest request) {
-        messageService.saveMessage(inputtedMessage,memberId);
+    @PostMapping("/member/{member_id}/message")
+    public String postMessage(@ModelAttribute Message inputtedMessage, HttpServletRequest request) {
+        messageService.saveMessage(inputtedMessage);
 
         return "redirect:" + request.getHeader("referer");
     }

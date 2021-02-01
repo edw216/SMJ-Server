@@ -67,14 +67,16 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable().authorizeRequests()
                 .antMatchers(
                         "/static/**",
                         "/**/favicon.ico",
                         "/v2/api-docs",
                         "/error",
+                        "/api/**",
                         LOGIN_URL_PATH).permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers(
+                        "/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                     .formLogin().usernameParameter(USERNAME_KEY) // Parameter is received from view

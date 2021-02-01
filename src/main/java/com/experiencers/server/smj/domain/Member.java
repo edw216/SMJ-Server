@@ -25,7 +25,7 @@ public class Member {
     @CreationTimestamp
     private LocalDateTime createAt;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Message> messages = new ArrayList<>();
 
     public List<Message> getMessages() {

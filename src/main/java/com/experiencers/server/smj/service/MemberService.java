@@ -44,11 +44,6 @@ public class MemberService {
     }
 
     public void deleteMember(Long memberId){
-
-        List<Message> message = memberRepository.getOne(memberId).getMessages();
-        for(int i = 0; i<message.size(); i++){
-            messageRepository.deleteById(message.get(i).getMessage_id());
-        }
         memberRepository.deleteById(memberId);
     }
     public Member readAndUpdateMember(Long memberId, Member member){

@@ -27,8 +27,8 @@ public class MessageApiController {
     }
 
     @PostMapping("")
-    public Message postMessage(@RequestBody Message message, @PathVariable("member_id")Long memberId){
-        Message savedMessage = messageService.saveMessage(message,memberId);
+    public Message postMessage(@RequestBody Message message){
+        Message savedMessage = messageService.saveMessage(message);
 
         return savedMessage;
     }
