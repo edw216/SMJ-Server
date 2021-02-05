@@ -29,56 +29,41 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
-    private static final String LOGIN_URL_PATH = "/auth/sign_in";
-    private static final String LOGIN_PROCESS_URL_PATH = "/auth/validation";
-    private static final String LOGOUT_URL_PATH = "/auth/sign_out";
-    private static final String SUCCESS_REDIRECT_URL = "/";
-    private static final String USERNAME_KEY = "email";
-    private static final String PASSWORD_KEY = "pw";
+@RequiredArgsConstructor
+public class SecurityConfigurer extends WebSecurityConfigurerAdapter{
 
-    @Autowired
-    private MemberRepository memberRepository;
-
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/static/**",
-                        "/**/favicon.ico",
-                        "/h2-console/**",
-                        "/webjars/**"
-                        );
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
-    }
     @Configuration
+    @RequiredArgsConstructor
     @Order(1)
-    public static class AdminConfigurationAdapter extends WebSecurityConfigurerAdapter{
-        public AdminConfigurationAdapter() {
-            super();
-        }
+    public static class FormSecurityConfigurer extends WebSecurityConfigurerAdapter{
+        private static final String LOGIN_URL_PATH = "/auth/sign_in";
+        private static final String LOGIN_PROCESS_URL_PATH = "/auth/validation";
+        private static final String LOGOUT_URL_PATH = "/auth/sign_out";
+        private static final String SUCCESS_REDIRECT_URL = "/";
+        private static final String USERNAME_KEY = "email";
+        private static final String PASSWORD_KEY = "pw";
 
+        @Autowired
+        private MemberRepository memberRepository;
+
+        private final JwtAuthTokenProvider jwtTokenProvider;
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests()
+            System.out.println("start basic security");
+            http
+                    .authorizeRequests()
+                    .antMatchers("/api/**").permitAll()
+                    .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                    UsernamePasswordAuthenticationFilter.class)
+                    .authorizeRequests()
                     .antMatchers(
                             "/static/**",
                             "/**/favicon.ico",
@@ -100,65 +85,108 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true) // HttpSession remove
                     .deleteCookies("JSESSIONID")
                     .logoutSuccessUrl(LOGIN_URL_PATH);
-        }
-    }
-    @Configuration
-    @Order(2)
-    public static class JwtConfigurationAdapter extends WebSecurityConfigurerAdapter{
 
-        private final JwtTokenProvider jwtTokenProvider;
-
-        @Autowired
-        public JwtConfigurationAdapter(JwtTokenProvider jwtTokenProvider) {
-            this.jwtTokenProvider = jwtTokenProvider;
-        }
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
+            /*http
+                    .httpBasic().disable()
                     .csrf().disable()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/api/**").permitAll()
+                    .antMatchers("/api/auth/**").permitAll()
+                    .anyRequest().authenticated()
                     .and()
-                    .formLogin()
-                    .disable()
                     .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                    UsernamePasswordAuthenticationFilter.class);
+                            UsernamePasswordAuthenticationFilter.class);
+                    /*.authorizeRequests()
+                    .antMatchers("/api/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                            UsernamePasswordAuthenticationFilter.class);*/
+        }
+
+        @Override
+        protected AuthenticationManager authenticationManager() throws Exception {
+            return new AuthenticationManager() {
+                @Override
+                public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+                    String email = (String) authentication.getPrincipal();
+                    Member member = memberRepository.findByEmail(email)
+                            .orElseThrow(() -> new UsernameNotFoundException(email));
+
+                    List<GrantedAuthority> roles = new ArrayList<>();
+                    roles.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+                    return new UsernamePasswordAuthenticationToken(member.getEmail(), "", roles);
+                }
+            };
+        }
+
+        @Bean
+        public UserDetailsService userDetailsService() {
+            return new UserDetailsService() {
+                @Override
+                public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+                    System.out.println(email);
+                    Member member = memberRepository.findByEmail(email)
+                            .orElseThrow(() -> new UsernameNotFoundException(email));
+
+                    Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+                    grantedAuthorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
+                    //jwtTokenProvider.createToken(email,"ROLE_ADMIN");
+                    return new User(member.getEmail(), "", grantedAuthorities);
+                }
+            };
+        }
+        @Override
+        public void configure(WebSecurity web) throws Exception {
+            web.ignoring()
+                    .antMatchers("/static/**",
+                            "/**/favicon.ico",
+                            "/h2-console/**",
+                            "/webjars/**",
+                            "/api/**"
+                    );
+        }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
         }
     }
-    @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return new AuthenticationManager() {
-            @Override
-            public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-                String email = (String)authentication.getPrincipal();
-                Member member = memberRepository.findByEmail(email)
-                        .orElseThrow(() -> new UsernameNotFoundException(email));
+    /*
+    @RequiredArgsConstructor
+    @Configuration
+    @Order(2)
+    public static class JwtSecurity extends WebSecurityConfigurerAdapter{
 
-                List<GrantedAuthority> roles = new ArrayList<>();
-                roles.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
-                return new UsernamePasswordAuthenticationToken(member.getEmail(), "", roles);
-            }
-        };
-    }
+        private final JwtAuthTokenProvider jwtTokenProvider;
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            System.out.println("start jwt security");
+            http
+                    .httpBasic().disable()
+                    .csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/api/auth/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                    UsernamePasswordAuthenticationFilter.class);
+                    /*.authorizeRequests()
+                    .antMatchers("/api/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                            UsernamePasswordAuthenticationFilter.class);
+        }
+    }*/
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                System.out.println(email);
-                Member member = memberRepository.findByEmail(email)
-                        .orElseThrow(() -> new UsernameNotFoundException(email));
 
-                Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-                grantedAuthorities.add(new SimpleGrantedAuthority(Role.ADMIN.getValue()));
-                //jwtTokenProvider.createToken(email,"ROLE_ADMIN");
-                return new User(member.getEmail(), "", grantedAuthorities);
-            }
-        };
-    }
 
 }

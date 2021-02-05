@@ -5,11 +5,9 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,14 +17,15 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @Component
-public class JwtTokenProvider {
+public class JwtAuthTokenProvider {
 
     private String secretKey = "askfghasiudvhgiashdfiohwiofhfwklnflkwnvlw";
 
-    private long tokenValidTime = 30 * 60 * 1000L;
+    private final long TOKEN_VALID_TIME = 30 * 60 * 1000L; //30분
+    //토큰 유효시간 1주일 설정
+   private final long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 7 * 1000L; //1
 
-
-    private final JwtUserDetailService jwtUserDetailsService;
+    private final JwtUserDetailsService jwtUserDetailsService;
 
 
     @PostConstruct
@@ -34,28 +33,34 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String userPk){
-        Claims claims = Jwts.claims().setSubject(userPk);
+    public String createJwtToken(String userId){
+        System.out.println("create token");
+        Claims claims = Jwts.claims().setSubject(userId);
         Date now = new Date();
+        Date expiration = new Date(now.getTime() + TOKEN_VALID_TIME);
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidTime))
+                .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public Authentication getAuthentication(String token){
-        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(this.getUserPk(token));
+        System.out.println("get Auth");
+        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(this.getUserId(token));
         return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }
 
-    public String getUserPk(String token){
+    public String getUserId(String token){
+        System.out.println("get User");
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String resolveToken(HttpServletRequest request){
-        return request.getHeader("X-AUTH-TOKEN");
+    public String resolveJwtToken(HttpServletRequest request){
+        System.out.println("resove token");
+        return request.getHeader("Authorization");
     }
 
     public boolean validateToken(String jwtToken){
