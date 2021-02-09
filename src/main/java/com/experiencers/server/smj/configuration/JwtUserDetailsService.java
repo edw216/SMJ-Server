@@ -18,11 +18,13 @@ import java.util.Set;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
+
     @Autowired
     private MemberRepository memberRepository;
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        System.out.println(email);
+
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
 

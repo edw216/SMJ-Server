@@ -35,7 +35,6 @@
     <div class="jumbotron">
         <h3>댓글 수정</h3>
         <form method="POST" action="/board/{{board_id}}/comment/{{comment_id}}/edit/update">
-            <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
             <div class="form-row">
                 <div class="form-group">
                     <label for="member">작성자</label>

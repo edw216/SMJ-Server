@@ -7,28 +7,35 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final JwtAuthTokenProvider jwtAuthTokenProvider;
+
+    @Autowired
+    private JwtAuthTokenProvider jwtAuthTokenProvider;
+
     @Autowired
     private MemberRepository memberRepository;
 
     //등록이 안되있는 멤버는 등록을 해줘야 함.
-    public String createToken(String userPk){
-        Member member = new Member();
-        member.setEmail(userPk);
-        member.setNickname("동우");
+    //이메일과 닉네임 필수
+    public String createToken(String email,String nickname){
 
-        memberRepository.save(member);
-        String token =jwtAuthTokenProvider.createJwtToken(userPk);
+        Optional findEmail = memberRepository.findByEmail(email);
+
+        if(findEmail == Optional.empty()){
+            System.out.println("맴버 생성");
+            Member member = new Member();
+            member.setEmail(email);
+            member.setNickname(nickname);
+            memberRepository.save(member);
+        }
+
+        String token =jwtAuthTokenProvider.createJwtToken(email);
 
         return token;
     }
-    /*public String getUserToken(String token){
-        String user = jwtTokenProvider.getUserPk(token);
-
-        return user;
-    }*/
 }

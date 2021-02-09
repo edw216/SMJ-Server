@@ -48,18 +48,15 @@ public class JwtAuthTokenProvider {
     }
 
     public Authentication getAuthentication(String token){
-        System.out.println("get Auth");
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(this.getUserId(token));
         return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }
 
     public String getUserId(String token){
-        System.out.println("get User");
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
     public String resolveJwtToken(HttpServletRequest request){
-        System.out.println("resove token");
         return request.getHeader("Authorization");
     }
 

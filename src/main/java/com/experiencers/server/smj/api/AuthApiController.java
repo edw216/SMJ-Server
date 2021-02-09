@@ -13,9 +13,9 @@ public class AuthApiController {
     private AuthService authService;
 
     @PostMapping("/auth/token")
-    public String createToken(){
+    public String createToken(@RequestHeader(value = "email")String email,@RequestHeader(value = "nickname")String nickname){
 
-        return authService.createToken("ehddn216666@naver.com");
+        return authService.createToken(email,nickname);
 
     }
     /*@GetMapping("/auth/get")
