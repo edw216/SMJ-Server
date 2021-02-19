@@ -1,13 +1,20 @@
 package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Board;
+import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.domain.Comment;
+import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.enumerate.BoardType;
 import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.repository.CommentRepository;
+import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class BoardService {
@@ -15,33 +22,50 @@ public class BoardService {
     private BoardRepository boardRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
-    public Board writeBoard(Board inputtedBoard){
-        Board savedBoard = boardRepository.save(inputtedBoard);
+    public Board saveBoard(Map inputtedBoard){
+        Board board = new Board();
+
+        BoardType type = BoardType.valueOf(inputtedBoard.get("type").toString());
+        board.setType(type);
+        String title = String.valueOf(inputtedBoard.get("title").toString());
+        board.setTitle(title);
+        String content = String.valueOf(inputtedBoard.get("content").toString());
+        board.setContent(content);
+
+        Board savedBoard = boardRepository.save(board);
 
         return savedBoard;
     }
-    public Board readBoard(Long board_id){return boardRepository.findById(board_id).get();}
+    public Board readBoard(Long boardId){return boardRepository.findById(boardId).get();}
 
     public List<Board> readAllBoard(){return boardRepository.findAll();}
 
-    public void removeBoard(Long board_id){
-
-        List<Comment> comment = boardRepository.findById(board_id).get().getComments();
-        for(int i = 0; i<comment.size();i++){
-            commentRepository.deleteById(comment.get(i).getComment_id());
-        }
-        boardRepository.deleteById(board_id);
+    public void deleteBoard(Long boardId) {
+        boardRepository.deleteById(boardId);
     }
-
-    public void updateBoard(Long boardId, Board board){
+    public Board readAndUpdateBoard(Long boardId, Board board){
 /*        Board beforeBoard = boardRepository.findById(boardId).get();
         beforeBoard.setTitle(board.getTitle());
         beforeBoard.setContent(board.getContent());
         beforeBoard.setType(board.getType());
         beforeBoard.setCategory(board.getCategory());*/
 
-        board.setId(boardId);
-        boardRepository.save(board);
+        Optional<Board> data = boardRepository.findById(boardId);
+        if(data.isPresent()){
+            Board target = data.get();
+            target.setTitle(board.getTitle());
+            target.setContent(board.getContent());
+            target.setCategory(board.getCategory());
+            target.setType(board.getType());
+
+            target = boardRepository.save(target);
+
+            return target;
+        }
+
+        return null;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -35,8 +36,8 @@ public class BoardController {
     }
 
     @PostMapping("")
-    public String postBoard(@ModelAttribute Board inputtedBoard){
-        Board savedBoard = boardService.writeBoard(inputtedBoard);
+    public String postBoard(Map inputtedBoard){
+        boardService.saveBoard(inputtedBoard);
 
         return "redirect:/board";
     }
@@ -55,14 +56,14 @@ public class BoardController {
 
     @PostMapping("/{board_id}/update")
     public String updateBoard(@PathVariable("board_id") Long boardId, @ModelAttribute Board board){
-        boardService.updateBoard(boardId, board);
+        boardService.readAndUpdateBoard(boardId, board);
 
         return "redirect:/board";
     }
 
     @PostMapping("/{board_id}/delete")
     public String deleteBoard(@PathVariable("board_id") Long boardId){
-        boardService.removeBoard(boardId);
+        boardService.deleteBoard(boardId);
 
         return "redirect:/board";
     }

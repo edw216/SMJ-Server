@@ -25,6 +25,20 @@ public class Member {
     @CreationTimestamp
     private LocalDateTime createAt;
 
+
+    @OneToMany(mappedBy = "member")
+    private List<Board> boards = new ArrayList<>();
+
+    public List<Board> getBoards() {
+        return boards;
+    }
+
+    public void setBoard(Board board) {
+        this.boards.add(board);
+        if(board.getMember() != this){
+            board.setMember(this);
+        }
+    }
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Message> messages = new ArrayList<>();
 
