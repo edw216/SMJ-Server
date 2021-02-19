@@ -67,6 +67,18 @@ public class Board {
         }
     }
 
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+
+        if(!member.getBoards().contains(this)){
+            member.getBoards().add(this);
+        }
+    }
+
     public Long getId() {
         return id;
     }
