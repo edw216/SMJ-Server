@@ -35,7 +35,7 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public Comment readAndUpdateComment(Long commentId,Comment comment){
+    public Comment readAndUpdateComment(Long commentId, Comment comment){
         Optional<Comment> data = commentRepository.findById(commentId);
 
         if(data.isPresent()){
@@ -47,7 +47,6 @@ public class CommentService {
 
             return target;
         }
-
         return null;
     }
 }

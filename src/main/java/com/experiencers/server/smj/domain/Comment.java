@@ -44,14 +44,6 @@ public class Comment {
         this.commentId = commentId;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdAt;
-    }
-
-    public void setCreatedDate(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public String getContent() {
         return content;
     }

@@ -31,9 +31,10 @@ public class Board {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name ="member_id")
     private Member member;
 
+    /*@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)*/
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 
@@ -43,7 +44,7 @@ public class Board {
 
     public void addComments(Comment comment) {
         this.comments.add(comment);
-        if (comment.getBoard() != this) {
+        if(comment.getBoard() != this){
             comment.setBoard(this);
         }
     }
@@ -67,7 +68,7 @@ public class Board {
     public void setMember(Member member) {
         this.member = member;
 
-        if (!member.getBoards().contains(this)) {
+        if(!member.getBoards().contains(this)){
             member.getBoards().add(this);
         }
     }
@@ -114,12 +115,12 @@ public class Board {
 
     @Override
     public String toString() {
-        return "Board{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", createdAt='" + createdAt + '\'' +
+        return "Board{"+
+                "id="+id+
+                ", type='" +type+'\''+
+                ", title='"+title+'\''+
+                ", content='"+content+'\''+
+                ", createdAt='"+createdAt+'\''+
                 '}';
 
     }

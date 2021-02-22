@@ -18,46 +18,49 @@ public class MessageController {
 
     @GetMapping("")
     public ModelAndView getIndex() {
-        List<Message> messageList = messageService.readMessage();
+        List<Message> messageList = messageService.readAllMessage();
 
-        ModelAndView response = new ModelAndView("message/info");//뷰이름설정
+        ModelAndView response = new ModelAndView("message/index");//뷰이름설정
         response.addObject(messageList);//뷰로 보낼 데이터 userlist
 
         return response;
     }
 
-    @PostMapping("")
-    public String postMessage(@ModelAttribute Message inputtedMessage) {
-        Message savedMessage = messageService.writeMessage(inputtedMessage);
+    @PostMapping("/member/{member_id}/message")
+    public String postMessage(@ModelAttribute Message inputtedMessage, HttpServletRequest request) {
+        messageService.saveMessage(inputtedMessage);
 
-        return "redirect:/" + savedMessage.getMessage_id();
+        return "redirect:" + request.getHeader("referer");
     }
 
     @GetMapping("/{id}")
-    public ModelAndView getPost(@PathVariable("id") Long message_id) {
-        Message message = messageService.readMessage(message_id);
+    public ModelAndView getPost(@PathVariable("id") Long messageId) {
+        Message message = messageService.readMessage(messageId);
 
-        ModelAndView response = new ModelAndView("message/detail");
+        ModelAndView response = new ModelAndView("message/index");
         response.addObject(message);
 
         return response;
     }
     @PostMapping("/{message_id}/delete")
-    public String deleteMessage(@PathVariable("message_id") Long message_id, HttpServletRequest request){
-        messageService.removeMessage(message_id);
-        return "redirect:"+request.getHeader("referer");
+    public String deleteMessage(@PathVariable("message_id") Long messageId,
+                                @PathVariable("member_id") Long memberId,
+                                HttpServletRequest request){
+        messageService.deleteMessage(messageId);
+        return "redirect:/member/" + memberId;
     }
     @PostMapping("/{message_id}/edit")
-    public ModelAndView editMessage(@PathVariable("message_id")Long message_id){
-        Message message = messageService.readMessage(message_id);
+    public ModelAndView editMessage(@PathVariable("message_id")Long messageId,
+                                    @PathVariable("member_id")Long memberId){
+        Message message = messageService.readMessage(messageId);
         ModelAndView response = new ModelAndView("message/edit");
         response.addObject(message);
         return response;
     }
     @PostMapping("/{message_id}/edit/update")
-    public String updateMessage(Message message, HttpServletRequest request){
-        messageService.updateMessage(message);
+    public String updateMessage(@PathVariable("message_id")Long messageId, Message message, @PathVariable("member_id") Long memberId){
+        messageService.readAndUpdateMessage(messageId, message);
 
-        return "redirect:/";
+        return "redirect:/member/"+memberId;
     }
 }

@@ -1,7 +1,9 @@
 package com.experiencers.server.smj.api;
 
 import com.experiencers.server.smj.domain.Board;
+import com.experiencers.server.smj.domain.Comment;
 import com.experiencers.server.smj.service.BoardService;
+import com.experiencers.server.smj.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import java.util.Map;
 public class BoardApiController {
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("")
     public List<Board> getBoards(){
@@ -25,11 +29,18 @@ public class BoardApiController {
     }
 
     @PostMapping("")
-    public Board postBoard(@RequestBody Board board,@RequestParam("member_id") Long memberId){
-        Board savedBoard = boardService.saveBoard(board,memberId,board.getCategory().getId());
+    public Board postBoard(@RequestBody Map<String, Object> board){
+        Board savedBoard = boardService.saveBoard(board);
 
 
         return savedBoard;
+    }
+
+    @PostMapping("/{board_id}/comments")
+    public Comment postComment(@PathVariable("board_id")Long boardId, @RequestBody Comment comment){
+        Comment savedComment = commentService.saveComment(comment,boardId);
+
+        return savedComment;
     }
 
     @PutMapping("/{board_id}")

@@ -5,7 +5,6 @@ import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.enumerate.BoardType;
 import com.experiencers.server.smj.service.BoardService;
 import com.experiencers.server.smj.service.CategoryService;
-import com.experiencers.server.smj.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -36,9 +36,8 @@ public class BoardController {
     }
 
     @PostMapping("")
-    public String postBoard(@ModelAttribute Board inputtedBoard,@RequestParam("member_id") Long memberId){
-        Long categoryId = inputtedBoard.getCategory().getId();
-        Board savedBoard = boardService.saveBoard(inputtedBoard,memberId,categoryId);
+    public String postBoard(Map inputtedBoard){
+        boardService.saveBoard(inputtedBoard);
 
         return "redirect:/board";
     }

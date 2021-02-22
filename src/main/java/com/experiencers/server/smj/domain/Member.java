@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "member")
@@ -24,6 +25,7 @@ public class Member {
     @CreationTimestamp
     private LocalDateTime createAt;
 
+
     @OneToMany(mappedBy = "member")
     private List<Board> boards = new ArrayList<>();
 
@@ -35,6 +37,18 @@ public class Member {
         this.boards.add(board);
         if(board.getMember() != this){
             board.setMember(this);
+        }
+    }
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    private List<Message> messages = new ArrayList<>();
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+    public void addMessages(Message message){
+        this.messages.add(message);
+        if(message.getMember() != this){
+            message.setMember(this);
         }
     }
 
@@ -88,4 +102,5 @@ public class Member {
                 ", createAt='" + createAt + '\'' +
                 '}';
     }
+
 }

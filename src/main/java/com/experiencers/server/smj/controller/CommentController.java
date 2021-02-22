@@ -32,11 +32,10 @@ public class CommentController {
 
     @PostMapping("/board/{board_id}/comment")
     public String postComment(@PathVariable("board_id") Long boardId,
-            @ModelAttribute Comment inputtedComment,
+                              @ModelAttribute Comment inputtedComment,
                               HttpServletRequest request){
         System.out.println(inputtedComment.toString());
         commentService.saveComment(inputtedComment,boardId);
-
 
         return "redirect:"+request.getHeader("referer");
     }
@@ -47,7 +46,6 @@ public class CommentController {
                                 HttpServletRequest request){
         commentService.deleteComment(commentId);
         return "redirect:/board/"+boardId;
-
     }
     //@PostMapping
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit")
@@ -61,10 +59,9 @@ public class CommentController {
 
     }
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit/update")
-    public String updateComment(@PathVariable("comment_id")Long commentId,@ModelAttribute Comment comment,@PathVariable("board_id") Long boardId){
+    public String updateComment(@PathVariable("comment_id")Long commentId, @ModelAttribute Comment comment,@PathVariable("board_id") Long boardId){
 
-
-        commentService.readAndUpdateComment(commentId,comment);
+        commentService.readAndUpdateComment(commentId, comment);
 
         return "redirect:/board/"+boardId;
     }

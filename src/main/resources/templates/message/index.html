@@ -28,18 +28,17 @@
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Message</h1>
-                <form method="POST" action="/{message_id}/edit/update" enctype="multipart/form-data">
-                    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+                <form name="userForm" method="POST" action="/message" enctype="multipart/form-data">
                     <div class="form-group row">
                         <label for="sender" class="col-sm-1 col-form-label col-form-label-sm">Sender</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" id="sender" name="sender" value="{{message.sender}}" readonly>
+                            <input type="text" class="form-control form-control-sm" id="sender" name="sender" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="receiver" class="col-sm-1 col-form-label col-form-label-sm">Receiver</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" id="receiver" name="receiver" value="{{message.receiver}}" required>
+                            <input type="text" class="form-control form-control-sm" id="receiver" name="receiver" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -51,13 +50,47 @@
 
                     <div class="form-group row">
                         <div class="col-sm">
-                            <a role="button" class="btn btn-dark" href="/message">Back</a>
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="submit" class="btn btn-primary">Create</button>
                         </div>
                     </div>
                 </form>
-
             </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Receiver</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Read Confirmaiton</th>
+                    <th scope="col">Controller</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#messages}}
+                <tr>
+                    <th scope="row">{{id}}</th>
+                    <td>{{sender}}</td>
+                    <td>{{receiver}}</td>
+                    <td>{{content}}</td>
+                    <td colspan="2">
+                        <div class="btn-group" role="group">
+                            <a href="/{message_id}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                            <form action="/{message_id}/delete" method="post">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {{/messages}}
+                {{^messages}}
+                <tr>
+                    <td colspan="5" class="text-center">메세지가 없습니다.</td>
+                </tr>
+                {{/messages}}
+                </tbody>
+            </table>
         </main>
     </div>
 </div>
