@@ -1,8 +1,8 @@
 package com.experiencers.server.smj.api;
 
+import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,13 +13,9 @@ public class AuthApiController {
     private AuthService authService;
 
     @PostMapping("/auth/token")
-    public String createToken(@RequestHeader(value = "email")String email,@RequestHeader(value = "nickname")String nickname){
+    public String createToken(@RequestBody Member member){
+        System.out.println(member.getEmail()+" "+member.getNickname());
 
-        return authService.createToken(email,nickname);
-
+        return authService.createToken(member.getEmail(), member.getNickname());
     }
-    /*@GetMapping("/auth/get")
-    public String getUserToken(@RequestBody String token){
-        return authService.getUserToken(token);
-    }*/
 }

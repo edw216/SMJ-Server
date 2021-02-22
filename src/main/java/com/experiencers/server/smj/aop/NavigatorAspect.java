@@ -20,6 +20,4 @@ public class NavigatorAspect {
         System.out.println(returnValue.getModelMap().toString());
         return returnValue;
     }
-
-
 }
