@@ -34,7 +34,6 @@ public class Board {
     @JoinColumn(name ="member_id")
     private Member member;
 
-    /*@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)*/
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 

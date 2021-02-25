@@ -1,6 +1,5 @@
 package com.experiencers.server.smj.controller;
 
-//import com.experiencers.server.smj.service.AdminService;
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 
 
-//
+
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @Controller
 public class AdminController {

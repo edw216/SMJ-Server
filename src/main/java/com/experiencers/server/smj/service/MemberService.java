@@ -17,8 +17,6 @@ import java.util.Optional;
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
-    @Autowired
-    private MessageRepository messageRepository;
 
     public Member saveMember(Member inputtedMember) {
         Member savedMember = memberRepository.save(inputtedMember);
@@ -26,11 +24,14 @@ public class MemberService {
         return savedMember;
     }
 
-    public Member saveMemberWithConvertImage(MultipartFile image, Member member) throws IOException {
+    public Member saveMemberWithConvertImage(String image, Member member)  {
+        System.out.println("==");
         if (!image.isEmpty()) {
-            String stringImage = convertImageToString(image);
+            System.out.println("====");
+            String stringImage = image;
             member.setImage(stringImage);
         }
+        System.out.println("===");
 
         return memberRepository.save(member);
     }
@@ -65,7 +66,7 @@ public class MemberService {
         return memberRepository.findByEmail(email).get();
     }
 
-    public Member updateMemberWithConvertImage(Long userId, MultipartFile image, Member member) throws IOException {
+    public Member updateMemberWithConvertImage(Long userId, String image, Member member)  {
         member.setId(userId);
         return saveMemberWithConvertImage(image, member);
     }

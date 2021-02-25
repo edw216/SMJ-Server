@@ -39,6 +39,7 @@ public class Member {
             board.setMember(this);
         }
     }
+
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Message> messages = new ArrayList<>();
 
