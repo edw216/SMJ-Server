@@ -32,7 +32,7 @@ public class CategoryController{
     @PostMapping("")
     public String postCategory(@ModelAttribute Category inputtedCategory) {
         System.out.println(inputtedCategory.toString());
-        Category savedCategory = categoryService.writeCategory(inputtedCategory);
+        Category savedCategory = categoryService.saveCategory(inputtedCategory);
 
         return "redirect:/category";
     }
@@ -49,14 +49,14 @@ public class CategoryController{
     @PostMapping("/{category_id}/update")
     public String updateCategory(@PathVariable("category_id") Long categoryId,
                                        @ModelAttribute Category category) {
-        categoryService.updateCategory(categoryId, category);
+        categoryService.readAndUpdateCategory(categoryId, category);
 
         return "redirect:/category";
     }
 
     @PostMapping("/{category_id}/delete")
     public String deleteCategory(@PathVariable("category_id") Long categoryId) {
-        categoryService.removeCategory(categoryId);
+        categoryService.deleteCategory(categoryId);
 
         return "redirect:/category";
     }

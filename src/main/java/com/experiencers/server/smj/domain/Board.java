@@ -1,6 +1,7 @@
 package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.BoardType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -39,7 +40,7 @@ public class Board {
     @ManyToOne
     @JoinColumn(name ="member_id")
     private Member member;
-
+    @JsonIgnore
     /*@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)*/
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
@@ -126,6 +127,7 @@ public class Board {
                 ", title='"+title+'\''+
                 ", content='"+content+'\''+
                 ", createdAt='"+createdAt+'\''+
+
                 '}';
 
     }

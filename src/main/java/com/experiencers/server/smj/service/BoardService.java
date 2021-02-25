@@ -58,9 +58,7 @@ public class BoardService {
             Board target = data.get();
             target.setTitle(board.getTitle());
             target.setContent(board.getContent());
-            target.setCategory(board.getCategory());
-            target.setType(board.getType());
-
+            /*target.setCategory(board.getCategory());*/
             target = boardRepository.save(target);
 
             return target;
