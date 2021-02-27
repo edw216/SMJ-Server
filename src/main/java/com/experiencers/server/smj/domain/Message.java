@@ -1,5 +1,7 @@
 package com.experiencers.server.smj.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -18,14 +20,15 @@ public class Message {
     private Long messageId;
     @Column(nullable = false, length = 255)
     private String content;
-    @Column(nullable = false, length = 50)
+    @Column( length = 50)
     private String sender;
     @Column(nullable = false, length = 50)
     private String receiver;
     @CreationTimestamp
     private LocalDateTime date;
 
-    @ManyToOne
+    /*@JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -39,13 +42,13 @@ public class Message {
         if(!member.getMessages().contains(this)){
             member.getMessages().add(this);
         }
-    }
+    }*/
 
-    public Long getMessage_id() {
+    public Long getMessageId() {
         return messageId;
     }
 
-    public void setMessage_id(Long messageId) {
+    public void setMessageId(Long messageId) {
         this.messageId = messageId;
     }
 

@@ -17,8 +17,6 @@ import java.util.Optional;
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
-    @Autowired
-    private MessageRepository messageRepository;
 
     public Member saveMember(Member inputtedMember) {
         Member savedMember = memberRepository.save(inputtedMember);
@@ -26,11 +24,14 @@ public class MemberService {
         return savedMember;
     }
 
-    public Member saveMemberWithConvertImage(MultipartFile image, Member member) throws IOException {
+    public Member saveMemberWithConvertImage(String image, Member member)  {
+        System.out.println("==");
         if (!image.isEmpty()) {
-            String stringImage = convertImageToString(image);
+            System.out.println("====");
+            String stringImage = image;
             member.setImage(stringImage);
         }
+        System.out.println("===");
 
         return memberRepository.save(member);
     }
@@ -65,15 +66,39 @@ public class MemberService {
         return memberRepository.findByEmail(email).get();
     }
 
-    public Member updateMemberWithConvertImage(Long userId, MultipartFile image, Member member) throws IOException {
+    public Member updateMemberWithConvertImage(Long userId, String image, Member member)  {
         member.setId(userId);
         return saveMemberWithConvertImage(image, member);
     }
 
-    private String convertImageToString(MultipartFile image) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("data:image/png;base64,");
-        stringBuilder.append(new String(Base64.encodeBase64(image.getBytes()), "UTF-8"));
-        return stringBuilder.toString();
+    //닉네임만 변경 할시 사용하는 서비스메소드
+    public Member updateMemberNickname(String email, String nickname){
+        Optional<Member> updatedMember = memberRepository.findByEmail(email);
+        Member target = new Member();
+
+        if(updatedMember.isPresent()){
+            target = updatedMember.get();
+            target.setNickname(nickname);
+
+            target = memberRepository.save(target);
+            return target;
+        }
+
+        return null;
+    }
+    //이미지만 변경 할 시 사용하는 서비스메소드
+    public Member updateMemberImage(String email, String imageUrl){
+        Optional<Member> updatedMember = memberRepository.findByEmail(email);
+        Member target = new Member();
+
+        if(updatedMember.isPresent()){
+            target = updatedMember.get();
+            target.setImage(imageUrl);
+
+            target = memberRepository.save(target);
+            return target;
+        }
+
+        return null;
     }
 }

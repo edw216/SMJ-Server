@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -20,25 +22,25 @@ public class MessageApiController {
     private MessageService messageService;
 
     @GetMapping("")
-    public List<Message> getMessages(){
-        List<Message> messageList = messageService.readAllMessage();
+    public List<Message> getMessages(@RequestHeader("Authorization")String token,Principal principal){
+        List<Message> messageList = messageService.readAllMessage(principal.getName());
 
         return messageList;
     }
 
     @PostMapping("")
-    public Message postMessage(@RequestBody Message message){
-        Message savedMessage = messageService.saveMessage(message);
+    public Message postMessage(@RequestHeader("Authorization")String token,Principal principal, @RequestBody Message message){
+        Message savedMessage = messageService.saveMessage(principal.getName(),message);
 
         return savedMessage;
     }
 
     @PutMapping("/{message_id}")
-    public ResponseEntity<Message> putMessage(@PathVariable("message_id")Long messageId, @RequestBody Message message){
+    public ResponseEntity<Message> putMessage(@RequestHeader("Authorization")String token,@PathVariable("message_id")Long messageId, @RequestBody Message message){
         Message updatedMessage = messageService.readAndUpdateMessage(messageId, message);
 
         if(updatedMessage == null){
-            message.setMessage_id(messageId);
+            message.setMessageId(messageId);
 
             return new ResponseEntity<>(updatedMessage, HttpStatus.NOT_FOUND);
 
@@ -46,7 +48,7 @@ public class MessageApiController {
         return new ResponseEntity<>(updatedMessage, HttpStatus.OK);
     }
     @DeleteMapping("/{message_id}")
-    public ResponseEntity<Object> deleteMessage(@PathVariable("message_id")Long messageId){
+    public ResponseEntity<Object> deleteMessage(@RequestHeader("Authorization")String token,@PathVariable("message_id")Long messageId){
         messageService.deleteMessage(messageId);
 
         Map<String, Object> result = new HashMap<>();

@@ -1,13 +1,14 @@
 package com.experiencers.server.smj.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "member")
@@ -26,7 +27,7 @@ public class Member {
     private LocalDateTime createAt;
 
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Board> boards = new ArrayList<>();
 
     public List<Board> getBoards() {
@@ -39,16 +40,32 @@ public class Member {
             board.setMember(this);
         }
     }
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+
+    /*@OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Message> messages = new ArrayList<>();
 
     public List<Message> getMessages() {
         return messages;
     }
-    public void addMessages(Message message){
-        this.messages.add(message);
-        if(message.getMember() != this){
-            message.setMember(this);
+
+    public void setMessages(Message messages) {
+        this.messages.add(messages);
+        if(messages.getMember() != this){
+            messages.setMember(this);
+        }
+    }*/
+
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Alarm> alarms = new ArrayList<>();
+
+    public List<Alarm> getAlarms() {
+        return alarms;
+    }
+
+    public void addAlarms(Alarm alarms) {
+        this.alarms.add(alarms);
+        if(alarms.getMember() != this){
+            alarms.setMember(this);
         }
     }
 

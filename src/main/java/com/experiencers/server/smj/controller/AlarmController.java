@@ -20,10 +20,10 @@ public class AlarmController {
 
     @GetMapping("/alarm")
     public ModelAndView getIndex(){
-        List<Alarm> alarmList = alarmService.readAllAlarm();
+        //List<Alarm> alarmList = alarmService.readAllAlarm();
 
         ModelAndView response = new ModelAndView("alarm/index");
-        response.addObject(alarmList);
+        //response.addObject(alarmList);
 
         return response;
     }
@@ -31,7 +31,7 @@ public class AlarmController {
     @PostMapping("/alarm")
     public String createAlarm(@ModelAttribute Alarm inputtedAlarm){
         System.out.println(inputtedAlarm.toString());
-        Alarm savedAlarm = alarmService.saveAlarm(inputtedAlarm);
+        //Alarm savedAlarm = alarmService.saveAlarm(inputtedAlarm);
 
         return "redirect:/alarm";
     }

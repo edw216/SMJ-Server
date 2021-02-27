@@ -26,30 +26,25 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    /*@Column(name = "category")
-    private Category category; // FK - Category
-    @Column(name = "user")
-    private User user; // FK - User
-    @Column(name = "comment")
-    private Comment comment; // FK - Comment */
-
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="member_id")
     private Member member;
-    @JsonIgnore
-    /*@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)*/
-    @OneToMany(mappedBy = "board")
+
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
     public List<Comment> getComments() {
         return comments;
     }
 
-    public void addComments(Comment comment){
+    public void addComments(Comment comment) {
         this.comments.add(comment);
         if(comment.getBoard() != this){
             comment.setBoard(this);
@@ -95,6 +90,7 @@ public class Board {
     public void setType(BoardType type) {
         this.type = type;
     }
+
     public String getTitle() {
         return title;
     }
@@ -127,7 +123,6 @@ public class Board {
                 ", title='"+title+'\''+
                 ", content='"+content+'\''+
                 ", createdAt='"+createdAt+'\''+
-
                 '}';
 
     }

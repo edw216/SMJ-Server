@@ -1,9 +1,6 @@
 package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Board;
-import com.experiencers.server.smj.domain.Category;
-import com.experiencers.server.smj.domain.Comment;
-import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.enumerate.BoardType;
 import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.repository.CommentRepository;
@@ -11,7 +8,6 @@ import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -47,11 +43,6 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
     public Board readAndUpdateBoard(Long boardId, Board board){
-/*        Board beforeBoard = boardRepository.findById(boardId).get();
-        beforeBoard.setTitle(board.getTitle());
-        beforeBoard.setContent(board.getContent());
-        beforeBoard.setType(board.getType());
-        beforeBoard.setCategory(board.getCategory());*/
 
         Optional<Board> data = boardRepository.findById(boardId);
         if(data.isPresent()){

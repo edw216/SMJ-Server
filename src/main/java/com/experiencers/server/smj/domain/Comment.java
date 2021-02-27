@@ -1,5 +1,6 @@
 package com.experiencers.server.smj.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -15,11 +16,12 @@ public class Comment {
     @Column(nullable = false, length = 1000)
     private String content;
     @Column(nullable = false, length = 50)
-    private String user; //FK - User
+    private String user;
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 

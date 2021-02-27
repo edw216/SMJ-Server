@@ -18,17 +18,17 @@ public class MessageController {
 
     @GetMapping("")
     public ModelAndView getIndex() {
-        List<Message> messageList = messageService.readAllMessage();
+        //List<Message> messageList = messageService.readAllMessage();
 
         ModelAndView response = new ModelAndView("message/index");//뷰이름설정
-        response.addObject(messageList);//뷰로 보낼 데이터 userlist
+        //response.addObject(messageList);//뷰로 보낼 데이터 userlist
 
         return response;
     }
 
     @PostMapping("/member/{member_id}/message")
     public String postMessage(@ModelAttribute Message inputtedMessage, HttpServletRequest request) {
-        messageService.saveMessage(inputtedMessage);
+        //messageService.saveMessage(inputtedMessage);
 
         return "redirect:" + request.getHeader("referer");
     }
