@@ -29,8 +29,7 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    runtime 'io.jsonwebtoken:jjwt-impl:0.9.1'
-    runtime 'io.jsonwebtoken:jjwt-jackson:0.9.1'
+
     runtimeOnly 'com.h2database:h2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
