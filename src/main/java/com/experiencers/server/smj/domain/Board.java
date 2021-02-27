@@ -26,17 +26,18 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="member_id")
     private Member member;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "board")
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
     public List<Comment> getComments() {
@@ -89,6 +90,7 @@ public class Board {
     public void setType(BoardType type) {
         this.type = type;
     }
+
     public String getTitle() {
         return title;
     }

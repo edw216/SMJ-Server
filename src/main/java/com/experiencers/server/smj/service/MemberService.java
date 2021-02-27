@@ -71,10 +71,34 @@ public class MemberService {
         return saveMemberWithConvertImage(image, member);
     }
 
-    private String convertImageToString(MultipartFile image) throws IOException {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("data:image/png;base64,");
-        stringBuilder.append(new String(Base64.encodeBase64(image.getBytes()), "UTF-8"));
-        return stringBuilder.toString();
+    //닉네임만 변경 할시 사용하는 서비스메소드
+    public Member updateMemberNickname(String email, String nickname){
+        Optional<Member> updatedMember = memberRepository.findByEmail(email);
+        Member target = new Member();
+
+        if(updatedMember.isPresent()){
+            target = updatedMember.get();
+            target.setNickname(nickname);
+
+            target = memberRepository.save(target);
+            return target;
+        }
+
+        return null;
+    }
+    //이미지만 변경 할 시 사용하는 서비스메소드
+    public Member updateMemberImage(String email, String imageUrl){
+        Optional<Member> updatedMember = memberRepository.findByEmail(email);
+        Member target = new Member();
+
+        if(updatedMember.isPresent()){
+            target = updatedMember.get();
+            target.setImage(imageUrl);
+
+            target = memberRepository.save(target);
+            return target;
+        }
+
+        return null;
     }
 }

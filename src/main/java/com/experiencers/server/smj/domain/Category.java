@@ -9,16 +9,15 @@ import java.util.List;
 @Entity
 @Table(name = "category")
 public class Category {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     public Long id;
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 255,unique = true)
     public String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     public List<Board> boards = new ArrayList<>();
 
     public List<Board> getBoards() {

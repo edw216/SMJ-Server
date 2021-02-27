@@ -2,7 +2,9 @@ package com.experiencers.server.smj.service;
 
 
 import com.experiencers.server.smj.domain.Alarm;
+import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.repository.AlarmRepository;
+import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +16,27 @@ public class AlarmService {
 
     @Autowired
     private AlarmRepository alarmRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
-    public Alarm saveAlarm(Alarm inputtedAlarm){
+    public Alarm saveAlarm(Alarm inputtedAlarm,String email){
+        Member member = memberRepository.findByEmail(email).get();
+        //memberRepository.findByEmail(email).get().addAlarms(inputtedAlarm);
+        inputtedAlarm.setMember(member);
+
+
         Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
 
         return savedAlarm;
     }
     public Alarm readAlarm(Long alarmId){return alarmRepository.findById(alarmId).get();}
 
-    public List<Alarm> readAllAlarm(){return alarmRepository.findAll();}
+    public List<Alarm> readAllAlarm(String email){
+        List<Alarm> alarms = memberRepository.findByEmail(email).get().getAlarms();
+
+        return alarms;
+        //return alarmRepository.findAll();
+    }
 
     public void removeAlarm(Long alarmId){
         alarmRepository.deleteById(alarmId);
@@ -32,7 +46,6 @@ public class AlarmService {
         Alarm beforeAlarm = alarmRepository.findById(alarm.getId()).get();
         beforeAlarm.setTitle(alarm.getTitle());
         beforeAlarm.setDay(alarm.getDay());
-        beforeAlarm.setTime(alarm.getTime());
         beforeAlarm.setRepeat(alarm.getRepeat());
 
         alarmRepository.save(beforeAlarm);
@@ -49,9 +62,13 @@ public class AlarmService {
         Alarm updateData = data.get();
         updateData.setRepeat(alarm.getRepeat());
         updateData.setTitle(alarm.getTitle());
-        updateData.setTime(alarm.getTime());
+        updateData.setContent(alarm.getContent());
+        updateData.setStartTime(alarm.getStartTime());
+        updateData.setEndTime(alarm.getEndTime());
         updateData.setDay(alarm.getDay());
 
-        return updateData;
+        Alarm updatedalarm = alarmRepository.save(updateData);
+
+        return updatedalarm;
     }
 }

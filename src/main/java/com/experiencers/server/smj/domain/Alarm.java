@@ -1,11 +1,7 @@
 package com.experiencers.server.smj.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
-import org.hibernate.annotations.CreationTimestamp;
+import com.experiencers.server.smj.enumerate.RepeatType;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -14,21 +10,43 @@ import java.sql.Time;
 
 @Entity
 @Table(name = "alarm")
-@JsonRootName("alarm")
 public class Alarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="alarm_id")
-    @JsonProperty(value = "alarm_id", index = 1)
     private Long id;
-    @Column(length = 50)
+    @Column(length = 255)
     private String title;
+    @Column(length = 10000)
+    private String content;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Asia/Seoul")
     @Column(nullable = false)
     private Date day;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
     @Column(nullable = false)
-    private Time time;  //Time타입
+    private Time startTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
+    @Column(nullable = false)
+    private Time endTime;
     @Column(nullable = false)
     private String repeat; //Enum 타입
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+
+        if(!member.getAlarms().contains(this)){
+            member.getAlarms().add(this);
+        }
+    }
 
     public Long getId() {
         return id;
@@ -54,12 +72,28 @@ public class Alarm {
         this.day = day;
     }
 
-    public Time getTime() {
-        return time;
+    public String getContent() {
+        return content;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
     }
 
     public String getRepeat() {
@@ -75,8 +109,10 @@ public class Alarm {
         return "Alarm{"+
                 "alarm_id="+id+
                 ", title='" +title+'\''+
+                ", content='" +content+'\''+
                 ", day='"+day+'\''+
-                ", time='"+time+'\''+
+                ", startTime='"+startTime+'\''+
+                ", endTime='"+endTime+'\''+
                 ", repeat='"+repeat+'\''+
                 '}';
 
