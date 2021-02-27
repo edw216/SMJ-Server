@@ -1,6 +1,7 @@
 package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.BoardType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -34,6 +35,7 @@ public class Board {
     @JoinColumn(name ="member_id")
     private Member member;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
 
@@ -87,7 +89,6 @@ public class Board {
     public void setType(BoardType type) {
         this.type = type;
     }
-
     public String getTitle() {
         return title;
     }

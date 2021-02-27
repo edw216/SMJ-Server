@@ -1,5 +1,7 @@
 package com.experiencers.server.smj.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ public class Category {
     @Column(nullable = false, length = 255)
     public String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     public List<Board> boards = new ArrayList<>();
 
