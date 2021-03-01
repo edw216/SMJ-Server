@@ -1,11 +1,13 @@
 package com.experiencers.server.smj.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "member")
@@ -23,7 +25,7 @@ public class Member {
     @CreationTimestamp
     private LocalDateTime createAt;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Board> boards = new ArrayList<>();
 
@@ -38,21 +40,8 @@ public class Member {
         }
     }
 
-    /*@OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Message> messages = new ArrayList<>();
-
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(Message messages) {
-        this.messages.add(messages);
-        if(messages.getMember() != this){
-            messages.setMember(this);
-        }
-    }*/
-
-    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Alarm> alarms = new ArrayList<>();
 
     public List<Alarm> getAlarms() {
@@ -64,6 +53,18 @@ public class Member {
         if(alarms.getMember() != this){
             alarms.setMember(this);
         }
+    }
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "setting_id",nullable = false)
+    private Setting setting;
+
+    public Setting getSetting() {
+        return setting;
+    }
+
+    public void setSetting(Setting setting) {
+        this.setting = setting;
     }
 
     public Long getId() {

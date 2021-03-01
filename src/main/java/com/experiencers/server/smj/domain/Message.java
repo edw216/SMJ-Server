@@ -27,22 +27,7 @@ public class Message {
     @CreationTimestamp
     private LocalDateTime date;
 
-    /*@JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
 
-    public Member getMember(){
-        return member;
-    }
-
-    public void setMember(Member member){
-        this.member = member;
-
-        if(!member.getMessages().contains(this)){
-            member.getMessages().add(this);
-        }
-    }*/
 
     public Long getMessageId() {
         return messageId;

@@ -6,6 +6,7 @@ import com.experiencers.server.smj.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -31,6 +32,7 @@ public class MessageApiController {
     @PostMapping("")
     public Message postMessage(@RequestHeader("Authorization")String token,Principal principal, @RequestBody Message message){
         Message savedMessage = messageService.saveMessage(principal.getName(),message);
+
 
         return savedMessage;
     }
