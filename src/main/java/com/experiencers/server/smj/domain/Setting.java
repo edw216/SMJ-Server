@@ -1,8 +1,10 @@
 package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -25,12 +27,21 @@ public class Setting{
     @Column
     private Boolean gps;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "setting",fetch = FetchType.LAZY)
+    private Member member;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Setting() {
+        this.push = false;
+        this.gps = false;
     }
 
     public Boolean getPush() {

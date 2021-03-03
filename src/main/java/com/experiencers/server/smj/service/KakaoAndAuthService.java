@@ -3,6 +3,7 @@ package com.experiencers.server.smj.service;
 import com.experiencers.server.smj.configuration.JwtAuthTokenProvider;
 import com.experiencers.server.smj.domain.KakaoProfile;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.domain.Setting;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,6 +67,7 @@ public class KakaoAndAuthService {
             member.setNickname(profile.kakao_account.profile.nickname);
             member.setEmail(profile.kakao_account.email);
             member.setImage(profile.kakao_account.profile.profile_image_url);
+            member.setSetting(new Setting());
             memberService.saveMember(member);
             //Member member2 = memberRepository.save(member);
             //System.out.println(member2);

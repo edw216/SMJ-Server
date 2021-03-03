@@ -4,6 +4,7 @@ import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Message;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.MessageRepository;
+import com.experiencers.server.smj.repository.SettingRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,11 @@ import java.util.Optional;
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private SettingRepository settingRepository;
 
     public Member saveMember(Member inputtedMember) {
+        //inputtedMember.setSetting();
         Member savedMember = memberRepository.save(inputtedMember);
 
         return savedMember;

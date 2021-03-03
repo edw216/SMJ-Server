@@ -2,12 +2,15 @@ package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.RepeatType;
 import com.fasterxml.jackson.annotation.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "alarm")
 public class Alarm {
@@ -32,11 +35,11 @@ public class Alarm {
     private String repeat; //Enum 타입
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Member getMember() {
+    /*public Member getMember() {
         return member;
     }
 
@@ -46,7 +49,7 @@ public class Alarm {
         if(!member.getAlarms().contains(this)){
             member.getAlarms().add(this);
         }
-    }
+    }*/
 
     public Long getId() {
         return id;
