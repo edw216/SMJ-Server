@@ -6,14 +6,11 @@ import com.experiencers.server.smj.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -23,15 +20,15 @@ public class MessageApiController {
     private MessageService messageService;
 
     @GetMapping("")
-    public List<Message> getMessages(@RequestHeader("Authorization")String token,Principal principal){
-        List<Message> messageList = messageService.readAllMessage(principal.getName());
+    public List<Message> getMessages(@RequestHeader("Authorization")String token){
+        List<Message> messageList = messageService.readAllMessage();
 
         return messageList;
     }
 
     @PostMapping("")
-    public Message postMessage(@RequestHeader("Authorization")String token,Principal principal, @RequestBody Message message){
-        Message savedMessage = messageService.saveMessage(principal.getName(),message);
+    public Message postMessage(@RequestHeader("Authorization")String token, @RequestBody Message message){
+        Message savedMessage = messageService.saveMessage(message);
 
 
         return savedMessage;

@@ -50,10 +50,10 @@ public class CommentController {
     //@PostMapping
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit")
     public ModelAndView editComment(@PathVariable("comment_id") Long commentId,@PathVariable("board_id")Long boardId){
-        Comment comment = commentService.readComment(commentId);
+        //Comment comment = commentService.readComment(commentId);
 
         ModelAndView response = new ModelAndView("comment/edit");
-        response.addObject(comment);
+        //response.addObject(comment);
 
         return response;
 

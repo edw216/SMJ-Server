@@ -3,16 +3,11 @@ package com.experiencers.server.smj.api;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.service.MemberService;
-import com.oracle.jrockit.jfr.UseConstantPool;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Example;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +33,8 @@ public class MemberApiController {
         return savedMember;
     }
     @PutMapping("/nickname")
-    public ResponseEntity<Member> putMemberNickname(@RequestHeader("Authorization")String token, Principal principal,@RequestBody Map<String,String> nickname){
-        Member updatedMemberNickname = memberService.updateMemberNickname(principal.getName(), nickname.get("nickname"));
+    public ResponseEntity<Member> putMemberNickname(@RequestHeader("Authorization")String token,@RequestBody Map<String,String> nickname){
+        Member updatedMemberNickname = memberService.updateMemberNickname(nickname.get("nickname"));
 
         if(updatedMemberNickname == null){
             return new ResponseEntity<>(updatedMemberNickname,HttpStatus.NOT_FOUND);
@@ -47,8 +42,8 @@ public class MemberApiController {
         return new ResponseEntity<>(updatedMemberNickname,HttpStatus.OK);
     }
     @PutMapping("/image")
-    public ResponseEntity<Member> putMemberImage(@RequestHeader("Authorization")String token,Principal principal,@RequestBody Map<String,String> imageUrl){
-        Member updatedMemberImage = memberService.updateMemberImage(principal.getName(),imageUrl.get("image"));
+    public ResponseEntity<Member> putMemberImage(@RequestHeader("Authorization")String token,@RequestBody Map<String,String> imageUrl){
+        Member updatedMemberImage = memberService.updateMemberImage(imageUrl.get("image"));
 
         if(updatedMemberImage ==null){
             return new ResponseEntity<>(updatedMemberImage,HttpStatus.NOT_FOUND);

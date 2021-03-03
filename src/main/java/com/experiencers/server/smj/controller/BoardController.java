@@ -36,7 +36,7 @@ public class BoardController {
     }
 
     @PostMapping("")
-    public String postBoard(Map inputtedBoard){
+    public String postBoard(Board inputtedBoard){
         boardService.saveBoard(inputtedBoard);
 
         return "redirect:/board";

@@ -2,11 +2,15 @@ package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "message")
 public class Message {
@@ -28,42 +32,6 @@ public class Message {
     private LocalDateTime date;
 
 
-
-    public Long getMessageId() {
-        return messageId;
-    }
-
-    public void setMessageId(Long messageId) {
-        this.messageId = messageId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public LocalDateTime getDate(){ return date;}
-
-    public void setDate(LocalDateTime date){ this.date=date; }
     @Override
     public String toString() {
         return "Message{" +

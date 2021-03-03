@@ -1,8 +1,8 @@
 package com.experiencers.server.smj.service;
 
-import com.experiencers.server.smj.domain.Category;
-import com.experiencers.server.smj.domain.Comment;
+import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Setting;
+import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.SettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,8 @@ public class SettingService {
     private SettingRepository settingRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private ManageMember manageMember;
 
     public Setting writeSetting(Setting inputtedSetting){
         Setting savedSetting = settingRepository.save(inputtedSetting);
@@ -31,7 +33,7 @@ public class SettingService {
 
     public List<Setting> readAllSetting(){return settingRepository.findAll();}
 
-    public Setting updateSetting(String email,Setting setting){
+    public Setting updateSetting(Setting setting){
         // 1. 저장된 데이터를 찾기
         // 2. 찾은 데이터의 값을 바꿔주기
         // 3. 바꾼 데이터를 다시 저장
@@ -40,7 +42,7 @@ public class SettingService {
         //Setting data = settingRepository.findById(setting.getId()).get();
         //data.setId(setting.getId());
         //settingRepository.save(data);
-        Setting data = memberRepository.findByEmail(email).get().getSetting();
+        Setting data = manageMember.getManageMember().getSetting();
         data.setGps(setting.getGps());
         data.setPush(setting.getPush());
         settingRepository.save(data);

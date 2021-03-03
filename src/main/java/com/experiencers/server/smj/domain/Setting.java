@@ -1,16 +1,16 @@
 package com.experiencers.server.smj.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "setting")
 @JsonRootName("setting")
@@ -28,36 +28,13 @@ public class Setting{
     private Boolean gps;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "setting",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "setting",fetch = FetchType.EAGER)
     private Member member;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Setting() {
         this.push = false;
         this.gps = false;
-    }
-
-    public Boolean getPush() {
-        return push;
-    }
-
-    public void setPush(Boolean push) {
-        this.push = push;
-    }
-
-    public Boolean getGps() {
-        return gps;
-    }
-
-    public void setGps(Boolean gps) {
-        this.gps = gps;
     }
 
     @Override

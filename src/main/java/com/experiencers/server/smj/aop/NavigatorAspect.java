@@ -30,7 +30,7 @@ public class NavigatorAspect {
         return returnValue;
     }
 
-    @Before("execution(* com.experiencers.server.smj.api.*.get*(..))")
+    /*@Before("execution(* com.experiencers.server.smj.api.*.get*(..))")
     public void addUserInfo(JoinPoint joinPoint){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println("Before 시작!!!!");
@@ -41,5 +41,5 @@ public class NavigatorAspect {
         System.out.println(member.getNickname());
         System.out.println(member.getImage());
         System.out.println("Before 끝 !!");
-    }
+    }*/
 }
