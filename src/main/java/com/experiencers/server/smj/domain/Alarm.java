@@ -1,10 +1,9 @@
 package com.experiencers.server.smj.domain;
 
-import com.experiencers.server.smj.enumerate.RepeatType;
 import com.fasterxml.jackson.annotation.*;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -13,15 +12,16 @@ import java.sql.Time;
 @Getter
 @Setter
 @Entity
-@ToString(exclude = "member")
 @Table(name = "alarm")
 public class Alarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="alarm_id")
     private Long id;
+    @ApiModelProperty(example = "알람제목")
     @Column(length = 255)
     private String title;
+    @ApiModelProperty(example = "알람내용")
     @Column(length = 10000)
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Asia/Seoul")

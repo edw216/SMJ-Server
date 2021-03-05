@@ -1,9 +1,9 @@
 package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -14,15 +14,16 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@ToString(exclude = {"alarms","boards"})
 @Table(name = "member")
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+    @ApiModelProperty(example = "email@example.com")
     @Column(nullable = false, length = 50)
     private String email;
+    @ApiModelProperty(example = "사용자 닉네임")
     @Column(nullable = false, length = 50)
     private String nickname;
     @Lob

@@ -21,9 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping
 public class KakaoController {
 
-    @GetMapping("test")
+    @GetMapping("/test")
     public ModelAndView getIndex(){
-        ModelAndView response = new ModelAndView("/kakao/login");
+        ModelAndView response = new ModelAndView("kakao/login");
 
         return response;
     }
@@ -40,7 +40,7 @@ public class KakaoController {
         MultiValueMap<String,String> param = new LinkedMultiValueMap<>();
         param.add("grant_type","authorization_code");
         param.add("client_id","7223a57f35e190fcd95cebeca998a35b");
-        param.add("redirect_uri","http://localhost:8080/auth/kakao/callback");
+        param.add("redirect_uri","https://smj-server-heroku.herokuapp.com/auth/kakao/callback");
         param.add("code",code);
 
         HttpEntity<MultiValueMap<String,String>> kakaoTokenRequest = new HttpEntity<>(param,headers);

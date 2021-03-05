@@ -1,9 +1,9 @@
 package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(exclude = {"boards"})
 @Entity
 @Table(name = "category")
 public class Category {
@@ -19,6 +18,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     public Long id;
+    @ApiModelProperty(example = "카테고리 이름")
     @Column(nullable = false, length = 255,unique = true)
     public String name;
 

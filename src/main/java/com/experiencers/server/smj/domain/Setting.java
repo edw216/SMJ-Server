@@ -4,6 +4,7 @@ package com.experiencers.server.smj.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,9 +22,11 @@ public class Setting{
     @JsonProperty(value = "setting_id", index = 1)
     private Long id;
 
+    @ApiModelProperty(example = "false")
     @Column
     private Boolean push;
 
+    @ApiModelProperty(example = "false")
     @Column
     private Boolean gps;
 

@@ -2,9 +2,9 @@ package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.BoardType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -14,7 +14,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(exclude = {"member","comments","category"})
 @Entity
 @Table(name = "board")
 public class Board {
@@ -23,11 +22,14 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long id;
+    @ApiModelProperty(example = "LIVE or TRADE")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private BoardType type;
+    @ApiModelProperty(example = "제목")
     @Column(nullable = false, length = 255)
     private String title;
+    @ApiModelProperty(example = "내용")
     @Column(nullable = false, length = 10000)
     private String content;
     @CreationTimestamp

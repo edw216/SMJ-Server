@@ -5,6 +5,8 @@ import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.service.AlarmService;
 import com.experiencers.server.smj.service.MemberService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ public class AlarmApiController {
     @Autowired
     private ManageMember manageMember;
 
+    @ApiOperation(value = "모든 알람 불러오기",notes = "헤더에 jwt 토큰을 담고 성공시 사용자의 모든 알람을 반환합니다.")
     @GetMapping("")
     public List<Alarm> getAlarms(@RequestHeader("Authorization")String token) {
         List<Alarm> alarmList = alarmService.readAllAlarm();
@@ -30,6 +33,7 @@ public class AlarmApiController {
         return alarmList;
     }
 
+    @ApiOperation(value = "알람 저장하기",notes = "헤더에 jwt 토큰을 담고 성공시 해당 유저의 알람을 저장합니다.")
     @PostMapping("")
     // 성공: 201 Created
     public Alarm postAlarm(@RequestHeader("Authorization")String token, @RequestBody Alarm alarm){
@@ -38,6 +42,8 @@ public class AlarmApiController {
         return savedAlarm;
     }
 
+    @ApiImplicitParam(name = "alarm_id",value = "알람번호",required = true,paramType = "path")
+    @ApiOperation(value = "알람 변경하기",notes = "헤더에 jwt 토큰을 담고 성공시 해당 알람의 내용을 변경합니다.")
     @PutMapping("/{alarm_id}")
     // 성공: 200 OK
     // 실패: 404 NOT FOUND
@@ -52,6 +58,8 @@ public class AlarmApiController {
         return new ResponseEntity<>(updatedAlarm, HttpStatus.OK);
     }
 
+    @ApiImplicitParam(name = "alarm_id",value = "알람번호",required = true,paramType = "path")
+    @ApiOperation(value = "알람 삭제하기",notes = "헤더에 jwt 토큰을 담고 성공시 해당 알람을 삭제합니다.")
     @DeleteMapping("/{alarm_id}")
     public ResponseEntity<Object> deleteAlarm(@RequestHeader("Authorization")String token,@PathVariable("alarm_id") Long alarmId){
         alarmService.removeAlarm(alarmId);

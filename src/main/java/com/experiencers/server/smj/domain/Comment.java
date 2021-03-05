@@ -1,9 +1,9 @@
 package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ToString(exclude = "board")
 @Entity
 @Table(name = "comment")
 public class Comment {
@@ -19,6 +18,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     private Long commentId;
+    @ApiModelProperty(example = "내용")
     @Column(nullable = false, length = 1000)
     private String content;
     @JsonIgnore
