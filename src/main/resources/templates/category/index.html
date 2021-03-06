@@ -28,7 +28,7 @@
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Category</h1>
-                <form method="POST" action="/category">
+                <form method="POST" action="/admin/category">
                     <div class="form-group row">
                         <label for="name" class="col-sm-1 col-form-label col-form-label-sm">Name</label>
                         <div class="col-sm-5">
@@ -59,8 +59,8 @@
                     <td>{{name}}</td>
                     <td colspan="2">
                         <div class="btn-group" role="group">
-                            <a href="/category/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
-                            <form action="/category/{{id}}/delete" method="post">
+                            <a href="/admin/category/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                            <form action="/admin/category/{{id}}/delete" method="post">
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </div>

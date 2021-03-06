@@ -15,12 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/comment")
+@RequestMapping("/admin")
 public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @GetMapping("")
+    @GetMapping("/comment")
     public ModelAndView getIndex(){
         List<Comment> commentList = commentService.readAllComment();
 
@@ -45,7 +45,7 @@ public class CommentController {
                                 @PathVariable("board_id")Long boardId,
                                 HttpServletRequest request){
         commentService.deleteComment(commentId);
-        return "redirect:/board/"+boardId;
+        return "redirect:/admin/board/"+boardId;
     }
     //@PostMapping
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit")
@@ -63,7 +63,7 @@ public class CommentController {
 
         commentService.readAndUpdateComment(commentId, comment);
 
-        return "redirect:/board/"+boardId;
+        return "redirect:/admin/board/"+boardId;
     }
 
 }

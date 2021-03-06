@@ -32,9 +32,9 @@ public class AlarmApiController {
 
     @PostMapping("")
     // 성공: 201 Created
-    public Alarm postAlarm(@RequestHeader("Authorization")String token, Principal principal, @RequestBody Alarm alarm){
+    public Alarm postAlarm(@RequestBody Alarm alarm){
         System.out.println(alarm.toString());
-        Alarm savedAlarm = alarmService.saveAlarm(alarm,principal.getName());
+        Alarm savedAlarm = alarmService.saveAlarm(alarm);
 
         return savedAlarm;
     }

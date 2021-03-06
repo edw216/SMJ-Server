@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/admin")
 public class BoardController {
     @Autowired
     private BoardService boardService;
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("")
+    @GetMapping("/board")
     public ModelAndView getBoards(){
         ModelAndView response = new ModelAndView("board/index");
 
@@ -35,14 +35,14 @@ public class BoardController {
         return response;
     }
 
-    @PostMapping("")
+    @PostMapping("/board")
     public String postBoard(Map inputtedBoard){
         boardService.saveBoard(inputtedBoard);
 
-        return "redirect:/board";
+        return "redirect:/admin/board";
     }
 
-    @GetMapping("/{board_id}/edit")
+    @GetMapping("/board/{board_id}/edit")
     public ModelAndView editBoard(@PathVariable("board_id") Long boardId){
         Board board = boardService.readBoard(boardId);
 
@@ -54,18 +54,18 @@ public class BoardController {
         return response;
     }
 
-    @PostMapping("/{board_id}/update")
+    @PostMapping("/board/{board_id}/update")
     public String updateBoard(@PathVariable("board_id") Long boardId, @ModelAttribute Board board){
         boardService.readAndUpdateBoard(boardId, board);
 
-        return "redirect:/board";
+        return "redirect:/admin/board";
     }
 
-    @PostMapping("/{board_id}/delete")
+    @PostMapping("/board/{board_id}/delete")
     public String deleteBoard(@PathVariable("board_id") Long boardId){
         boardService.deleteBoard(boardId);
 
-        return "redirect:/board";
+        return "redirect:/admin/board";
     }
 
     private ModelAndView getCategories(ModelAndView mav) {

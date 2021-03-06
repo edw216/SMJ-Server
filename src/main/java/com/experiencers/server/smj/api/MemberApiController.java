@@ -3,9 +3,8 @@ package com.experiencers.server.smj.api;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.service.MemberService;
-import com.oracle.jrockit.jfr.UseConstantPool;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Example;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.http.HttpStatus;

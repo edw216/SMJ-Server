@@ -11,14 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/setting")
+@RequestMapping("/admin")
 public class SettingController {
     @Autowired
     SettingService settingService;
 
-    @GetMapping("")
+    @GetMapping("/setting")
     public ModelAndView getSetting() {
-        ModelAndView response = new ModelAndView("setting/index"); //새로운 객체
+        ModelAndView response = new ModelAndView("Setting/index"); //새로운 객체
 
         List<Setting> settingList = settingService.readAllSetting();
         response.addObject("settings", settingList);
@@ -26,34 +26,34 @@ public class SettingController {
         return response;
     }
 
-    @PostMapping("")
+    @PostMapping("/setting")
     public String postSetting(@ModelAttribute Setting inputtedSetting){
         Setting savedSetting = settingService.writeSetting(inputtedSetting);
-        return "redirect:/setting";
+        return "redirect:/admin/setting";
     }//파라미터 (저장할 부분)
 
-    @GetMapping("/{setting_id}/edit") //복합적인 설정을 할 ㄸ에 @PathVariable 사용
+    @GetMapping("/setting/{setting_id}/edit") //복합적인 설정을 할 ㄸ에 @PathVariable 사용
     public ModelAndView editSetting(@PathVariable("setting_id") Long settingId) {
         Setting setting = settingService.readSetting(settingId);
 
-        ModelAndView mav = new ModelAndView("setting/edit");
+        ModelAndView mav = new ModelAndView("Setting/edit");
         mav.addObject("setting", setting);
         return mav;
     }
 
-    @PostMapping("/{setting_id}/update")
+    @PostMapping("/setting/{setting_id}/update")
     public String updateSetting(@PathVariable("setting_id") Long settingId,
                               @ModelAttribute Setting setting){
         settingService.updateSetting(settingId, setting);
 
-        return "redirect:/setting";
+        return "redirect:/admin/setting";
     } //수정사항 업데이트
 
-    @PostMapping("/{setting_id}/delete")
+    @PostMapping("/setting/{setting_id}/delete")
     public String deleteSetting(@PathVariable("setting_id") Long settingId){
         settingService.removeSetting(settingId);
 
-        return "redirect:/setting";
+        return "redirect:/admin/setting";
     } //데이터 삭제
 
 }

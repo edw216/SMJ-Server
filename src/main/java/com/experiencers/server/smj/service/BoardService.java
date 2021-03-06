@@ -1,6 +1,7 @@
 package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Board;
+import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.enumerate.BoardType;
 import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.repository.CommentRepository;

@@ -28,8 +28,7 @@
                 <!-- HERE::Main Content -->
                 <div class="jumbotron py-4 mb-2">
                     <h1 class="h2 mb-4">Member</h1>
-                    <form method="POST" action="/member/{{member.id}}/update" enctype="multipart/form-data">
-                        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+                    <form method="POST" action="/admin/member/{{member.id}}/update" enctype="multipart/form-data">
                         <div class="form-group row">
                             <label for="email" class="col-sm-1 col-form-label col-form-label-sm">Email</label>
                             <div class="col-sm-5">

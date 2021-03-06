@@ -21,7 +21,7 @@ public class SwaggerConfigurer extends WebMvcConfigurationSupport {
                 .apis(RequestHandlerSelectors.basePackage("com.experiencers.server.smj.api"))
                 .paths(PathSelectors.ant("/api/**"))
 
-                .build().apiInfo(new ApiInfo("test title",
+                .build().apiInfo(new ApiInfo("SMJ API Documents",
                         "",
                         "",
                         "",
