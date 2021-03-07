@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/admin/board")
 public class BoardController {
     @Autowired
     private BoardService boardService;

@@ -5,20 +5,18 @@ import com.experiencers.server.smj.domain.Alarm;
 import com.experiencers.server.smj.service.AlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/admin/alarm")
 public class AlarmController {
     @Autowired
     private AlarmService alarmService;
 
-    @GetMapping("/alarm")
+    @GetMapping("")
     public ModelAndView getIndex(){
         //List<Alarm> alarmList = alarmService.readAllAlarm();
 
@@ -28,7 +26,7 @@ public class AlarmController {
         return response;
     }
 
-    @PostMapping("/alarm")
+    @PostMapping("")
     public String createAlarm(@ModelAttribute Alarm inputtedAlarm){
         System.out.println(inputtedAlarm.toString());
         //Alarm savedAlarm = alarmService.saveAlarm(inputtedAlarm);
@@ -36,14 +34,14 @@ public class AlarmController {
         return "redirect:/alarm";
     }
 
-    @PostMapping("/alarm/{alarm_id}/delete")
+    @PostMapping("/{alarm_id}/delete")
     public String deleteAlarm(@PathVariable("alarm_id") Long alarm_id){
         alarmService.removeAlarm(alarm_id);
 
         return "redirect:/alarm";
     }
 
-    @PostMapping("/alarm/{alarm_id}/edit")
+    @PostMapping("/{alarm_id}/edit")
     public ModelAndView editAlarm(@PathVariable("alarm_id") Long alarm_id){
         Alarm alarm = alarmService.readAlarm(alarm_id);
 
@@ -53,7 +51,7 @@ public class AlarmController {
         return response;
     }
 
-    @PostMapping("/alarm/{alarm_id}/edit/update")
+    @PostMapping("/{alarm_id}/edit/update")
     public String updateAlarm(Alarm alarm){
         alarmService.updateAlarm(alarm);
 

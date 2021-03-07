@@ -28,8 +28,7 @@
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Setting</h1>
-                <form method="POST" action="/setting">
-                    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+                <form method="POST" action="/admin/setting">
                     <div class="form-group row">
                         <label class="col-sm-1 col-form-label col-form-label-sm">Push</label>
                         <div class="custom-control custom-radio custom-control-inline">
@@ -81,7 +80,6 @@
                         <div class="btn-group" role="group">
                             <a href="/setting/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
                             <form action="/setting/{{id}}/delete" method="post">
-                                <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
 
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>

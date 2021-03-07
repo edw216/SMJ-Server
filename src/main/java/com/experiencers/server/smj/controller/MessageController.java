@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/message")
+@RequestMapping("/admin/message")
 public class MessageController {
     @Autowired
     private MessageService messageService;

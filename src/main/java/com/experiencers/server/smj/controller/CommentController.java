@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/comment")
+@RequestMapping("/admin/comment")
 public class CommentController {
     @Autowired
     CommentService commentService;

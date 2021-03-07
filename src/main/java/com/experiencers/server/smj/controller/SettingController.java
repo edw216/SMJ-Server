@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/setting")
+@RequestMapping("/admin/setting")
 public class SettingController {
     @Autowired
     SettingService settingService;
@@ -29,7 +29,7 @@ public class SettingController {
     @PostMapping("")
     public String postSetting(@ModelAttribute Setting inputtedSetting){
         Setting savedSetting = settingService.writeSetting(inputtedSetting);
-        return "redirect:/setting";
+        return "redirect:/admin/setting";
     }//파라미터 (저장할 부분)
 
     @GetMapping("/{setting_id}/edit") //복합적인 설정을 할 ㄸ에 @PathVariable 사용
@@ -46,14 +46,14 @@ public class SettingController {
                               @ModelAttribute Setting setting){
         settingService.updateSetting(settingId, setting);
 
-        return "redirect:/setting";
+        return "redirect:/admin/setting";
     } //수정사항 업데이트
 
     @PostMapping("/{setting_id}/delete")
     public String deleteSetting(@PathVariable("setting_id") Long settingId){
         settingService.removeSetting(settingId);
 
-        return "redirect:/setting";
+        return "redirect:/admin/setting";
     } //데이터 삭제
 
 }

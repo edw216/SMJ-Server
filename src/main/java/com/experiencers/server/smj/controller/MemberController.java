@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/admin/member")
 public class MemberController {
     @Autowired
     private MemberService memberService;
