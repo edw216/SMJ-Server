@@ -2,10 +2,18 @@ package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Getter
+@Setter
+@ToString(exclude = {"boards"})
 @Entity
 @Table(name = "category")
 public class Category {
@@ -17,35 +25,11 @@ public class Category {
     public String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     public List<Board> boards = new ArrayList<>();
 
-    public List<Board> getBoards() {
-        return boards;
-    }
-
-    public void addBoards(Board board) {
-        this.boards.add(board);
-
-        if (board.getCategory() != this) {
-            board.setCategory(this);
-        }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public Category() {
+        this.name = "";
     }
 
     @Override

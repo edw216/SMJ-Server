@@ -4,11 +4,19 @@ import com.experiencers.server.smj.enumerate.BoardType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Getter
+@Setter
+@ToString(exclude = {"member","comments","category"})
 @Entity
 @Table(name = "board")
 public class Board {
@@ -17,6 +25,7 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long id;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private BoardType type;
     @Column(nullable = false, length = 255)
@@ -26,94 +35,21 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="member_id")
+    @JoinColumn(name ="member_id", nullable = false)
     private Member member;
 
 
+    @JsonIgnore
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void addComments(Comment comment) {
-        this.comments.add(comment);
-        if(comment.getBoard() != this){
-            comment.setBoard(this);
-        }
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-
-        if (!category.getBoards().contains(this)) {
-            category.getBoards().add(this);
-        }
-    }
-
-    public Member getMember() {
-        return member;
-    }
-
-    public void setMember(Member member) {
-        this.member = member;
-
-        if(!member.getBoards().contains(this)){
-            member.getBoards().add(this);
-        }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public BoardType getType() {
-        return type;
-    }
-
-    public void setType(BoardType type) {
-        this.type = type;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     @Override
     public String toString() {

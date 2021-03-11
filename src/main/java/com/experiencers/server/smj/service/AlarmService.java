@@ -4,6 +4,7 @@ package com.experiencers.server.smj.service;
 import com.experiencers.server.smj.domain.Alarm;
 import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.AlarmRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,12 @@ public class AlarmService {
     private AlarmRepository alarmRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private ManageMember manageMember;
 
     public Alarm saveAlarm(Alarm inputtedAlarm){
 
+        Member member = manageMember.getManageMember();
         Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
 
         return savedAlarm;
@@ -30,7 +34,8 @@ public class AlarmService {
 
     public List<Alarm> readAllAlarm(){
 
-        return alarmRepository.findAll();
+        List<Alarm> alarms = manageMember.getManageMember().getAlarms();
+        return alarms;
     }
 
     public void removeAlarm(Long alarmId){

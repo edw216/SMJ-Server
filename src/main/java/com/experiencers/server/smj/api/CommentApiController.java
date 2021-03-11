@@ -18,14 +18,20 @@ public class CommentApiController {
     private CommentService commentService;
 
     @GetMapping("")
-    public List<Comment> getComments(){
+    public List<Comment> getComments(@RequestHeader("Authorization")String token){
         List<Comment> commentList = commentService.readAllComment();
 
         return commentList;
     }
+    @GetMapping("/{board_id}")
+    public List<Comment> getBoardComments(@RequestHeader("Authorization")String token,@PathVariable("board_id")Long boardId){
+        List<Comment> comments = commentService.readComment(boardId);
 
-    @PostMapping("")
-    public Comment postComment(@RequestBody Comment comment,@RequestParam("member_id") Long boardId){
+        return comments;
+    }
+
+    @PostMapping("/{board_id}")
+    public Comment postComment(@RequestHeader("Authorization")String token,@RequestBody Comment comment,@PathVariable("board_id")Long boardId){
         Comment savedComment = commentService.saveComment(comment,boardId);
 
         return savedComment;

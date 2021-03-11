@@ -2,6 +2,7 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Message;
+import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.MessageRepository;
 import com.experiencers.server.smj.repository.SettingRepository;
@@ -20,7 +21,8 @@ public class MemberService {
     private MemberRepository memberRepository;
     @Autowired
     private SettingRepository settingRepository;
-
+    @Autowired
+    private ManageMember manageMember;
     public Member saveMember(Member inputtedMember) {
         //inputtedMember.setSetting();
         Member savedMember = memberRepository.save(inputtedMember);
@@ -76,33 +78,21 @@ public class MemberService {
     }
 
     //닉네임만 변경 할시 사용하는 서비스메소드
-    public Member updateMemberNickname(String email, String nickname){
-        Optional<Member> updatedMember = memberRepository.findByEmail(email);
-        Member target = new Member();
+    public Member updateMemberNickname(String nickname){
+        Member updatedMember = manageMember.getManageMember();
 
-        if(updatedMember.isPresent()){
-            target = updatedMember.get();
-            target.setNickname(nickname);
+        updatedMember.setNickname(nickname);
+        updatedMember = memberRepository.save(updatedMember);
 
-            target = memberRepository.save(target);
-            return target;
-        }
-
-        return null;
+        return updatedMember;
     }
     //이미지만 변경 할 시 사용하는 서비스메소드
-    public Member updateMemberImage(String email, String imageUrl){
-        Optional<Member> updatedMember = memberRepository.findByEmail(email);
-        Member target = new Member();
+    public Member updateMemberImage(String imageUrl) {
+        Member updatedMember = manageMember.getManageMember();
 
-        if(updatedMember.isPresent()){
-            target = updatedMember.get();
-            target.setImage(imageUrl);
+        updatedMember.setImage(imageUrl);
+        updatedMember = memberRepository.save(updatedMember);
 
-            target = memberRepository.save(target);
-            return target;
-        }
-
-        return null;
+        return updatedMember;
     }
 }

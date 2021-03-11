@@ -1,6 +1,8 @@
 package com.experiencers.server.smj.api;
 
 import com.experiencers.server.smj.domain.Alarm;
+import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.service.AlarmService;
 import com.experiencers.server.smj.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,11 @@ public class AlarmApiController {
     private AlarmService alarmService;
 
     @Autowired
-    private MemberService memberService;
+    private ManageMember manageMember;
 
     @GetMapping("")
-    public List<Alarm> getAlarms(@RequestHeader("Authorization")String token,Principal principal) {
-        //ist<Alarm> alarmList = alarmService.readAllAlarm(principal.getName());
+    public List<Alarm> getAlarms(@RequestHeader("Authorization")String token) {
+
         List<Alarm> alarmList = alarmService.readAllAlarm();
 
         return alarmList;
@@ -32,8 +33,8 @@ public class AlarmApiController {
 
     @PostMapping("")
     // 성공: 201 Created
-    public Alarm postAlarm(@RequestBody Alarm alarm){
-        System.out.println(alarm.toString());
+    public Alarm postAlarm(@RequestHeader("Authorization")String token, @RequestBody Alarm alarm){
+
         Alarm savedAlarm = alarmService.saveAlarm(alarm);
 
         return savedAlarm;
