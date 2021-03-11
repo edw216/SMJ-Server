@@ -24,8 +24,8 @@ public class AlarmApiController {
 
     @GetMapping("")
     public List<Alarm> getAlarms(@RequestHeader("Authorization")String token,Principal principal) {
-        List<Alarm> alarmList = alarmService.readAllAlarm(principal.getName());
-        //List<Alarm> alarmList = alarmService.readAllAlarm();
+        //ist<Alarm> alarmList = alarmService.readAllAlarm(principal.getName());
+        List<Alarm> alarmList = alarmService.readAllAlarm();
 
         return alarmList;
     }

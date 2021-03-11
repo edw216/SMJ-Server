@@ -21,41 +21,48 @@ public class AlarmController {
     public ModelAndView getIndex(){
         //List<Alarm> alarmList = alarmService.readAllAlarm();
 
-        ModelAndView response = new ModelAndView("alarm/index");
+        //ModelAndView response = new ModelAndView("alarm/index");
         //response.addObject(alarmList);
+
+        //return response;
+
+        List<Alarm> alarms = alarmService.readAllAlarm();
+
+        ModelAndView response = new ModelAndView("alarm/index");
+        response.addObject("alarms", alarms);
 
         return response;
     }
 
     @PostMapping("/alarm")
     public String postAlarm(@ModelAttribute Alarm inputtedAlarm){
-        System.out.println(inputtedAlarm.toString());
-        Alarm savedAlarm = alarmService.saveAlarm(inputtedAlarm);
+        //System.out.println(inputtedAlarm.toString());
+        alarmService.saveAlarm(inputtedAlarm);
 
         return "redirect:/admin/alarm";
     }
 
     @PostMapping("/alarm/{alarm_id}/delete")
-    public String deleteAlarm(@PathVariable("alarm_id") Long alarm_id){
-        alarmService.removeAlarm(alarm_id);
+    public String deleteAlarm(@PathVariable("alarm_id") Long alarmId){
+        alarmService.removeAlarm(alarmId);
 
         return "redirect:/admin/alarm";
     }
 
     @PostMapping("/alarm/{alarm_id}/edit")
-    public ModelAndView editAlarm(@PathVariable("alarm_id") Long alarm_id){
-        Alarm alarm = alarmService.readAlarm(alarm_id);
+    public ModelAndView editAlarm(@PathVariable("alarm_id") Long alarmId){
+        Alarm alarm = alarmService.readAlarm(alarmId);
 
-        ModelAndView response = new ModelAndView("alarm/edit");
-        response.addObject(alarm);
+        ModelAndView mav = new ModelAndView("alarm/edit");
+        mav.addObject("alarm",alarm);
 
-        return response;
+        return mav;
     }
 
     @PostMapping("/alarm/{alarm_id}/update")
-    public String updateAlarm(@PathVariable("alarm_id") Long alarm_id,
+    public String updateAlarm(@PathVariable("alarm_id") Long alarmId,
                               @ModelAttribute Alarm alarm){
-        alarmService.readAndUpdateAlarm(alarm_id, alarm);
+        alarmService.readAndUpdateAlarm(alarmId, alarm);
 
         return "redirect:/admin/alarm";
     }

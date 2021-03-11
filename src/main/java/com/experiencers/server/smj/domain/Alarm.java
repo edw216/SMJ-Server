@@ -2,6 +2,7 @@ package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.RepeatType;
 import com.fasterxml.jackson.annotation.*;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,10 +27,10 @@ public class Alarm {
     @Column(nullable = false)
     private Date day;
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    @Column(nullable = false)
+    @NotNull
     private Time startTime;
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    @Column(nullable = false)
+    @NotNull
     private Time endTime;
     @Column(nullable = false)
     private String repeat; //Enum 타입

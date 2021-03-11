@@ -24,7 +24,7 @@
             element.checked = true;
         }
         function beforeCheck(){
-            switch ({alarm.repeat}){
+            switch ({alarmrepeat}){
                 case "once":
                     document.getElementById("once").checked
                     break;
@@ -63,7 +63,7 @@
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Alarm</h1>
-                <form method="POST" action="/admin/alarm/{alarm_id}/update">
+                <form method="POST" action="/admin/alarm/{{alarm.id}}/update">
                     <div class="form-group row">
                         <label for="title" class="col-sm-1 col-form-label col-form-label-sm">Title</label>
                         <div class="col-sm-5">

@@ -46,7 +46,7 @@
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Alarm</h1>
-                <form name="userForm" method="POST" action="/admin/alarm" enctype="multipart/form-data">
+                <form method="POST" action="/admin/alarm">
                     <div class="form-group row">
                         <label for="title" class="col-sm-1 col-form-label col-form-label-sm">Title</label>
                         <div class="col-sm-5">
@@ -120,8 +120,8 @@
                     <td>{{content}}</td>
                     <td colspan="2">
                         <div class="btn-group" role="group">
-                            <a href="/admin/alarm/{alarm_id}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
-                            <form action="/admin/alarm/{alarm_id}/delete" method="post">
+                            <a href="/admin/alarm/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                            <form action="/admin/alarm/{{id}}/delete" method="post">
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </div>

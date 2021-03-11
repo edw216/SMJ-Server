@@ -32,7 +32,6 @@ public class MemberController {
     @PostMapping("/member")
     public String postMember(@RequestParam("profile_image") String image, @ModelAttribute Member inputtedMember)  {
         memberService.saveMemberWithConvertImage(image, inputtedMember);
-
         return "redirect:/admin/member";
     }
 

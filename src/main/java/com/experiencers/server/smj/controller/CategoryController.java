@@ -32,7 +32,7 @@ public class CategoryController{
     @PostMapping("/category")
     public String postCategory(@ModelAttribute Category inputtedCategory) {
         System.out.println(inputtedCategory.toString());
-        Category savedCategory = categoryService.saveCategory(inputtedCategory);
+        categoryService.saveCategory(inputtedCategory);
 
         return "redirect:/admin/category";
     }

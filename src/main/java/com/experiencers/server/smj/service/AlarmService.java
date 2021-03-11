@@ -28,7 +28,7 @@ public class AlarmService {
     }
     public Alarm readAlarm(Long alarmId){return alarmRepository.findById(alarmId).get();}
 
-    public List<Alarm> readAllAlarm(String email){
+    public List<Alarm> readAllAlarm(){
 
         return alarmRepository.findAll();
     }

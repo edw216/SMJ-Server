@@ -78,9 +78,8 @@
                     <td>{{gps}}</td>
                     <td colspan="2">
                         <div class="btn-group" role="group">
-                            <a href="/admin/setting/{setting_id}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
-                            <form action="/admin/setting/{setting_id}/delete" method="post">
-
+                            <a href="/admin/setting/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                            <form action="/admin/setting/{{id}}/delete" method="post">
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </div>
