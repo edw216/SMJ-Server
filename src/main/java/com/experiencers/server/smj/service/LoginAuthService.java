@@ -20,7 +20,7 @@ import java.util.Optional;
 
 
 @Service
-public class KakaoAndAuthService {
+public class LoginAuthService {
     @Autowired
     private JwtAuthTokenProvider jwtAuthTokenProvider;
 

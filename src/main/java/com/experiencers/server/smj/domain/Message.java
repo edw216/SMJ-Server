@@ -14,14 +14,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "message")
 public class Message {
-    public Message(){
-        final LocalDateTime t = LocalDateTime.now();
-        date = t;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
-    private Long messageId;
+    private Long id;
     @ApiModelProperty(example = "내용")
     @Column(nullable = false, length = 255)
     private String content;
@@ -38,7 +34,7 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "message_id=" + messageId +
+                "id=" + id +
                 ", content='" + content + '\'' +
                 ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +

@@ -1,5 +1,6 @@
 package com.experiencers.server.smj.domain;
 
+import com.experiencers.server.smj.enumerate.RepeatType;
 import com.fasterxml.jackson.annotation.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -33,8 +34,10 @@ public class Alarm {
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
     @Column(nullable = false)
     private Time endTime;
+    @ApiModelProperty(example = "ONCE, HOURLY, DAILY, MONTHLY, YEARLY")
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String repeat; //Enum 타입
+    private RepeatType repeat; //Enum 타입
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,7 +47,7 @@ public class Alarm {
     @Override
     public String toString() {
         return "Alarm{"+
-                "alarm_id="+id+
+                "id="+id+
                 ", title='" +title+'\''+
                 ", content='" +content+'\''+
                 ", day='"+day+'\''+

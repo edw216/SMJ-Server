@@ -15,8 +15,6 @@ public class SettingService {
     @Autowired
     private SettingRepository settingRepository;
     @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
     private ManageMember manageMember;
 
     public Setting writeSetting(Setting inputtedSetting){
@@ -30,7 +28,11 @@ public class SettingService {
 
         return result;
     }//읽고 데이터 확인
+    public Setting readMemberSetting(){
+        Setting setting = manageMember.getManageMember().getSetting();
 
+        return setting;
+    }
     public List<Setting> readAllSetting(){return settingRepository.findAll();}
 
     public Setting updateSetting(Setting setting){

@@ -3,12 +3,14 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Alarm;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.enumerate.RepeatType;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.AlarmRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +20,22 @@ public class AlarmService {
     @Autowired
     private AlarmRepository alarmRepository;
     @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
     private ManageMember manageMember;
 
     public Alarm saveAlarm(Alarm inputtedAlarm){
+        boolean check = false;
         Member member = manageMember.getManageMember();
+
+        RepeatType repeatType[] = RepeatType.values();
+
+        for(RepeatType rt : repeatType){
+            if(rt.toString().equals(inputtedAlarm.getRepeat().toString())){
+                check =true;
+            }
+        }
+        if(check == false){
+            inputtedAlarm.setRepeat(RepeatType.ONCE);
+        }
 
         inputtedAlarm.setMember(member);
 

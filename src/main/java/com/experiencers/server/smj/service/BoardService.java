@@ -9,6 +9,7 @@ import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.repository.CategoryRepository;
 import com.experiencers.server.smj.repository.CommentRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class BoardService {
         Member member = manageMember.getManageMember();
 
         inputtedBoard.setMember(member);
+
         if(inputtedBoard.getType().toString().equals("TRADE")){
             inputtedBoard.setType(BoardType.TRADE);
         }else {

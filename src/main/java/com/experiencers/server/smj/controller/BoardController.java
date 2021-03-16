@@ -36,10 +36,11 @@ public class BoardController {
     }
 
     @PostMapping("")
-    public String postBoard(Board inputtedBoard){
+    public String postBoard(@ModelAttribute Board inputtedBoard){
+
         boardService.saveBoard(inputtedBoard);
 
-        return "redirect:/board";
+        return "redirect:/admin/board";
     }
 
     @GetMapping("/{board_id}/edit")

@@ -19,7 +19,7 @@ public class Setting{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "setting_id")
-    @JsonProperty(value = "setting_id", index = 1)
+    @JsonProperty(value = "id", index = 1)
     private Long id;
 
     @ApiModelProperty(example = "false")

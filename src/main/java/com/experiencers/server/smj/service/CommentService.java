@@ -23,7 +23,7 @@ public class CommentService {
 
     public Comment saveComment(Comment inputtedComment,Long boardId){
         Board board = boardRepository.findById(boardId).get();
-        String member = manageMember.getManageMembername();
+        String member = manageMember.getManageMember().getNickname();
 
         inputtedComment.setBoard(board);
         inputtedComment.setUser(member);
@@ -35,9 +35,7 @@ public class CommentService {
     public List<Comment> readComment(Long boardId){
         //Member member = manageMember.getManageMembername()
         List<Comment> comments = boardRepository.findById(boardId).get().getComments();
-        System.out.println("readcomment error check");
-        System.out.println(boardRepository.findById(boardId).get());
-        System.out.println(boardRepository.findById(boardId).get().getComments());
+
         return comments;
     }
 

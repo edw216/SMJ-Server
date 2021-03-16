@@ -17,11 +17,10 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private Long commentId;
+    private Long id;
     @ApiModelProperty(example = "내용")
     @Column(nullable = false, length = 1000)
     private String content;
-    @JsonIgnore
     @Column(nullable = false, length = 50)
     private String user;
     @CreationTimestamp
@@ -36,7 +35,7 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{"+
-                "comment_id="+commentId+
+                "id="+id+
                 ", content='" +content+'\''+
                 ", user='"+user+'\''+
                 ", createdAt='"+createdAt+'\''+
