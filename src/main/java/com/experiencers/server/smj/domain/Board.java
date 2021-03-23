@@ -2,6 +2,7 @@ package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.BoardType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Getter;
@@ -16,7 +17,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(exclude = {"member","comments","category"})
 @Entity
 @Table(name = "board")
 public class Board {
@@ -35,12 +35,11 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="member_id", nullable = false)
     private Member member;
@@ -59,6 +58,7 @@ public class Board {
                 ", title='"+title+'\''+
                 ", content='"+content+'\''+
                 ", createdAt='"+createdAt+'\''+
+                ", category='"+category+'\''+
                 '}';
 
     }

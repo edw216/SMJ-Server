@@ -30,12 +30,21 @@ public class AlarmService {
 
         return savedAlarm;
     }
+    public Alarm saveAlarmOfMember(Alarm inputtedAlarm){
+        Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
+
+        return savedAlarm;
+    }
+
     public Alarm readAlarm(Long alarmId){return alarmRepository.findById(alarmId).get();}
 
     public List<Alarm> readAllAlarm(){
 
         List<Alarm> alarms = manageMember.getManageMember().getAlarms();
         return alarms;
+    }
+    public List<Alarm> readAllAlarmOfMember(){
+        return alarmRepository.findAll();
     }
 
     public void removeAlarm(Long alarmId){

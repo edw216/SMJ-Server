@@ -38,7 +38,9 @@ public class BoardService {
         }else {
             inputtedBoard.setType(BoardType.LIVE);
         }
+
         Optional<Category> categoryOptional = categoryRepository.findByName(inputtedBoard.getCategory().getName());
+
         if(!categoryOptional.isPresent()){
             inputtedBoard.setCategory(new Category());
         }else{
@@ -49,12 +51,49 @@ public class BoardService {
 
         return savedBoard;
     }
+    public Board saveBoardOfAdmin(Board inputtedBoard,Long categoryId,Long memberId){
+
+        Member member = memberRepository.findById(memberId).get();
+
+        inputtedBoard.setMember(member);
+        System.out.println("ca"+categoryId);
+        Category category = categoryRepository.findById(categoryId).get();
+        inputtedBoard.setCategory(category);
+
+        Board savedBoard = boardRepository.save(inputtedBoard);
+
+        return savedBoard;
+    }
+
     public Board readBoard(Long boardId){return boardRepository.findById(boardId).get();}
 
     public List<Board> readAllBoard(){return boardRepository.findAll();}
 
     public void deleteBoard(Long boardId) {
         boardRepository.deleteById(boardId);
+    }
+
+    public Board readAndUpdateBoardOfAdmin(Board board,Long categoryId,Long boardId){
+        Optional<Board> data = boardRepository.findById(boardId);
+        if(data.isPresent()) {
+            Board target = data.get();
+            target.setTitle(board.getTitle());
+            target.setContent(board.getContent());
+
+            if(board.getType().toString().equals("TRADE")){
+                target.setType(BoardType.TRADE);
+            }else {
+                target.setType(BoardType.LIVE);
+            }
+
+            Category category = categoryRepository.findById(categoryId).get();
+            target.setCategory(category);
+
+            target = boardRepository.save(target);
+
+            return target;
+        }
+        return null;
     }
     public Board readAndUpdateBoard(Long boardId, Board board){
 
@@ -94,4 +133,5 @@ public class BoardService {
 
         return boards;
     }
+
 }

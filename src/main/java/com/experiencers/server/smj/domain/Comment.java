@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ToString(exclude = "board")
 @Entity
 @Table(name = "comment")
 public class Comment {

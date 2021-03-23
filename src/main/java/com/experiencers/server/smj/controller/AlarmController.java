@@ -26,7 +26,7 @@ public class AlarmController {
 
         //return response;
 
-        List<Alarm> alarms = alarmService.readAllAlarm();
+        List<Alarm> alarms = alarmService.readAllAlarmOfMember();
 
         ModelAndView response = new ModelAndView("alarm/index");
         response.addObject("alarms", alarms);
@@ -37,7 +37,7 @@ public class AlarmController {
     @PostMapping("/alarm")
     public String postAlarm(@ModelAttribute Alarm inputtedAlarm){
         //System.out.println(inputtedAlarm.toString());
-        alarmService.saveAlarm(inputtedAlarm);
+        alarmService.saveAlarmOfMember(inputtedAlarm);
 
         return "redirect:/admin/alarm";
     }

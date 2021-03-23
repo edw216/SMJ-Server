@@ -1,5 +1,6 @@
 package com.experiencers.server.smj.service;
 
+import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Message;
 import com.experiencers.server.smj.manager.ManageMember;
@@ -30,14 +31,12 @@ public class MemberService {
         return savedMember;
     }
 
-    public Member saveMemberWithConvertImage(String image, Member member)  {
-        System.out.println("==");
-        if (!image.isEmpty()) {
-            System.out.println("====");
-            String stringImage = image;
+    public Member saveMemberWithConvertImage(MultipartFile image, Member member) throws IOException  {
+        if(!image.isEmpty()){
+            String stringImage = convertImageToString(image);
             member.setImage(stringImage);
         }
-        System.out.println("===");
+
 
         return memberRepository.save(member);
     }
@@ -72,7 +71,7 @@ public class MemberService {
         return memberRepository.findByEmail(email).get();
     }
 
-    public Member updateMemberWithConvertImage(Long userId, String image, Member member)  {
+    public Member updateMemberWithConvertImage(Long userId, MultipartFile image, Member member) throws IOException  {
         member.setId(userId);
         return saveMemberWithConvertImage(image, member);
     }
@@ -95,4 +94,11 @@ public class MemberService {
 
         return updatedMember;
     }
+    private String convertImageToString(MultipartFile image) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("data:image/png;base64,");
+        stringBuilder.append(new String(Base64.encodeBase64(image.getBytes()), "UTF-8"));
+        return stringBuilder.toString();
+    }
+
 }

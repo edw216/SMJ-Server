@@ -1,6 +1,7 @@
 package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 
 
@@ -15,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@ToString(exclude = {"alarms", "boards"})
 @Table(name = "member")
 public class Member {
     @Id
@@ -42,7 +42,8 @@ public class Member {
 
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "setting_id",nullable = false)
+    @JoinColumn(name = "setting_id")
+    @NotNull
     private Setting setting;
 
 

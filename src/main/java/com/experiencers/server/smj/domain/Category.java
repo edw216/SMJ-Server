@@ -13,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(exclude = {"boards"})
 @Entity
 @Table(name = "category")
 public class Category {
