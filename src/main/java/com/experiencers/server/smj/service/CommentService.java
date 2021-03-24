@@ -50,25 +50,12 @@ public class CommentService {
         }
         return null;
     }
-    public Comment saveCommentOfAdmin(Comment inputtedComment, Long boardId){
-        Board board = boardRepository.findById(boardId).get();
-
-        inputtedComment.setBoard(board);
-
-        Comment savedComment = commentRepository.save(inputtedComment);
-
-        return savedComment;
-
-    }
     public List<Comment> readComment(Long boardId){
         List<Comment> comments = boardRepository.findById(boardId).get().getComments();
 
         return comments;
     }
-    public Comment readCommentOfAdmin(Long commentId){
-        return commentRepository.findById(commentId).get();
-    }
-    public List<Comment> readAllComment(){return commentRepository.findAll();}
+
 
     //Api Admin Service
     public List<Comment> readAllComment(){
@@ -80,20 +67,22 @@ public class CommentService {
     }
 
     //Admin Service
-    public Comment saveCommentOfMember(Comment inputtedComment, Long boardId){
+    public Comment readCommentOfAdmin(Long commentId){
+        return commentRepository.findById(commentId).get();
+    }
+
+    public Comment saveCommentOfAdmin(Comment inputtedComment, Long boardId){
         Board board = boardRepository.findById(boardId).get();
-        String member = manageMember.getManageMembername();
+
         inputtedComment.setBoard(board);
-
-        inputtedComment.setUser(member);
-
 
         Comment savedComment = commentRepository.save(inputtedComment);
 
-
         return savedComment;
+
     }
-    public Comment readAndUpdateCommentOfMember(Long commentId, Comment comment){
+
+    public Comment readAndUpdateCommentOfAdmin(Long commentId, Comment comment){
         Optional<Comment> data = commentRepository.findById(commentId);
 
         if(data.isPresent()){

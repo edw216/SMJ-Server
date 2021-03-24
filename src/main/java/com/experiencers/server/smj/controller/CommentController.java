@@ -59,7 +59,7 @@ public class CommentController {
     @PostMapping("/comment/{comment_id}/update")
     public String updateComment(@PathVariable("comment_id")Long commentId, @ModelAttribute Comment comment){
 
-        commentService.readAndUpdateCommentOfMember(commentId, comment);
+        commentService.readAndUpdateCommentOfAdmin(commentId, comment);
 
         return "redirect:/admin/comment";
     }
