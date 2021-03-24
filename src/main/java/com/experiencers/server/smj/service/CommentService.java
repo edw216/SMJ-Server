@@ -50,11 +50,25 @@ public class CommentService {
         }
         return null;
     }
+    public Comment saveCommentOfAdmin(Comment inputtedComment, Long boardId){
+        Board board = boardRepository.findById(boardId).get();
+
+        inputtedComment.setBoard(board);
+
+        Comment savedComment = commentRepository.save(inputtedComment);
+
+        return savedComment;
+
+    }
     public List<Comment> readComment(Long boardId){
         List<Comment> comments = boardRepository.findById(boardId).get().getComments();
 
         return comments;
     }
+    public Comment readCommentOfAdmin(Long commentId){
+        return commentRepository.findById(commentId).get();
+    }
+    public List<Comment> readAllComment(){return commentRepository.findAll();}
 
     //Api Admin Service
     public List<Comment> readAllComment(){
@@ -85,7 +99,9 @@ public class CommentService {
         if(data.isPresent()){
             Comment target = data.get();
 
+            target.setUser(comment.getUser());
             target.setContent(comment.getContent());
+
 
             target = commentRepository.save(target);
 
