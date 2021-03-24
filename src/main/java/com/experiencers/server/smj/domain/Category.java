@@ -17,8 +17,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
+    @ApiModelProperty(position = 1,notes = "카테고리 아이디")
     public Long id;
-    @ApiModelProperty(example = "카테고리 이름")
+
+    @ApiModelProperty(position = 2,notes = "카테고리 이름")
     @Column(nullable = false, length = 255,unique = true)
     public String name;
 
@@ -37,5 +39,24 @@ public class Category {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public static class Builder{
+        private String name;
+
+        public Builder name(String name){
+            this.name = name;
+            return this;
+        }
+        public Category build(){
+            return new Category(this);
+        }
+    }
+
+    private Category(Builder builder){
+        this.name = builder.name;
+    }
+    public static Builder builder(){
+        return new Builder();
     }
 }

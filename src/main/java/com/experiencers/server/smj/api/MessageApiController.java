@@ -1,7 +1,9 @@
 package com.experiencers.server.smj.api;
 
 
+import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.domain.Message;
+import com.experiencers.server.smj.dto.MessageDto;
 import com.experiencers.server.smj.service.MessageService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class MessageApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiOperation(value = "쪽지 목록",notes = "성공시 사용자가 받은 모든 쪽지를 반환합니다.")
+    @ApiOperation(value = "쪽지 목록",notes = "성공시 사용자가 받은 모든 쪽지를 반환합니다.",response = Message.class)
     @GetMapping("")
     public ResponseEntity<?> getMessages(){
         List<Message> messageList = messageService.readAllMessage();
@@ -37,8 +39,8 @@ public class MessageApiController {
     })
     @ApiOperation(value = "쪽지 작성",notes = "성공시 받은 사람에게 쪽지가 저장합니다.")
     @PostMapping("")
-    public ResponseEntity<?> postMessages(@RequestBody Message message){
-        Message savedMessage = messageService.saveMessage(message);
+    public ResponseEntity<?> postMessages(@RequestBody MessageDto messageDto){
+        Message savedMessage = messageService.saveMessage(messageDto);
 
 
         return new ResponseEntity<>(savedMessage,HttpStatus.CREATED);

@@ -3,6 +3,7 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Alarm;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.dto.AlarmDto;
 import com.experiencers.server.smj.enumerate.RepeatType;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.AlarmRepository;
@@ -22,23 +23,30 @@ public class AlarmService {
     @Autowired
     private ManageMember manageMember;
 
-    public Alarm saveAlarm(Alarm inputtedAlarm){
+    public Alarm saveAlarm(AlarmDto alarmDto){
         boolean check = false;
         Member member = manageMember.getManageMember();
 
         RepeatType repeatType[] = RepeatType.values();
 
         for(RepeatType rt : repeatType){
-            if(rt.toString().equals(inputtedAlarm.getRepeat().toString())){
+            if(rt.toString().equals(alarmDto.getRepeat().toString())){
                 check =true;
             }
         }
         if(check == false){
-            inputtedAlarm.setRepeat(RepeatType.ONCE);
+            alarmDto.setRepeat(RepeatType.ONCE);
         }
 
-        inputtedAlarm.setMember(member);
-
+        Alarm inputtedAlarm = Alarm.builder()
+                .title(alarmDto.getTitle())
+                .content(alarmDto.getContent())
+                .day(alarmDto.getDay())
+                .startTime(alarmDto.getStartTime())
+                .endTime(alarmDto.getEndTime())
+                .repeat(alarmDto.getRepeat())
+                .member(member)
+                .build();
 
         Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
 
@@ -47,8 +55,9 @@ public class AlarmService {
     public Alarm readAlarm(Long alarmId){return alarmRepository.findById(alarmId).get();}
 
     public List<Alarm> readAllAlarm(){
+        Member member = manageMember.getManageMember();
 
-        List<Alarm> alarms = manageMember.getManageMember().getAlarms();
+        List<Alarm> alarms = member.getAlarms();
 
         return alarms;
     }
@@ -67,7 +76,7 @@ public class AlarmService {
 
     }
     //remove, update
-    public Alarm readAndUpdateAlarm(Long alarmId, Alarm alarm) {
+    public Alarm readAndUpdateAlarm(Long alarmId, AlarmDto alarmDto) {
         Optional<Alarm> data = alarmRepository.findById(alarmId);
 
         if (!data.isPresent()) {
@@ -75,12 +84,12 @@ public class AlarmService {
         }
 
         Alarm updateData = data.get();
-        updateData.setRepeat(alarm.getRepeat());
-        updateData.setTitle(alarm.getTitle());
-        updateData.setContent(alarm.getContent());
-        updateData.setStartTime(alarm.getStartTime());
-        updateData.setEndTime(alarm.getEndTime());
-        updateData.setDay(alarm.getDay());
+        updateData.setTitle(alarmDto.getTitle());
+        updateData.setContent(alarmDto.getContent());
+        updateData.setDay(alarmDto.getDay());
+        updateData.setStartTime(alarmDto.getStartTime());
+        updateData.setEndTime(alarmDto.getEndTime());
+        updateData.setRepeat(alarmDto.getRepeat());
 
         Alarm updatedalarm = alarmRepository.save(updateData);
 

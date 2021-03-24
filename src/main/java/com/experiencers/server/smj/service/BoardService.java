@@ -2,13 +2,17 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.domain.Category;
+import com.experiencers.server.smj.domain.KakaoProfile;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.dto.BoardDto;
 import com.experiencers.server.smj.enumerate.BoardType;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.repository.CategoryRepository;
 import com.experiencers.server.smj.repository.CommentRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,22 +35,32 @@ public class BoardService {
     private CategoryRepository categoryRepository;
 
     //타입, 제목, 내용, 카테고리
-    public Board saveBoard(Board inputtedBoard){
+    public Board saveBoard(BoardDto boardDto){
         Member member = manageMember.getManageMember();
 
-        inputtedBoard.setMember(member);
-
-        if(inputtedBoard.getType().toString().equals("TRADE")){
-            inputtedBoard.setType(BoardType.TRADE);
+        if(boardDto.getType().toString().equals("TRADE")){
+            boardDto.setType(BoardType.TRADE);
         }else {
-            inputtedBoard.setType(BoardType.LIVE);
+            boardDto.setType(BoardType.LIVE);
         }
-        Optional<Category> categoryOptional = categoryRepository.findByName(inputtedBoard.getCategory().getName());
+
+
+        Optional<Category> categoryOptional = categoryRepository.findById(boardDto.getCategoryId());
+        Category category = null;
         if(!categoryOptional.isPresent()){
-            inputtedBoard.setCategory(new Category());
+            category = new Category();
         }else{
-            inputtedBoard.setCategory(categoryOptional.get());
+            category = categoryOptional.get();
         }
+
+        Board inputtedBoard = Board.builder()
+                .writer(member.getNickname())
+                .content(boardDto.getContent())
+                .title(boardDto.getTitle())
+                .member(member)
+                .category(category)
+                .type(boardDto.getType())
+                .build();
 
 
         Board savedBoard = boardRepository.save(inputtedBoard);
@@ -61,21 +75,21 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
-    public Board readAndUpdateBoard(Long boardId, Board board){
+    public Board readAndUpdateBoard(Long boardId, BoardDto boardDto){
 
         Optional<Board> data = boardRepository.findById(boardId);
         if(data.isPresent()){
             Board target = data.get();
-            target.setTitle(board.getTitle());
-            target.setContent(board.getContent());
+            target.setTitle(boardDto.getTitle());
+            target.setContent(boardDto.getContent());
 
-            if(board.getType().toString().equals("TRADE")){
+            if(boardDto.getType().toString().equals("TRADE")){
                 target.setType(BoardType.TRADE);
             }else {
                 target.setType(BoardType.LIVE);
             }
 
-            Optional<Category> categoryOptional = categoryRepository.findByName(board.getCategory().getName());
+            Optional<Category> categoryOptional = categoryRepository.findById(boardDto.getCategoryId());
             if(!categoryOptional.isPresent()){
                 target.setCategory(new Category());
             }else{

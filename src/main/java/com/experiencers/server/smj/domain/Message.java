@@ -17,18 +17,24 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
+    @ApiModelProperty(position = 1,notes = "쪽지 아이디")
     private Long id;
-    @ApiModelProperty(example = "내용")
+
+    @ApiModelProperty(position = 2,notes = "쪽지 내용(최대 255자)")
     @Column(nullable = false, length = 255)
     private String content;
-    @JsonIgnore
-    @Column( length = 50)
+
+    @ApiModelProperty(position = 3,notes = "쪽지 보내는사람(이메일)",example = "example@example.com")
+    @Column(nullable = false, length = 50)
     private String sender;
-    @ApiModelProperty(example = "example@example.com")
+
+    @ApiModelProperty(position = 4,notes = "쪽지 받는사람(이메일)",example = "example@example.com")
     @Column(nullable = false, length = 50)
     private String receiver;
+
+    @ApiModelProperty(position = 5)
     @CreationTimestamp
-    private LocalDateTime date;
+    private LocalDateTime createAt;
 
 
     @Override
@@ -38,7 +44,39 @@ public class Message {
                 ", content='" + content + '\'' +
                 ", sender='" + sender + '\'' +
                 ", receiver='" + receiver + '\'' +
-                ", date='" + date + '\'' +
+                ", createAt='" + createAt + '\'' +
                 '}';
+    }
+
+    public static class Builder{
+        private String content;
+        private String sender;
+        private String receiver;
+
+        public Builder content(String content){
+            this.content = content;
+            return this;
+        }
+        public Builder sender(String sender){
+            this.sender = sender;
+            return this;
+        }
+        public Builder receiver(String receiver){
+            this.receiver = receiver;
+            return this;
+        }
+        public Message build(){
+            return new Message(this);
+        }
+    }
+    private Message(Builder builder){
+        this.content = builder.content;
+        this.sender = builder.sender;
+        this.receiver = builder.receiver;
+    }
+    public Message(){}
+
+    public static Builder builder(){
+        return new Builder();
     }
 }

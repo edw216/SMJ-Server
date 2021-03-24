@@ -2,6 +2,7 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.dto.CommentDto;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.domain.Comment;
@@ -21,14 +22,17 @@ public class CommentService {
     @Autowired
     private ManageMember manageMember;
 
-    public Comment saveComment(Comment inputtedComment,Long boardId){
+    public Comment saveComment(CommentDto commentDto, Long boardId){
         Board board = boardRepository.findById(boardId).get();
         String member = manageMember.getManageMember().getNickname();
 
-        inputtedComment.setBoard(board);
-        inputtedComment.setUser(member);
+        Comment comment = Comment.builder()
+                .content(commentDto.getContent())
+                .user(member)
+                .board(board)
+                .build();
 
-        Comment savedComment = commentRepository.save(inputtedComment);
+        Comment savedComment = commentRepository.save(comment);
 
         return savedComment;
     }
@@ -46,13 +50,13 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public Comment readAndUpdateComment(Long commentId, Comment comment){
+    public Comment readAndUpdateComment(Long commentId, CommentDto commentDto){
         Optional<Comment> data = commentRepository.findById(commentId);
 
         if(data.isPresent()){
             Comment target = data.get();
 
-            target.setContent(comment.getContent());
+            target.setContent(commentDto.getContent());
 
             target = commentRepository.save(target);
 

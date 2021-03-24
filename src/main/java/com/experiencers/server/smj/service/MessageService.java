@@ -2,6 +2,7 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Message;
+import com.experiencers.server.smj.dto.MessageDto;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.MessageRepository;
@@ -22,13 +23,16 @@ public class MessageService {
     @Autowired
     private ManageMember manageMember;
 
-    public Message saveMessage(Message inputtedMessage) {
+    public Message saveMessage(MessageDto messageDto) {
         Member sendMember = manageMember.getManageMember();
 
+        Message message = Message.builder()
+                .content(messageDto.getContent())
+                .receiver(messageDto.getReceiver())
+                .sender(sendMember.getEmail())
+                .build();
 
-        inputtedMessage.setSender(sendMember.getEmail());
-
-        Message savedMessage = messageRepository.save(inputtedMessage);
+        Message savedMessage = messageRepository.save(message);
 
         return savedMessage;
     }

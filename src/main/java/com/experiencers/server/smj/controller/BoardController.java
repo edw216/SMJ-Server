@@ -38,7 +38,7 @@ public class BoardController {
     @PostMapping("")
     public String postBoard(@ModelAttribute Board inputtedBoard){
 
-        boardService.saveBoard(inputtedBoard);
+        //boardService.saveBoard(inputtedBoard);
 
         return "redirect:/admin/board";
     }
@@ -57,7 +57,7 @@ public class BoardController {
 
     @PostMapping("/{board_id}/update")
     public String updateBoard(@PathVariable("board_id") Long boardId, @ModelAttribute Board board){
-        boardService.readAndUpdateBoard(boardId, board);
+        //boardService.readAndUpdateBoard(boardId, board);
 
         return "redirect:/board";
     }

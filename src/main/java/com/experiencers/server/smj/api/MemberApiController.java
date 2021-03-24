@@ -1,7 +1,9 @@
 package com.experiencers.server.smj.api;
 
 
+import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.dto.MemberDto;
 import com.experiencers.server.smj.service.MemberService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +38,14 @@ public class MemberApiController {
             @ApiResponse(code = 200, message = "성공")
     })
     @ApiImplicitParam(name = "member_id",value = "유저번호",required = true,paramType = "path")
-    @ApiOperation(value = "사용자 수정",notes = "성공시 사용자의 정보를 변경합니다.")
+    @ApiOperation(value = "사용자 수정",notes = "성공시 사용자의 정보를 변경합니다.",response = Member.class)
     @PutMapping("/{member_id}")
-    public ResponseEntity<?> putMember(@PathVariable("member_id")Long memberId, @RequestBody Member member){
-        Member updatedMember = memberService.readAndUpdateMember(memberId, member);
+    public ResponseEntity<?> putMember(@PathVariable("member_id")Long memberId, @RequestBody MemberDto memberDto){
+        Member updatedMember = memberService.readAndUpdateMember(memberId, memberDto);
 
         if(updatedMember == null){
-            member.setId(memberId);
 
-            return new ResponseEntity<>(member,HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(memberDto,HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(updatedMember, HttpStatus.OK);
     }

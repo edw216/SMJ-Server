@@ -1,7 +1,9 @@
 package com.experiencers.server.smj.api;
 
 
+import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.domain.Category;
+import com.experiencers.server.smj.dto.CategoryDto;
 import com.experiencers.server.smj.service.CategoryService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,7 @@ public class CategoryApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiOperation(value = "카테고리 목록",notes = "성공시 모든 카테고리를 반환합니다.")
+    @ApiOperation(value = "카테고리 목록",notes = "성공시 모든 카테고리를 반환합니다.",response = Category.class)
     @GetMapping("")
     public ResponseEntity<?> getCategories() {
         List<Category> categoryList = categoryService.readAllCategory();
@@ -38,8 +40,8 @@ public class CategoryApiController {
     @ApiOperation(value = "카테고리 생성",notes = "성공시 카테고리를 저장합니다.")
     @PostMapping("")
     // 성공: 201 Created
-    public ResponseEntity<?> postCategories(@RequestBody Category category){
-        Category savedCategory = categoryService.saveCategory(category);
+    public ResponseEntity<?> postCategories(@RequestBody CategoryDto categoryDto){
+        Category savedCategory = categoryService.saveCategory(categoryDto);
 
         return new ResponseEntity<>(savedCategory,HttpStatus.CREATED);
     }
@@ -52,12 +54,11 @@ public class CategoryApiController {
     @PutMapping("/{category_id}")
     // 성공: 200 OK
     // 실패: 404 NOT FOUND
-    public ResponseEntity<?> putCategories(@PathVariable("category_id") Long categoryId, @RequestBody Category category){
-        Category updatedCategory = categoryService.readAndUpdateCategory(categoryId, category);
+    public ResponseEntity<?> putCategories(@PathVariable("category_id") Long categoryId, @RequestBody CategoryDto categoryDto){
+        Category updatedCategory = categoryService.readAndUpdateCategory(categoryId, categoryDto);
 
         if (updatedCategory == null) {
-            category.setId(categoryId);
-            return new ResponseEntity<>(category, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(categoryDto, HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);

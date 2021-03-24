@@ -1,7 +1,7 @@
 package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
-import com.experiencers.server.smj.domain.Message;
+import com.experiencers.server.smj.dto.MemberDto;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.MessageRepository;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +18,6 @@ import java.util.Optional;
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
-
-    @Autowired
-    private SettingRepository settingRepository;
 
     @Autowired
     private ManageMember manageMember;
@@ -56,13 +52,14 @@ public class MemberService {
     public void deleteMember(Long memberId){
         memberRepository.deleteById(memberId);
     }
-    public Member readAndUpdateMember(Long memberId, Member member){
+    public Member readAndUpdateMember(Long memberId, MemberDto memberDto){
         Optional<Member> data = memberRepository.findById(memberId);
 
         if(data.isPresent()){
             Member target = data.get();
-            target.setNickname(member.getNickname());
-            target.setEmail(member.getEmail());
+            target.setNickname(memberDto.getNickname());
+            target.setEmail(memberDto.getEmail());
+            target.setImage(memberDto.getImage());
 
             target = memberRepository.save(target);
 

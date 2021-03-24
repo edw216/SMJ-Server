@@ -1,6 +1,7 @@
 package com.experiencers.server.smj.api;
 
 import com.experiencers.server.smj.domain.Comment;
+import com.experiencers.server.smj.dto.CommentDto;
 import com.experiencers.server.smj.service.CommentService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class CommentApiController {
             @ApiResponse(code = 200, message = "성공")
     })
     @ApiImplicitParam(name = "board_id",value = "게시글번호",required = true,paramType = "path")
-    @ApiOperation(value = "댓글 목록",notes = "성공시 해당 게시글의 모든 댓글을 반환합니다.")
+    @ApiOperation(value = "댓글 목록",notes = "성공시 해당 게시글의 모든 댓글을 반환합니다.",response = Comment.class)
     @GetMapping("/{board_id}/comments")
     public ResponseEntity<?> getComments(@PathVariable("board_id")Long boardId){
         List<Comment> comments = commentService.readComment(boardId);
@@ -38,8 +39,8 @@ public class CommentApiController {
     @ApiImplicitParam(name = "board_id",value = "게시글번호",required = true,paramType = "path")
     @ApiOperation(value = "댓글 작성",notes = "성공시 해당 게시글에 댓글을 저장합니다.")
     @PostMapping("/{board_id}/comments")
-    public ResponseEntity<?> postComments(@PathVariable("board_id")Long boardId,@RequestBody Comment comment){
-        Comment savedComment = commentService.saveComment(comment,boardId);
+    public ResponseEntity<?> postComments(@PathVariable("board_id")Long boardId,@RequestBody CommentDto commentDto){
+        Comment savedComment = commentService.saveComment(commentDto,boardId);
 
         return new ResponseEntity<>(savedComment,HttpStatus.CREATED);
     }
@@ -50,13 +51,11 @@ public class CommentApiController {
     @ApiImplicitParam(name = "comment_id",value = "댓글번호",required = true,paramType = "path")
     @ApiOperation(value = "댓글 수정",notes = "성공시 해당 댓글내용을 변경합니다.")
     @PutMapping("/comments/{comment_id}")
-    public ResponseEntity<Comment> putComments(@PathVariable("comment_id")Long commentId, @RequestBody Comment comment){
-        Comment updatedComment = commentService.readAndUpdateComment(commentId,comment);
+    public ResponseEntity<?> putComments(@PathVariable("comment_id")Long commentId, @RequestBody CommentDto commentDto){
+        Comment updatedComment = commentService.readAndUpdateComment(commentId,commentDto);
 
         if(updatedComment == null){
-            comment.setId(commentId);
-
-            return new ResponseEntity<>(updatedComment, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(commentDto, HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(updatedComment,HttpStatus.OK);

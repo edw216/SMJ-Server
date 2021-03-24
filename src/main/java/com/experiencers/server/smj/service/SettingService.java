@@ -2,6 +2,7 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Setting;
+import com.experiencers.server.smj.dto.SettingDto;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.SettingRepository;
@@ -35,20 +36,17 @@ public class SettingService {
     }
     public List<Setting> readAllSetting(){return settingRepository.findAll();}
 
-    public Setting updateSetting(Setting setting){
-        // 1. 저장된 데이터를 찾기
-        // 2. 찾은 데이터의 값을 바꿔주기
-        // 3. 바꾼 데이터를 다시 저장
-        // - #중요: id가 바뀌면 새로 생성, 동일하면 수정
-
-        //Setting data = settingRepository.findById(setting.getId()).get();
-        //data.setId(setting.getId());
-        //settingRepository.save(data);
+    public Setting updateSetting(SettingDto settingDto){
         Setting data = manageMember.getManageMember().getSetting();
-        data.setGps(setting.getGps());
-        data.setPush(setting.getPush());
+
+        if(settingDto.isGps() || !settingDto.isGps()) {
+            data.setGps(settingDto.isGps());
+        }
+        if(settingDto.isPush() || !settingDto.isPush()) {
+            data.setPush(settingDto.isPush());
+        }
+
         settingRepository.save(data);
-        //memberRepository.findByEmail(email).get().setSetting(data);
 
         return data;
     }
