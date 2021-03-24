@@ -3,6 +3,8 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Alarm;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.dto.AlarmDto;
+import com.experiencers.server.smj.enumerate.RepeatType;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.AlarmRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
@@ -20,6 +22,7 @@ public class AlarmService {
     @Autowired
     private ManageMember manageMember;
 
+    //Api Service
     public Alarm saveAlarm(AlarmDto alarmDto){
         boolean check = false;
         Member member = manageMember.getManageMember();
@@ -49,39 +52,6 @@ public class AlarmService {
 
         return savedAlarm;
     }
-    public Alarm saveAlarmOfMember(Alarm inputtedAlarm){
-        Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
-
-        return savedAlarm;
-    }
-
-    public Alarm readAlarm(Long alarmId){return alarmRepository.findById(alarmId).get();}
-
-    public List<Alarm> readAllAlarm(){
-        Member member = manageMember.getManageMember();
-
-        List<Alarm> alarms = member.getAlarms();
-
-        return alarms;
-    }
-    public List<Alarm> readAllAlarmOfMember(){
-        return alarmRepository.findAll();
-    }
-
-    public void removeAlarm(Long alarmId){
-        alarmRepository.deleteById(alarmId);
-    }
-
-    public void updateAlarm(Alarm alarm){
-        Alarm beforeAlarm = alarmRepository.findById(alarm.getId()).get();
-        beforeAlarm.setTitle(alarm.getTitle());
-        beforeAlarm.setDay(alarm.getDay());
-        beforeAlarm.setRepeat(alarm.getRepeat());
-
-        alarmRepository.save(beforeAlarm);
-
-    }
-    //remove, update
     public Alarm readAndUpdateAlarm(Long alarmId, AlarmDto alarmDto) {
         Optional<Alarm> data = alarmRepository.findById(alarmId);
 
@@ -96,6 +66,52 @@ public class AlarmService {
         updateData.setStartTime(alarmDto.getStartTime());
         updateData.setEndTime(alarmDto.getEndTime());
         updateData.setRepeat(alarmDto.getRepeat());
+
+        Alarm updatedalarm = alarmRepository.save(updateData);
+
+        return updatedalarm;
+    }
+    public List<Alarm> readAllAlarm(){
+        Member member = manageMember.getManageMember();
+
+        List<Alarm> alarms = member.getAlarms();
+
+        return alarms;
+    }
+
+    public void removeAlarm(Long alarmId){
+        alarmRepository.deleteById(alarmId);
+    }
+    //Admin Service
+    public Alarm saveAlarmOfMember(Alarm inputtedAlarm){
+        Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
+
+        return savedAlarm;
+    }
+
+
+    public Alarm readAlarm(Long alarmId){
+        return alarmRepository.findById(alarmId).get();
+    }
+
+    public List<Alarm> readAllAlarmOfMember(){
+        return alarmRepository.findAll();
+    }
+
+    public Alarm readAndUpdateAlarmOfMember(Long alarmId, Alarm alarm) {
+        Optional<Alarm> data = alarmRepository.findById(alarmId);
+
+        if (!data.isPresent()) {
+            return null;
+        }
+
+        Alarm updateData = data.get();
+        updateData.setTitle(alarm.getTitle());
+        updateData.setContent(alarm.getContent());
+        updateData.setDay(alarm.getDay());
+        updateData.setStartTime(alarm.getStartTime());
+        updateData.setEndTime(alarm.getEndTime());
+        updateData.setRepeat(alarm.getRepeat());
 
         Alarm updatedalarm = alarmRepository.save(updateData);
 

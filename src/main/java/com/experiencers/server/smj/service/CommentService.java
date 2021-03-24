@@ -36,20 +36,6 @@ public class CommentService {
 
         return savedComment;
     }
-    public List<Comment> readComment(Long boardId){
-        //Member member = manageMember.getManageMembername()
-        List<Comment> comments = boardRepository.findById(boardId).get().getComments();
-
-        return comments;
-    }
-
-    public List<Comment> readAllComment(){return commentRepository.findAll();}
-
-    public void deleteComment(Long commentId){
-
-        commentRepository.deleteById(commentId);
-    }
-
     public Comment readAndUpdateComment(Long commentId, CommentDto commentDto){
         Optional<Comment> data = commentRepository.findById(commentId);
 
@@ -64,4 +50,48 @@ public class CommentService {
         }
         return null;
     }
+    public List<Comment> readComment(Long boardId){
+        List<Comment> comments = boardRepository.findById(boardId).get().getComments();
+
+        return comments;
+    }
+
+    //Api Admin Service
+    public List<Comment> readAllComment(){
+        return commentRepository.findAll();
+    }
+
+    public void deleteComment(Long commentId){
+        commentRepository.deleteById(commentId);
+    }
+
+    //Admin Service
+    public Comment saveCommentOfMember(Comment inputtedComment, Long boardId){
+        Board board = boardRepository.findById(boardId).get();
+        String member = manageMember.getManageMembername();
+        inputtedComment.setBoard(board);
+
+        inputtedComment.setUser(member);
+
+
+        Comment savedComment = commentRepository.save(inputtedComment);
+
+
+        return savedComment;
+    }
+    public Comment readAndUpdateCommentOfMember(Long commentId, Comment comment){
+        Optional<Comment> data = commentRepository.findById(commentId);
+
+        if(data.isPresent()){
+            Comment target = data.get();
+
+            target.setContent(comment.getContent());
+
+            target = commentRepository.save(target);
+
+            return target;
+        }
+        return null;
+    }
+
 }

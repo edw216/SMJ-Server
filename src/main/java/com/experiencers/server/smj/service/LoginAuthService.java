@@ -76,8 +76,6 @@ public class LoginAuthService {
             member = findEmail.get();
         }
 
-        //밑의 방식으로 사용자를 저장하면 에러가 나서 바로 repository로 저장방식 사용
-        //memberService.saveMemberWithConvertImage(profile.properties.profile_image,member);
         System.out.println(profile.getId());
         System.out.println(profile.kakao_account.profile.nickname);
         System.out.println(profile.kakao_account.email);

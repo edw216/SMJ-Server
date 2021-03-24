@@ -2,6 +2,8 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Message;
+import com.experiencers.server.smj.dto.MessageDto;
+import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ public class MessageService {
     @Autowired
     private ManageMember manageMember;
 
+    //Api Service
     public Message saveMessage(MessageDto messageDto) {
         Member sendMember = manageMember.getManageMember();
 
@@ -35,10 +38,6 @@ public class MessageService {
         return savedMessage;
     }
 
-    public Message readMessage(Long message_id) {
-        return messageRepository.findById(message_id).get();
-    }
-
     public List<Message> readAllMessage() {
         String email = manageMember.getManageMembername();
         List<Message> messages = messageRepository.findAllByReceiver(email);
@@ -46,8 +45,14 @@ public class MessageService {
         return messages;
     }
 
+    //Api Admin Service
     public void deleteMessage(Long message_id){
         messageRepository.deleteById(message_id);
+    }
+
+    //Admin Service
+    public Message readMessage(Long message_id) {
+        return messageRepository.findById(message_id).get();
     }
 
     public Message readAndUpdateMessage(Long messageId, Message message){

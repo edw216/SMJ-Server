@@ -18,23 +18,12 @@ public class SettingService {
     @Autowired
     private ManageMember manageMember;
 
-    public Setting writeSetting(Setting inputtedSetting){
-        Setting savedSetting = settingRepository.save(inputtedSetting);
-
-        return savedSetting;
-    } //저장하는거
-
-    public Setting readSetting(Long settingId){
-        Setting result = settingRepository.findById(settingId).get();
-
-        return result;
-    }//읽고 데이터 확인
+    //Api Service
     public Setting readMemberSetting(){
         Setting setting = manageMember.getManageMember().getSetting();
 
         return setting;
     }
-    public List<Setting> readAllSetting(){return settingRepository.findAll();}
 
     public Setting updateSetting(SettingDto settingDto){
         Setting data = manageMember.getManageMember().getSetting();
@@ -50,6 +39,22 @@ public class SettingService {
 
         return data;
     }
+
+    //Admin Service
+    public Setting writeSetting(Setting inputtedSetting){
+        Setting savedSetting = settingRepository.save(inputtedSetting);
+
+        return savedSetting;
+    }
+
+    public Setting readSetting(Long settingId){
+        Setting result = settingRepository.findById(settingId).get();
+
+        return result;
+    }
+    public List<Setting> readAllSetting(){return settingRepository.findAll();}
+
+
 
     public void updateSetting(Long settingId, Setting setting) {
         setting.setId(settingId);

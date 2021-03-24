@@ -1,13 +1,13 @@
 package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.io.BufferedReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +23,15 @@ public class Member {
     @ApiModelProperty(position = 1,notes = "멤버 아이디")
     private Long id;
 
+    @NotNull
     @ApiModelProperty(position = 2,notes = "멤버 이메일",example = "email@example.com")
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String email;
 
 
+    @NotNull
     @ApiModelProperty(position = 3,notes = "멤버 닉네임",example = "사용자 닉네임")
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String nickname;
 
     @ApiModelProperty(position = 4,notes = "멤버 이미지")

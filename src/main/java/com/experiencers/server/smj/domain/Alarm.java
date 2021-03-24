@@ -3,6 +3,7 @@ package com.experiencers.server.smj.domain;
 import com.experiencers.server.smj.enumerate.RepeatType;
 import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,24 +30,24 @@ public class Alarm {
     @Column(length = 10000)
     private String content;
 
+    @NotNull
     @ApiModelProperty(position = 4,notes = "날짜",example = "yyyy-MM-dd")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Asia/Seoul")
-    @Column(nullable = false)
     private Date day;
 
+    @NotNull
     @ApiModelProperty(position = 5,notes = "시작시간",example = "HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    @NotNull
     private Time startTime;
 
+    @NotNull
     @ApiModelProperty(position = 6,notes = "종료 시간",example = "HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    @NotNull
     private Time endTime;
 
+    @NotNull
     @ApiModelProperty(position = 7,notes = "반복 주기",example = "ONCE, HOURLY, DAILY, MONTHLY, YEARLY")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private RepeatType repeat; //Enum 타입
 
     @JsonIgnore

@@ -1,6 +1,7 @@
 package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,21 +21,24 @@ public class Comment {
     @ApiModelProperty(position = 1,notes = "댓글 아이디")
     private Long id;
 
+    @NotNull
     @ApiModelProperty(position = 2,notes = "댓글 내용(최대 1000자)")
-    @Column(nullable = false, length = 1000)
+    @Column(length = 1000)
     private String content;
 
+    @NotNull
     @ApiModelProperty(position = 3,notes = "작성자")
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String user;
 
     @ApiModelProperty(position = 4)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @NotNull
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id",nullable = false)
+    @JoinColumn(name = "board_id")
     private Board board;
 
 

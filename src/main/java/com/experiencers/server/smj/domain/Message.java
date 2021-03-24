@@ -1,6 +1,7 @@
 package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,16 +21,19 @@ public class Message {
     @ApiModelProperty(position = 1,notes = "쪽지 아이디")
     private Long id;
 
+    @NotNull
     @ApiModelProperty(position = 2,notes = "쪽지 내용(최대 255자)")
-    @Column(nullable = false, length = 255)
+    @Column(length = 255)
     private String content;
 
+    @NotNull
     @ApiModelProperty(position = 3,notes = "쪽지 보내는사람(이메일)",example = "example@example.com")
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String sender;
 
+    @NotNull
     @ApiModelProperty(position = 4,notes = "쪽지 받는사람(이메일)",example = "example@example.com")
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private String receiver;
 
     @ApiModelProperty(position = 5)

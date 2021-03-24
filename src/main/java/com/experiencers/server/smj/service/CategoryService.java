@@ -14,6 +14,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    //Api Service
     public Category saveCategory(CategoryDto categoryDto){
         Category category = Category.builder()
                 .name(categoryDto.getName())
@@ -22,13 +23,20 @@ public class CategoryService {
 
         return savedCategory;
     }
+    public Category readAndUpdateCategory(Long categoryId, CategoryDto categoryDto){
+        Optional<Category> data = categoryRepository.findById(categoryId);
 
-    public Category readCategory(Long categoryId){
-        Category result = categoryRepository.findById(categoryId).get();
+        if (data.isPresent()) {
+            Category target = data.get();
+            target.setName(categoryDto.getName());
+            target = categoryRepository.save(target);
 
-        return result;
+            return target;
+
+        }
+        return null;
     }
-
+    //Api, Admin Service
     public List<Category> readAllCategory(){
         return categoryRepository.findAll();
     }
@@ -37,12 +45,25 @@ public class CategoryService {
         categoryRepository.deleteById(category_id);
     }
 
-    public Category readAndUpdateCategory(Long categoryId, CategoryDto categoryDto){
+    //Admin Service
+    public Category readCategory(Long categoryId){
+        Category result = categoryRepository.findById(categoryId).get();
+
+        return result;
+    }
+
+
+    public Category saveCategoryOfMember(Category category){
+        Category savedCategory = categoryRepository.save(category);
+
+        return savedCategory;
+    }
+    public Category readAndUpdateCategoryOfMember(Long categoryId, Category category){
         Optional<Category> data = categoryRepository.findById(categoryId);
 
         if (data.isPresent()) {
             Category target = data.get();
-            target.setName(categoryDto.getName());
+            target.setName(category.getName());
             target = categoryRepository.save(target);
 
             return target;

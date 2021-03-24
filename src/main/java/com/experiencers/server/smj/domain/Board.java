@@ -2,6 +2,7 @@ package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.BoardType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,22 +24,24 @@ public class Board {
     @ApiModelProperty(position = 1,notes = "게시글 아이디")
     private Long id;
 
-
+    @NotNull
     @ApiModelProperty(position = 2,notes = "작성자")
-    @Column(nullable = false)
     private String writer;
 
+    @NotNull
     @ApiModelProperty(position = 3,notes = "게시글 유형",example = "LIVE, TRADE")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     private BoardType type;
 
+    @NotNull
     @ApiModelProperty(position = 4,notes = "게시글 제목(최대 255자)")
-    @Column(nullable = false, length = 255)
+    @Column(length = 255)
     private String title;
 
+    @NotNull
     @ApiModelProperty(position = 5,notes = "게시글 내용(최대 10000자)")
-    @Column(nullable = false, length = 10000)
+    @Column(length = 10000)
     private String content;
 
     @ApiModelProperty(position = 7)
@@ -52,9 +55,10 @@ public class Board {
     private Category category;
 
 
+    @NotNull
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="member_id",nullable = false)
+    @JoinColumn(name ="member_id")
     private Member member;
 
     @JsonIgnore
