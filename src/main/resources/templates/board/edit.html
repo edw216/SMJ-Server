@@ -28,8 +28,35 @@
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Board</h1>
-                <form method="POST" action="/board/{{board.id}}/update">
+                <form method="POST" action="/admin/board/{{board.id}}/update">
                     <div class="form-group row">
+                        <label for="board_id" class="col-sm-1 col-form-label col-form-label-sm">Board</label>
+                        <div class="col-sm-5">
+                            <select class="form-control form-control-sm" id="board_id" name="board_id">
+                                <option selected>Open this select menu</option>
+                                {{#board}}
+                                <option value="{{id}}">{{.}}</option>
+                                {{/board}}
+                            </select>
+                        </div>
+                        <label for="member_id" class="col-sm-1 col-form-label col-form-label-sm">Member</label>
+                        <div class="col-sm-5">
+                            <select class="form-control form-control-sm" id="member_id" name="member_id">
+                                <option selected>Open this select menu</option>
+                                {{#members}}
+                                <option value="{{id}}">{{nickname}}</option>
+                                {{/members}}
+                            </select>
+                        </div>
+                        <label for="category_id" class="col-sm-1 col-form-label col-form-label-sm">Category</label>
+                        <div class="col-sm-5">
+                            <select class="form-control form-control-sm" id="category_id" name="category_id">
+                                <option selected>Open this select menu</option>
+                                {{#categories}}
+                                <option value="{{id}}">{{name}}</option>
+                                {{/categories}}
+                            </select>
+                        </div>
                         <label for="type" class="col-sm-1 col-form-label col-form-label-sm">Type</label>
                         <div class="col-sm-5">
                             <select class="form-control form-control-sm" id="type" name="type">
@@ -37,15 +64,6 @@
                                 {{#types}}
                                 <option value="{{.}}">{{.}}</option>
                                 {{/types}}
-                            </select>
-                        </div>
-                        <label for="category" class="col-sm-1 col-form-label col-form-label-sm">Category</label>
-                        <div class="col-sm-5">
-                            <select class="form-control form-control-sm" id="category" name="category">
-                                <option selected>Open this select menu</option>
-                                {{#categories}}
-                                <option value="{{id}}">{{name}}</option>
-                                {{/categories}}
                             </select>
                         </div>
                     </div>
@@ -64,7 +82,7 @@
 
                     <div class="form-group row">
                         <div class="col-sm">
-                            <a role="button" class="btn btn-dark" href="/board">Back</a>
+                            <a role="button" class="btn btn-dark" href="/admin/board">Back</a>
                             <button type="submit" class="btn btn-success">Save</button>
                         </div>
                     </div>

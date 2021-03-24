@@ -29,14 +29,12 @@ public class MemberService {
         return savedMember;
     }
 
-    public Member saveMemberWithConvertImage(String image, Member member)  {
-        System.out.println("==");
-        if (!image.isEmpty()) {
-            System.out.println("====");
-            String stringImage = image;
+    public Member saveMemberWithConvertImage(MultipartFile image, Member member) throws IOException  {
+        if(!image.isEmpty()){
+            String stringImage = convertImageToString(image);
             member.setImage(stringImage);
         }
-        System.out.println("===");
+
 
         return memberRepository.save(member);
     }

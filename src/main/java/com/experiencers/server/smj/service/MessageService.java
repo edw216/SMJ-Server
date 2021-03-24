@@ -2,8 +2,6 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Message;
-import com.experiencers.server.smj.dto.MessageDto;
-import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;

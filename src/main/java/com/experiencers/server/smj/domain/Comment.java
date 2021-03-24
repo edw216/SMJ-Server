@@ -1,6 +1,5 @@
 package com.experiencers.server.smj.domain;
 
-import ch.qos.logback.classic.pattern.ClassNameOnlyAbbreviator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

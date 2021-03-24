@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findAllByMember_EmailEquals(String email);
-    //List<Board> findAllByMemberEmail(String email);
 }

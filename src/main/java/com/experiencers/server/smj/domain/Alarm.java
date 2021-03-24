@@ -2,7 +2,7 @@ package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.RepeatType;
 import com.fasterxml.jackson.annotation.*;
-import io.swagger.annotations.ApiModelProperty;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,12 +36,12 @@ public class Alarm {
 
     @ApiModelProperty(position = 5,notes = "시작시간",example = "HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    @Column(nullable = false)
+    @NotNull
     private Time startTime;
 
     @ApiModelProperty(position = 6,notes = "종료 시간",example = "HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    @Column(nullable = false)
+    @NotNull
     private Time endTime;
 
     @ApiModelProperty(position = 7,notes = "반복 주기",example = "ONCE, HOURLY, DAILY, MONTHLY, YEARLY")

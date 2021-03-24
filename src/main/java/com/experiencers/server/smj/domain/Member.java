@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -52,7 +51,8 @@ public class Member {
     @JsonIgnore
     @ApiModelProperty(position = 5,notes = "멤버 셋팅")
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "setting_id",nullable = false)
+    @JoinColumn(name = "setting_id")
+    @NotNull
     private Setting setting;
 
 

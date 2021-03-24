@@ -3,15 +3,12 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Alarm;
 import com.experiencers.server.smj.domain.Member;
-import com.experiencers.server.smj.dto.AlarmDto;
-import com.experiencers.server.smj.enumerate.RepeatType;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.AlarmRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +49,12 @@ public class AlarmService {
 
         return savedAlarm;
     }
+    public Alarm saveAlarmOfMember(Alarm inputtedAlarm){
+        Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
+
+        return savedAlarm;
+    }
+
     public Alarm readAlarm(Long alarmId){return alarmRepository.findById(alarmId).get();}
 
     public List<Alarm> readAllAlarm(){
@@ -60,6 +63,9 @@ public class AlarmService {
         List<Alarm> alarms = member.getAlarms();
 
         return alarms;
+    }
+    public List<Alarm> readAllAlarmOfMember(){
+        return alarmRepository.findAll();
     }
 
     public void removeAlarm(Long alarmId){

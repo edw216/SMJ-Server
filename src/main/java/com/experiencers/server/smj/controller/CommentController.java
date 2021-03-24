@@ -15,12 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/comment")
+@RequestMapping("/admin")
 public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @GetMapping("")
+    @GetMapping("/comment")
     public ModelAndView getIndex(){
         List<Comment> commentList = commentService.readAllComment();
 
@@ -35,7 +35,7 @@ public class CommentController {
                               @ModelAttribute Comment inputtedComment,
                               HttpServletRequest request){
         System.out.println(inputtedComment.toString());
-        //commentService.saveComment(inputtedComment,boardId);
+        commentService.saveComment(inputtedComment,boardId);
 
         return "redirect:"+request.getHeader("referer");
     }
@@ -45,15 +45,15 @@ public class CommentController {
                                 @PathVariable("board_id")Long boardId,
                                 HttpServletRequest request){
         commentService.deleteComment(commentId);
-        return "redirect:/board/"+boardId;
+        return "redirect:/admin/board/"+boardId;
     }
     //@PostMapping
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit")
     public ModelAndView editComment(@PathVariable("comment_id") Long commentId,@PathVariable("board_id")Long boardId){
-        //Comment comment = commentService.readComment(commentId);
+
 
         ModelAndView response = new ModelAndView("comment/edit");
-        //response.addObject(comment);
+
 
         return response;
 
@@ -61,9 +61,9 @@ public class CommentController {
     @PostMapping("/board/{board_id}/comment/{comment_id}/edit/update")
     public String updateComment(@PathVariable("comment_id")Long commentId, @ModelAttribute Comment comment,@PathVariable("board_id") Long boardId){
 
-        //commentService.readAndUpdateComment(commentId, comment);
+        commentService.readAndUpdateComment(commentId, comment);
 
-        return "redirect:/board/"+boardId;
+        return "redirect:/admin/board/"+boardId;
     }
 
 }
