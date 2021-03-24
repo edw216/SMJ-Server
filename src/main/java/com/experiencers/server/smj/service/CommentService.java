@@ -33,6 +33,16 @@ public class CommentService {
 
         return savedComment;
     }
+    public Comment saveCommentOfAdmin(Comment inputtedComment, Long boardId){
+        Board board = boardRepository.findById(boardId).get();
+
+        inputtedComment.setBoard(board);
+
+        Comment savedComment = commentRepository.save(inputtedComment);
+
+        return savedComment;
+
+    }
     public List<Comment> readComment(Long boardId){
         //Member member = manageMember.getManageMembername()
         List<Comment> comments = boardRepository.findById(boardId).get().getComments();
@@ -40,6 +50,9 @@ public class CommentService {
         System.out.println(boardRepository.findById(boardId).get());
         System.out.println(boardRepository.findById(boardId).get().getComments());
         return comments;
+    }
+    public Comment readCommentOfAdmin(Long commentId){
+        return commentRepository.findById(commentId).get();
     }
     public List<Comment> readAllComment(){return commentRepository.findAll();}
 
@@ -54,7 +67,9 @@ public class CommentService {
         if(data.isPresent()){
             Comment target = data.get();
 
+            target.setUser(comment.getUser());
             target.setContent(comment.getContent());
+
 
             target = commentRepository.save(target);
 

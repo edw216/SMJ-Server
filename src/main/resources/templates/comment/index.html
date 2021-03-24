@@ -28,14 +28,14 @@
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Comment</h1>
-                <form method="POST" action="/admin/board/{board_id}/comment">
+                <form method="POST" action="/admin/comment">
                     <div class="form-group row">
-                        <label for="board" class="col-sm-1 col-form-label col-form-label-sm">Board</label>
+                        <label for="board_id" class="col-sm-1 col-form-label col-form-label-sm">Board</label>
                         <div class="col-sm-5">
-                            <select class="form-control form-control-sm" id="board" name="board">
+                            <select class="form-control form-control-sm" id="board_id" name="board_id">
                                 <option selected>Open this select menu</option>
                                 {{#boards}}
-                                <option value="{{id}}">{{name}}</option>
+                                <option value="{{id}}">{{title}}</option>
                                 {{/boards}}
                             </select>
                         </div>
@@ -72,27 +72,27 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#comments}}
+                {{#commentList}}
                 <tr>
-                    <th scope="row">{{id}}</th>
-                    <td>{{board}}</td>
+                    <th scope="row">{{commentId}}</th>
+                    <td>{{board.title}}</td>
                     <td>{{user}}</td>
                     <td>{{content}}</td>
                     <td colspan="2">
                         <div class="btn-group" role="group">
-                            <a href="/admin/board/{board_id}/comment/{comment_id}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
-                            <form action="/admin/board/{board_id}/comment/{comment_id}/delete" method="post">
+                            <a href="/admin/comment/{{commentId}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                            <form action="/admin/comment/{{commentId}}/delete" method="post">
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </div>
                     </td>
                 </tr>
-                {{/comments}}
-                {{^comments}}
+                {{/commentList}}
+                {{^commentList}}
                 <tr>
                     <td colspan="5" class="text-center">게시글이 없습니다.</td>
                 </tr>
-                {{/comments}}
+                {{/commentList}}
                 </tbody>
             </table>
         </main>
