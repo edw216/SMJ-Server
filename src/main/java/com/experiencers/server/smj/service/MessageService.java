@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MessageService {
@@ -23,7 +22,9 @@ public class MessageService {
     @Autowired
     private ManageMember manageMember;
 
-    //Api Service
+    ////////////////////////////////////////////////////
+    //API Service
+    ////////////////////////////////////////////////////
     public Message saveMessage(MessageDto messageDto) {
         Member sendMember = manageMember.getManageMember();
 
@@ -45,30 +46,39 @@ public class MessageService {
         return messages;
     }
 
-    //Api Admin Service
     public void deleteMessage(Long message_id){
         messageRepository.deleteById(message_id);
     }
 
+    ////////////////////////////////////////////////////
     //Admin Service
+    ////////////////////////////////////////////////////
+    public Message writeMessage(Message inputtedMessage) {
+        Message savedMessage = messageRepository.save(inputtedMessage);
+
+        return savedMessage;
+    }
+
     public Message readMessage(Long message_id) {
         return messageRepository.findById(message_id).get();
     }
 
-    public Message readAndUpdateMessage(Long messageId, Message message){
-
-        Optional<Message> data = messageRepository.findById(messageId);
-
-        if(data.isPresent()){
-            Message target = data.get();
-            target.setContent(message.getContent());
-            target.setSender(message.getSender());
-            target.setReceiver(message.getReceiver());
-
-            target = messageRepository.save(target);
-
-            return target;
-        }
-        return null;
+    public List<Message> readMessage() {
+        return messageRepository.findAll();
     }
+
+    public void removeMessage(Long message_id){
+        messageRepository.deleteById(message_id);
+    }
+    public void updateMessage(Message message){
+        Message beforeMessage = messageRepository.findById(message.getId()).get();
+        beforeMessage.setContent(message.getContent());
+        beforeMessage.setSender(message.getSender());
+        beforeMessage.setReceiver(message.getReceiver());
+        beforeMessage.setCreateAt(message.getCreateAt());
+        messageRepository.save(beforeMessage);
+    }
+
+
 }
+
