@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/message")
+@RequestMapping("/admin/message")
 public class MessageController {
     @Autowired
     private MessageService messageService;
@@ -31,10 +31,10 @@ public class MessageController {
     public String postMessage(@ModelAttribute Message inputtedMessage) {
         Message savedMessage = messageService.writeMessage(inputtedMessage);
 
-        return "redirect:/message";
+        return "redirect:/admin/message";
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ModelAndView getPost(@PathVariable("id") Long message_id) {
         Message message = messageService.readMessage(message_id);
 
@@ -42,7 +42,8 @@ public class MessageController {
         response.addObject(message);
 
         return response;
-    }
+    }*/
+
     @PostMapping("/{message_id}/delete")
     public String deleteMessage(@PathVariable("message_id") Long message_id, HttpServletRequest request){
         messageService.removeMessage(message_id);
@@ -55,10 +56,10 @@ public class MessageController {
         response.addObject(message);
         return response;
     }
-    @PostMapping("/{message_id}/edit/update")
-    public String updateMessage(Message message, HttpServletRequest request){
-        messageService.updateMessage(message);
+    @PostMapping("/{message_id}/update")
+    public String updateMessage(@PathVariable("message_id") Long messageId, Message message){
+        messageService.updateMessage(messageId, message);
 
-        return "redirect:/message";
+        return "redirect:/admin/message";
     }
 }

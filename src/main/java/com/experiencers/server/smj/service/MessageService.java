@@ -70,8 +70,9 @@ public class MessageService {
     public void removeMessage(Long message_id){
         messageRepository.deleteById(message_id);
     }
-    public void updateMessage(Message message){
-        Message beforeMessage = messageRepository.findById(message.getId()).get();
+
+    public void updateMessage(Long messageId, Message message){
+        Message beforeMessage = messageRepository.findById(messageId).get();
         beforeMessage.setContent(message.getContent());
         beforeMessage.setSender(message.getSender());
         beforeMessage.setReceiver(message.getReceiver());
