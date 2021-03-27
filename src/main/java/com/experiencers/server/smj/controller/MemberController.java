@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/member")
+@RequestMapping("/admin")
 public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("")
+    @GetMapping("/member")
     public ModelAndView getIndex() {
         List<Member> memberList = memberService.readAllMember();
 
@@ -29,20 +29,19 @@ public class MemberController {
         return response;
     }
 
-    @PostMapping("")
-    public String postMember(@RequestParam("profile_image") String image, @ModelAttribute Member inputtedMember)  {
+    @PostMapping("/member")
+    public String postMember(@RequestParam("profile_image")String image, @ModelAttribute Member inputtedMember) throws IOException  {
         memberService.saveMemberWithConvertImage(image, inputtedMember);
-
-        return "redirect:/member";
+        return "redirect:/admin/member";
     }
 
-    @PostMapping("/{member_id}/delete")
+    @PostMapping("/member/{member_id}/delete")
     public String deleteMember(@PathVariable("member_id") Long memberId, HttpServletRequest request){
         memberService.deleteMember(memberId);
         return "redirect:"+request.getHeader("referer");
     }
 
-    @GetMapping("/{member_id}/edit")
+    @GetMapping("/member/{member_id}/edit")
     public ModelAndView editMember(@PathVariable("member_id") Long memberId){
         Member member = memberService.readMember(memberId);
         ModelAndView response = new ModelAndView("member/edit");
@@ -51,13 +50,13 @@ public class MemberController {
         return response;
     }
 
-    @PostMapping("/{member_id}/update")
+    @PostMapping("/member/{member_id}/update")
     public String updateMember(@PathVariable("member_id") Long memberId,
                              @RequestParam("profile_image") String image,
-                             @ModelAttribute Member member)  {
+                             @ModelAttribute Member member) throws IOException  {
 
         memberService.updateMemberWithConvertImage(memberId, image, member);
 
-        return "redirect:/member";
+        return "redirect:/admin/member";
     }
 }

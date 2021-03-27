@@ -14,12 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/category")
+@RequestMapping("/admin")
 public class CategoryController{
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("")
+    @GetMapping("/category")
     public ModelAndView getCategories(){
         List<Category> categories = categoryService.readAllCategory();
 
@@ -29,15 +29,14 @@ public class CategoryController{
         return response; // category를 연결하면
     }
 
-    @PostMapping("")
+    @PostMapping("/category")
     public String postCategory(@ModelAttribute Category inputtedCategory) {
-        System.out.println(inputtedCategory.toString());
-        Category savedCategory = categoryService.saveCategory(inputtedCategory);
+        categoryService.saveCategoryOfMember(inputtedCategory);
 
-        return "redirect:/category";
+        return "redirect:/admin/category";
     }
 
-    @GetMapping("/{category_id}/edit")
+    @GetMapping("/category/{category_id}/edit")
     public ModelAndView editCategory(@PathVariable("category_id") Long categoryId) {
         Category category = categoryService.readCategory(categoryId);
 
@@ -46,18 +45,18 @@ public class CategoryController{
         return mav;
     }
 
-    @PostMapping("/{category_id}/update")
+    @PostMapping("/category/{category_id}/update")
     public String updateCategory(@PathVariable("category_id") Long categoryId,
                                        @ModelAttribute Category category) {
-        categoryService.readAndUpdateCategory(categoryId, category);
+        categoryService.readAndUpdateCategoryOfMember(categoryId, category);
 
-        return "redirect:/category";
+        return "redirect:/admin/category";
     }
 
-    @PostMapping("/{category_id}/delete")
+    @PostMapping("/category/{category_id}/delete")
     public String deleteCategory(@PathVariable("category_id") Long categoryId) {
         categoryService.deleteCategory(categoryId);
 
-        return "redirect:/category";
+        return "redirect:/admin/category";
     }
 }

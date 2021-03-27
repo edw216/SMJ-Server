@@ -2,6 +2,7 @@ package com.experiencers.server.smj.controller;
 
 
 import com.experiencers.server.smj.domain.Alarm;
+import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.service.AlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,51 +12,51 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/alarm")
+@RequestMapping("/admin")
 public class AlarmController {
     @Autowired
     private AlarmService alarmService;
 
-    @GetMapping("")
+    @GetMapping("/alarm")
     public ModelAndView getIndex(){
-        //List<Alarm> alarmList = alarmService.readAllAlarm();
+        List<Alarm> alarms = alarmService.readAllAlarmOfMember();
 
         ModelAndView response = new ModelAndView("alarm/index");
-        //response.addObject(alarmList);
+        response.addObject("alarms", alarms);
 
         return response;
     }
 
-    @PostMapping("")
-    public String createAlarm(@ModelAttribute Alarm inputtedAlarm){
-        System.out.println(inputtedAlarm.toString());
-        //Alarm savedAlarm = alarmService.saveAlarm(inputtedAlarm);
+    @PostMapping("/alarm")
+    public String postAlarm(@ModelAttribute Alarm inputtedAlarm){
+        alarmService.saveAlarmOfMember(inputtedAlarm);
 
-        return "redirect:/alarm";
+        return "redirect:/admin/alarm";
     }
 
-    @PostMapping("/{alarm_id}/delete")
-    public String deleteAlarm(@PathVariable("alarm_id") Long alarm_id){
-        alarmService.removeAlarm(alarm_id);
+    @PostMapping("/alarm/{alarm_id}/delete")
+    public String deleteAlarm(@PathVariable("alarm_id") Long alarmId){
+        alarmService.removeAlarm(alarmId);
 
-        return "redirect:/alarm";
+        return "redirect:/admin/alarm";
     }
 
-    @PostMapping("/{alarm_id}/edit")
-    public ModelAndView editAlarm(@PathVariable("alarm_id") Long alarm_id){
-        Alarm alarm = alarmService.readAlarm(alarm_id);
+    @PostMapping("/alarm/{alarm_id}/edit")
+    public ModelAndView editAlarm(@PathVariable("alarm_id") Long alarmId){
+        Alarm alarm = alarmService.readAlarm(alarmId);
 
-        ModelAndView response = new ModelAndView("alarm/edit");
-        response.addObject(alarm);
+        ModelAndView mav = new ModelAndView("alarm/edit");
+        mav.addObject("alarm",alarm);
 
-        return response;
+        return mav;
     }
 
-    @PostMapping("/{alarm_id}/edit/update")
-    public String updateAlarm(Alarm alarm){
-        alarmService.updateAlarm(alarm);
+    @PostMapping("/alarm/{alarm_id}/update")
+    public String updateAlarm(@PathVariable("alarm_id") Long alarmId,
+                              @ModelAttribute Alarm alarm){
+        alarmService.readAndUpdateAlarmOfMember(alarmId, alarm);
 
-        return "redirect:/alarm";
+        return "redirect:/admin/alarm";
     }
 
 

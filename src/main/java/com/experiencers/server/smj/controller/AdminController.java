@@ -5,9 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping
 public class AdminController {
 
-    @RequestMapping("/admin")
+    @GetMapping("/admin")
     public ModelAndView getIndex() {
 
         ModelAndView mav = new ModelAndView("admin/index");

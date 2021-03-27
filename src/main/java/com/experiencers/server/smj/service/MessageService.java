@@ -2,6 +2,7 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Message;
+import com.experiencers.server.smj.dto.MessageDto;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.MessageRepository;
@@ -22,19 +23,19 @@ public class MessageService {
     @Autowired
     private ManageMember manageMember;
 
-    public Message saveMessage(Message inputtedMessage) {
+    //Api Service
+    public Message saveMessage(MessageDto messageDto) {
         Member sendMember = manageMember.getManageMember();
 
+        Message message = Message.builder()
+                .content(messageDto.getContent())
+                .receiver(messageDto.getReceiver())
+                .sender(sendMember.getEmail())
+                .build();
 
-        inputtedMessage.setSender(sendMember.getEmail());
-
-        Message savedMessage = messageRepository.save(inputtedMessage);
+        Message savedMessage = messageRepository.save(message);
 
         return savedMessage;
-    }
-
-    public Message readMessage(Long message_id) {
-        return messageRepository.findById(message_id).get();
     }
 
     public List<Message> readAllMessage() {
@@ -44,8 +45,14 @@ public class MessageService {
         return messages;
     }
 
+    //Api Admin Service
     public void deleteMessage(Long message_id){
         messageRepository.deleteById(message_id);
+    }
+
+    //Admin Service
+    public Message readMessage(Long message_id) {
+        return messageRepository.findById(message_id).get();
     }
 
     public Message readAndUpdateMessage(Long messageId, Message message){

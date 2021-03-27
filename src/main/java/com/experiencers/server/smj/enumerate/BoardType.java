@@ -1,6 +1,5 @@
 package com.experiencers.server.smj.enumerate;
 
-import lombok.Getter;
 
 public enum BoardType {
     LIVE,

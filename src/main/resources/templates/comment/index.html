@@ -27,32 +27,24 @@
         <main role="main" class="col-sm-10 ml-sm-auto p-0">
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
-                <h1 class="h2 mb-4">Board</h1>
-                <form method="POST" action="/board">
+                <h1 class="h2 mb-4">Comment</h1>
+                <form method="POST" action="/admin/comment">
                     <div class="form-group row">
-                        <label for="type" class="col-sm-1 col-form-label col-form-label-sm">Type</label>
+                        <label for="board_id" class="col-sm-1 col-form-label col-form-label-sm">Board</label>
                         <div class="col-sm-5">
-                            <select class="form-control form-control-sm" id="type" name="type">
+                            <select class="form-control form-control-sm" id="board_id" name="board_id">
                                 <option selected>Open this select menu</option>
-                                {{#types}}
-                                <option value="{{.}}">{{.}}</option>
-                                {{/types}}
+                                {{#boards}}
+                                <option value="{{id}}">{{title}}</option>
+                                {{/boards}}
                             </select>
                         </div>
-                        <label for="category" class="col-sm-1 col-form-label col-form-label-sm">Category</label>
-                        <div class="col-sm-5">
-                            <select class="form-control form-control-sm" id="category" name="category">
-                                <option selected>Open this select menu</option>
-                                {{#categories}}
-                                <option value="{{id}}">{{name}}</option>
-                                {{/categories}}
-                            </select>
-                        </div>
+
                     </div>
                     <div class="form-group row">
-                        <label for="title" class="col-sm-1 col-form-label col-form-label-sm">Title</label>
+                        <label for="user" class="col-sm-1 col-form-label col-form-label-sm">User</label>
                         <div class="col-sm-11">
-                            <input type="text" class="form-control form-control-sm" id="title" name="title" required>
+                            <input type="text" class="form-control form-control-sm" id="user" name="user" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -74,36 +66,33 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Title</th>
+                    <th scope="col">Board</th>
+                    <th scope="col">User</th>
                     <th scope="col">Content</th>
-                    <th scope="col">Control</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#boards}}
+                {{#commentList}}
                 <tr>
-                    <th scope="row">{{id}}</th>
-                    <td>{{type}}</td>
-                    <td>{{category.name}}</td>
-                    <td>{{title}}</td>
+                    <th scope="row">{{commentId}}</th>
+                    <td>{{board.title}}</td>
+                    <td>{{user}}</td>
                     <td>{{content}}</td>
                     <td colspan="2">
                         <div class="btn-group" role="group">
-                            <a href="/board/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
-                            <form action="/board/{{id}}/delete" method="post">
+                            <a href="/admin/comment/{{commentId}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                            <form action="/admin/comment/{{commentId}}/delete" method="post">
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </div>
                     </td>
                 </tr>
-                {{/boards}}
-                {{^boards}}
+                {{/commentList}}
+                {{^commentList}}
                 <tr>
                     <td colspan="5" class="text-center">게시글이 없습니다.</td>
                 </tr>
-                {{/boards}}
+                {{/commentList}}
                 </tbody>
             </table>
         </main>

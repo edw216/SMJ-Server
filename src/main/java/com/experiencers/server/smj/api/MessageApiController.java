@@ -1,10 +1,11 @@
 package com.experiencers.server.smj.api;
 
 
+import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.domain.Message;
+import com.experiencers.server.smj.dto.MessageDto;
 import com.experiencers.server.smj.service.MessageService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "Messages", description = "쪽지")
 @RestController
 @RequestMapping("/api/messages")
 public class MessageApiController {
@@ -21,40 +23,36 @@ public class MessageApiController {
     @Autowired
     private MessageService messageService;
 
-    @ApiOperation(value = "사용자가 받은 쪽지 불러오기",notes = "헤더에 jwt 토큰을 담고 성공시 받은 모든 쪽지를 불러옵니다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공")
+    })
+    @ApiOperation(value = "쪽지 목록",notes = "성공시 사용자가 받은 모든 쪽지를 반환합니다.",response = Message.class)
     @GetMapping("")
-    public List<Message> getMessages(@RequestHeader("Authorization")String token){
+    public ResponseEntity<?> getMessages(){
         List<Message> messageList = messageService.readAllMessage();
 
-        return messageList;
+        return new ResponseEntity<>(messageList,HttpStatus.OK);
     }
 
-    @ApiOperation(value = "쪽지 보내기",notes = "헤더에 jwt 토큰을 담고 성공시 쪽지가 작성됩니다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "작성됨")
+    })
+    @ApiOperation(value = "쪽지 작성",notes = "성공시 받은 사람에게 쪽지가 저장합니다.")
     @PostMapping("")
-    public Message postMessage(@RequestHeader("Authorization")String token, @RequestBody Message message){
-        Message savedMessage = messageService.saveMessage(message);
+    public ResponseEntity<?> postMessages(@RequestBody MessageDto messageDto){
+        Message savedMessage = messageService.saveMessage(messageDto);
 
 
-        return savedMessage;
+        return new ResponseEntity<>(savedMessage,HttpStatus.CREATED);
     }
 
-    @PutMapping("/{message_id}")
-    public ResponseEntity<Message> putMessage(@RequestHeader("Authorization")String token,@PathVariable("message_id")Long messageId, @RequestBody Message message){
-        Message updatedMessage = messageService.readAndUpdateMessage(messageId, message);
-
-        if(updatedMessage == null){
-            message.setMessageId(messageId);
-
-            return new ResponseEntity<>(updatedMessage, HttpStatus.NOT_FOUND);
-
-        }
-        return new ResponseEntity<>(updatedMessage, HttpStatus.OK);
-    }
-
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "콘텐츠 없음")
+    })
     @ApiImplicitParam(name = "message_id",value = "쪽지번호",required = true,paramType = "path")
-    @ApiOperation(value = "쪽지 삭제하기",notes = "헤더에 jwt 토큰을 담고 성공시 쪽지아이디를 통해 해당 쪽지를 삭제됩니다.")
+    @ApiOperation(value = "쪽지 삭제",notes = "성공시 해당 쪽지를 삭제합니다.")
     @DeleteMapping("/{message_id}")
-    public ResponseEntity<Object> deleteMessage(@RequestHeader("Authorization")String token,@PathVariable("message_id")Long messageId){
+    public ResponseEntity<?> deleteMessages(@PathVariable("message_id")Long messageId){
         messageService.deleteMessage(messageId);
 
         Map<String, Object> result = new HashMap<>();
@@ -63,6 +61,6 @@ public class MessageApiController {
         data.put("message_id", messageId);
         result.put("message", data);
 
-        return new ResponseEntity<>(result,HttpStatus.OK);
+        return new ResponseEntity<>(result,HttpStatus.NO_CONTENT);
     }
 }

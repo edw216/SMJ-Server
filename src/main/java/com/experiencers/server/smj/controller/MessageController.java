@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/message")
+@RequestMapping("/admin")
 public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    @GetMapping("")
+    @GetMapping("/message")
     public ModelAndView getIndex() {
         //List<Message> messageList = messageService.readAllMessage();
 
@@ -33,7 +33,7 @@ public class MessageController {
         return "redirect:" + request.getHeader("referer");
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/message/{id}")
     public ModelAndView getPost(@PathVariable("id") Long messageId) {
         Message message = messageService.readMessage(messageId);
 
@@ -42,14 +42,14 @@ public class MessageController {
 
         return response;
     }
-    @PostMapping("/{message_id}/delete")
+    @PostMapping("/message/{message_id}/delete")
     public String deleteMessage(@PathVariable("message_id") Long messageId,
                                 @PathVariable("member_id") Long memberId,
                                 HttpServletRequest request){
         messageService.deleteMessage(messageId);
-        return "redirect:/member/" + memberId;
+        return "redirect:/admin/member/" + memberId;
     }
-    @PostMapping("/{message_id}/edit")
+    @PostMapping("/message/{message_id}/edit")
     public ModelAndView editMessage(@PathVariable("message_id")Long messageId,
                                     @PathVariable("member_id")Long memberId){
         Message message = messageService.readMessage(messageId);
@@ -57,10 +57,10 @@ public class MessageController {
         response.addObject(message);
         return response;
     }
-    @PostMapping("/{message_id}/edit/update")
+    @PostMapping("/message/{message_id}/edit/update")
     public String updateMessage(@PathVariable("message_id")Long messageId, Message message, @PathVariable("member_id") Long memberId){
         messageService.readAndUpdateMessage(messageId, message);
 
-        return "redirect:/member/"+memberId;
+        return "redirect:/admin/member/"+memberId;
     }
 }
