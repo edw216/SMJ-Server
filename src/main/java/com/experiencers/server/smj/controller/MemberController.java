@@ -30,7 +30,7 @@ public class MemberController {
     }
 
     @PostMapping("/member")
-    public String postMember(@RequestParam("profile_image") MultipartFile image, @ModelAttribute Member inputtedMember) throws IOException  {
+    public String postMember(@RequestParam("profile_image")String image, @ModelAttribute Member inputtedMember) throws IOException  {
         memberService.saveMemberWithConvertImage(image, inputtedMember);
         return "redirect:/admin/member";
     }
@@ -52,7 +52,7 @@ public class MemberController {
 
     @PostMapping("/member/{member_id}/update")
     public String updateMember(@PathVariable("member_id") Long memberId,
-                             @RequestParam("profile_image") MultipartFile image,
+                             @RequestParam("profile_image") String image,
                              @ModelAttribute Member member) throws IOException  {
 
         memberService.updateMemberWithConvertImage(memberId, image, member);

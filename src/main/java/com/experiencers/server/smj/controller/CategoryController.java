@@ -31,8 +31,7 @@ public class CategoryController{
 
     @PostMapping("/category")
     public String postCategory(@ModelAttribute Category inputtedCategory) {
-        System.out.println(inputtedCategory.toString());
-        categoryService.saveCategory(inputtedCategory);
+        categoryService.saveCategoryOfMember(inputtedCategory);
 
         return "redirect:/admin/category";
     }
@@ -49,7 +48,7 @@ public class CategoryController{
     @PostMapping("/category/{category_id}/update")
     public String updateCategory(@PathVariable("category_id") Long categoryId,
                                        @ModelAttribute Category category) {
-        categoryService.readAndUpdateCategory(categoryId, category);
+        categoryService.readAndUpdateCategoryOfMember(categoryId, category);
 
         return "redirect:/admin/category";
     }

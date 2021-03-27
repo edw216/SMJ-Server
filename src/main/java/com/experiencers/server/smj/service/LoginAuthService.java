@@ -20,7 +20,7 @@ import java.util.Optional;
 
 
 @Service
-public class KakaoAndAuthService {
+public class LoginAuthService {
     @Autowired
     private JwtAuthTokenProvider jwtAuthTokenProvider;
 
@@ -61,23 +61,21 @@ public class KakaoAndAuthService {
         //받아온 사용자의 데이터가 이미 저장이 되있나 판별하고 저장할지 결정
         Optional<Member> findEmail = memberRepository.findByEmail(profile.kakao_account.email);
 
-        Member member = new Member();
+        Member member;
         if(!findEmail.isPresent()){
-            System.out.println("여기1");
-            member.setNickname(profile.kakao_account.profile.nickname);
-            member.setEmail(profile.kakao_account.email);
-            member.setImage(profile.kakao_account.profile.profile_image_url);
-            member.setSetting(new Setting());
-            memberService.saveMember(member);
-            //Member member2 = memberRepository.save(member);
-            //System.out.println(member2);
+            member = Member.builder()
+                    .email(profile.kakao_account.email)
+                    .nickname(profile.kakao_account.profile.nickname)
+                    .image(profile.kakao_account.profile.profile_image_url)
+                    .setting(new Setting())
+                    .build();
+            memberRepository.save(member);
+            //memberService.saveMember(member);
+
         }else{
-            System.out.println("여기2");
             member = findEmail.get();
         }
 
-        //밑의 방식으로 사용자를 저장하면 에러가 나서 바로 repository로 저장방식 사용
-        //memberService.saveMemberWithConvertImage(profile.properties.profile_image,member);
         System.out.println(profile.getId());
         System.out.println(profile.kakao_account.profile.nickname);
         System.out.println(profile.kakao_account.email);

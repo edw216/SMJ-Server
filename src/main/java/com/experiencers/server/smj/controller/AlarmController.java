@@ -19,13 +19,6 @@ public class AlarmController {
 
     @GetMapping("/alarm")
     public ModelAndView getIndex(){
-        //List<Alarm> alarmList = alarmService.readAllAlarm();
-
-        //ModelAndView response = new ModelAndView("alarm/index");
-        //response.addObject(alarmList);
-
-        //return response;
-
         List<Alarm> alarms = alarmService.readAllAlarmOfMember();
 
         ModelAndView response = new ModelAndView("alarm/index");
@@ -36,7 +29,6 @@ public class AlarmController {
 
     @PostMapping("/alarm")
     public String postAlarm(@ModelAttribute Alarm inputtedAlarm){
-        //System.out.println(inputtedAlarm.toString());
         alarmService.saveAlarmOfMember(inputtedAlarm);
 
         return "redirect:/admin/alarm";
@@ -62,7 +54,7 @@ public class AlarmController {
     @PostMapping("/alarm/{alarm_id}/update")
     public String updateAlarm(@PathVariable("alarm_id") Long alarmId,
                               @ModelAttribute Alarm alarm){
-        alarmService.readAndUpdateAlarm(alarmId, alarm);
+        alarmService.readAndUpdateAlarmOfMember(alarmId, alarm);
 
         return "redirect:/admin/alarm";
     }

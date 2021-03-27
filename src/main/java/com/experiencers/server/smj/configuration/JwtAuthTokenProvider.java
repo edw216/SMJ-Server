@@ -36,6 +36,7 @@ public class JwtAuthTokenProvider {
     public String createJwtToken(String userId){
         System.out.println("create token");
         Claims claims = Jwts.claims().setSubject(userId);
+
         Date now = new Date();
         Date expiration = new Date(now.getTime() + TOKEN_VALID_TIME);
 

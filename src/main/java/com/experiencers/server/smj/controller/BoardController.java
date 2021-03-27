@@ -40,10 +40,6 @@ public class BoardController {
 
     @PostMapping("/board")
     public String postBoard(@ModelAttribute Board inputtedBoard,@RequestParam(value = "category_id")Long categoryId,@RequestParam(value = "member_id") Long memberId){
-        //System.out.println(categoryId +"=="+memberId);
-        System.out.println("--"+inputtedBoard);
-        System.out.println("=="+categoryId);
-        System.out.println("-="+memberId);
         boardService.saveBoardOfAdmin(inputtedBoard,categoryId,memberId);
 
         return "redirect:/admin/board";
@@ -64,10 +60,6 @@ public class BoardController {
 
     @PostMapping("/board/{board_id}/update")
     public String updateBoard(@ModelAttribute Board board,@RequestParam(value = "category_id")Long categoryId,@RequestParam(value = "board_id")Long boardId){
-
-        System.out.println("-"+board);
-        System.out.println("--"+categoryId);
-        System.out.println("-="+boardId);
         boardService.readAndUpdateBoardOfAdmin(board, categoryId, boardId);
 
         return "redirect:/admin/board";

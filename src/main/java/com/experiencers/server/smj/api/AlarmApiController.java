@@ -1,61 +1,76 @@
 package com.experiencers.server.smj.api;
 
 import com.experiencers.server.smj.domain.Alarm;
-import com.experiencers.server.smj.domain.Member;
-import com.experiencers.server.smj.manager.ManageMember;
+import com.experiencers.server.smj.domain.Board;
+import com.experiencers.server.smj.dto.AlarmDto;
 import com.experiencers.server.smj.service.AlarmService;
-import com.experiencers.server.smj.service.MemberService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Api(tags = "Alarms", description = "알람")
 @RestController
 @RequestMapping("/api/alarms")
 public class AlarmApiController {
+
     @Autowired
     private AlarmService alarmService;
 
-    @Autowired
-    private ManageMember manageMember;
-
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공")
+    })
+    @ApiOperation(value = "알람 목록",notes = "성공시 사용자의 모든 알람을 반환합니다.",response = Alarm.class)
     @GetMapping("")
-    public List<Alarm> getAlarms(@RequestHeader("Authorization")String token) {
-
+    public ResponseEntity<?> getAlarms() {
         List<Alarm> alarmList = alarmService.readAllAlarm();
 
-        return alarmList;
+        return new ResponseEntity<>(alarmList,HttpStatus.OK);
     }
 
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "작성됨")
+    })
+    @ApiOperation(value = "알람 저장",notes = "성공시 해당 유저의 알람을 저장합니다.")
     @PostMapping("")
     // 성공: 201 Created
-    public Alarm postAlarm(@RequestHeader("Authorization")String token, @RequestBody Alarm alarm){
+    public ResponseEntity<?> postAlarms(@RequestBody AlarmDto alarmDto){
+        Alarm savedAlarm = alarmService.saveAlarm(alarmDto);
 
-        Alarm savedAlarm = alarmService.saveAlarm(alarm);
-
-        return savedAlarm;
+        return new ResponseEntity<>(savedAlarm,HttpStatus.CREATED);
     }
 
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공")
+    })
+    @ApiImplicitParam(name = "alarm_id",value = "알람번호",required = true,paramType = "path")
+    @ApiOperation(value = "알람 수정",notes = "성공시 해당 알람의 내용을 변경합니다.")
     @PutMapping("/{alarm_id}")
     // 성공: 200 OK
     // 실패: 404 NOT FOUND
-    public ResponseEntity<Alarm> putAlarm(@RequestHeader("Authorization")String token,@PathVariable("alarm_id") Long alarmId, @RequestBody Alarm alarm){
-        Alarm updatedAlarm = alarmService.readAndUpdateAlarm(alarmId, alarm);
+    public ResponseEntity<?> putAlarms(@PathVariable("alarm_id") Long alarmId, @RequestBody AlarmDto alarmDto){
+        Alarm updatedAlarm = alarmService.readAndUpdateAlarm(alarmId, alarmDto);
 
         if (updatedAlarm == null) {
-            alarm.setId(alarmId);
-            return new ResponseEntity<>(alarm, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(alarmDto, HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(updatedAlarm, HttpStatus.OK);
     }
 
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "콘텐츠 없음")
+    })
+    @ApiImplicitParam(name = "alarm_id",value = "알람번호",required = true,paramType = "path")
+    @ApiOperation(value = "알람 삭제",notes = "성공시 해당 알람을 삭제합니다.")
     @DeleteMapping("/{alarm_id}")
-    public ResponseEntity<Object> deleteAlarm(@RequestHeader("Authorization")String token,@PathVariable("alarm_id") Long alarmId){
+    public ResponseEntity<?> deleteAlarms(@PathVariable("alarm_id") Long alarmId){
         alarmService.removeAlarm(alarmId);
 
         Map<String, Object> result = new HashMap<>();
@@ -63,6 +78,6 @@ public class AlarmApiController {
         data.put("alarm_id", alarmId);
         result.put("alarm", data);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
     }
 }

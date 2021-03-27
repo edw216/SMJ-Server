@@ -2,8 +2,9 @@ package com.experiencers.server.smj.service;
 
 
 import com.experiencers.server.smj.domain.Alarm;
-import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.domain.Member;
+import com.experiencers.server.smj.dto.AlarmDto;
+import com.experiencers.server.smj.enumerate.RepeatType;
 import com.experiencers.server.smj.manager.ManageMember;
 import com.experiencers.server.smj.repository.AlarmRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
@@ -19,54 +20,101 @@ public class AlarmService {
     @Autowired
     private AlarmRepository alarmRepository;
     @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
     private ManageMember manageMember;
 
-    public Alarm saveAlarm(Alarm inputtedAlarm){
-
+    //Api Service
+    public Alarm saveAlarm(AlarmDto alarmDto){
+        boolean check = false;
         Member member = manageMember.getManageMember();
+
+        RepeatType repeatType[] = RepeatType.values();
+
+        for(RepeatType rt : repeatType){
+            if(rt.toString().equals(alarmDto.getRepeat().toString())){
+                check =true;
+            }
+        }
+        if(check == false){
+            alarmDto.setRepeat(RepeatType.ONCE);
+        }
+
+        Alarm inputtedAlarm = Alarm.builder()
+                .title(alarmDto.getTitle())
+                .content(alarmDto.getContent())
+                .day(alarmDto.getDay())
+                .startTime(alarmDto.getStartTime())
+                .endTime(alarmDto.getEndTime())
+                .repeat(alarmDto.getRepeat())
+                .member(member)
+                .build();
+
         Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
 
         return savedAlarm;
     }
+    public Alarm readAndUpdateAlarm(Long alarmId, AlarmDto alarmDto) {
+        Optional<Alarm> data = alarmRepository.findById(alarmId);
+
+        if (!data.isPresent()) {
+            return null;
+        }
+
+        Alarm updateData = data.get();
+        updateData.setTitle(alarmDto.getTitle());
+        updateData.setContent(alarmDto.getContent());
+        updateData.setDay(alarmDto.getDay());
+        updateData.setStartTime(alarmDto.getStartTime());
+        updateData.setEndTime(alarmDto.getEndTime());
+        updateData.setRepeat(alarmDto.getRepeat());
+
+        Alarm updatedalarm = alarmRepository.save(updateData);
+
+        return updatedalarm;
+    }
+    public List<Alarm> readAllAlarm(){
+        Member member = manageMember.getManageMember();
+
+        List<Alarm> alarms = member.getAlarms();
+
+        return alarms;
+    }
+
+    public void removeAlarm(Long alarmId){
+        alarmRepository.deleteById(alarmId);
+    }
+    //Admin Service
     public Alarm saveAlarmOfMember(Alarm inputtedAlarm){
         Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
 
         return savedAlarm;
     }
 
-    public Alarm readAlarm(Long alarmId){return alarmRepository.findById(alarmId).get();}
 
-    public List<Alarm> readAllAlarm(){
-
-        List<Alarm> alarms = manageMember.getManageMember().getAlarms();
-        return alarms;
+    public Alarm readAlarm(Long alarmId){
+        return alarmRepository.findById(alarmId).get();
     }
+
     public List<Alarm> readAllAlarmOfMember(){
         return alarmRepository.findAll();
     }
 
-    public void removeAlarm(Long alarmId){
-        alarmRepository.deleteById(alarmId);
-    }
-
-    public Alarm readAndUpdateAlarm(Long alarmId, Alarm alarm) {
+    public Alarm readAndUpdateAlarmOfMember(Long alarmId, Alarm alarm) {
         Optional<Alarm> data = alarmRepository.findById(alarmId);
 
-        if (data.isPresent()) {
-            Alarm target = data.get();
-            target.setRepeat(alarm.getRepeat());
-            target.setTitle(alarm.getTitle());
-            target.setContent(alarm.getContent());
-            target.setStartTime(alarm.getStartTime());
-            target.setEndTime(alarm.getEndTime());
-            target.setDay(alarm.getDay());
-            target = alarmRepository.save(target);
-
-            return target;
+        if (!data.isPresent()) {
+            return null;
         }
 
-        return null;
+        Alarm updateData = data.get();
+        updateData.setTitle(alarm.getTitle());
+        updateData.setContent(alarm.getContent());
+        updateData.setDay(alarm.getDay());
+        updateData.setStartTime(alarm.getStartTime());
+        updateData.setEndTime(alarm.getEndTime());
+        updateData.setRepeat(alarm.getRepeat());
+
+        Alarm updatedalarm = alarmRepository.save(updateData);
+
+        return updatedalarm;
     }
 }
