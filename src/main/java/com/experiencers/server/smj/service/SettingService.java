@@ -1,10 +1,8 @@
 package com.experiencers.server.smj.service;
 
-import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Setting;
 import com.experiencers.server.smj.dto.SettingDto;
-import com.experiencers.server.smj.manager.ManageMember;
-import com.experiencers.server.smj.repository.MemberRepository;
+import com.experiencers.server.smj.manager.MemberManager;
 import com.experiencers.server.smj.repository.SettingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,17 +14,17 @@ public class SettingService {
     @Autowired
     private SettingRepository settingRepository;
     @Autowired
-    private ManageMember manageMember;
+    private MemberManager memberManager;
 
     //Api Service
-    public Setting readMemberSetting(){
-        Setting setting = manageMember.getManageMember().getSetting();
+    public SettingDto.SettingDtoResponse readMemberSetting(){
+        Setting setting = memberManager.getMember().getSetting();
 
-        return setting;
+        return SettingDto.SettingDtoResponse.of(setting);
     }
 
-    public Setting updateSetting(SettingDto settingDto){
-        Setting data = manageMember.getManageMember().getSetting();
+    public SettingDto.SettingDtoResponse updateSetting(SettingDto.SettingDtoRequest settingDto){
+        Setting data = memberManager.getMember().getSetting();
 
         if(settingDto.isGps() || !settingDto.isGps()) {
             data.setGps(settingDto.isGps());
@@ -35,9 +33,10 @@ public class SettingService {
             data.setPush(settingDto.isPush());
         }
 
-        settingRepository.save(data);
+        Setting updateSetting = settingRepository.save(data);
 
-        return data;
+
+        return SettingDto.SettingDtoResponse.of(updateSetting);
     }
 
     //Admin Service

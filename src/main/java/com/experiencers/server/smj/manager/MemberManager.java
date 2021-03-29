@@ -10,19 +10,19 @@ import org.springframework.stereotype.Component;
 import java.security.Principal;
 
 @Component
-public class ManageMember {
+public class MemberManager {
 
     @Autowired
     private MemberRepository memberRepository;
 
-    public Member getManageMember(){
+    public Member getMember(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Member member = memberRepository.findByEmail(user.getUsername()).get();
 
         return member;
     }
 
-    public String getManageMembername(){
+    public String getEmailOfMember(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return user.getUsername();

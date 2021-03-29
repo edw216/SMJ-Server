@@ -1,7 +1,6 @@
 package com.experiencers.server.smj.api;
 
-import com.experiencers.server.smj.domain.Alarm;
-import com.experiencers.server.smj.domain.Board;
+
 import com.experiencers.server.smj.dto.AlarmDto;
 import com.experiencers.server.smj.service.AlarmService;
 import io.swagger.annotations.*;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +24,10 @@ public class AlarmApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiOperation(value = "알람 목록",notes = "성공시 사용자의 모든 알람을 반환합니다.",response = Alarm.class)
+    @ApiOperation(value = "알람 목록",notes = "성공시 사용자의 모든 알람을 반환합니다.",response = AlarmDto.AlarmDtoResponse.class)
     @GetMapping("")
     public ResponseEntity<?> getAlarms() {
-        List<Alarm> alarmList = alarmService.readAllAlarm();
+        List<AlarmDto.AlarmDtoResponse> alarmList = alarmService.readAllAlarm();
 
         return new ResponseEntity<>(alarmList,HttpStatus.OK);
     }
@@ -40,8 +38,8 @@ public class AlarmApiController {
     @ApiOperation(value = "알람 저장",notes = "성공시 해당 유저의 알람을 저장합니다.")
     @PostMapping("")
     // 성공: 201 Created
-    public ResponseEntity<?> postAlarms(@RequestBody AlarmDto alarmDto){
-        Alarm savedAlarm = alarmService.saveAlarm(alarmDto);
+    public ResponseEntity<?> postAlarms(@RequestBody AlarmDto.AlarmDtoRequest alarmDto){
+        AlarmDto.AlarmDtoResponse savedAlarm = alarmService.saveAlarm(alarmDto);
 
         return new ResponseEntity<>(savedAlarm,HttpStatus.CREATED);
     }
@@ -54,14 +52,14 @@ public class AlarmApiController {
     @PutMapping("/{alarm_id}")
     // 성공: 200 OK
     // 실패: 404 NOT FOUND
-    public ResponseEntity<?> putAlarms(@PathVariable("alarm_id") Long alarmId, @RequestBody AlarmDto alarmDto){
-        Alarm updatedAlarm = alarmService.readAndUpdateAlarm(alarmId, alarmDto);
+    public ResponseEntity<?> putAlarms(@PathVariable("alarm_id") Long alarmId, @RequestBody AlarmDto.AlarmDtoRequest alarmDto){
+        AlarmDto.AlarmDtoResponse savedAlarm = alarmService.readAndUpdateAlarm(alarmId, alarmDto);
 
-        if (updatedAlarm == null) {
+        if (savedAlarm == null) {
             return new ResponseEntity<>(alarmDto, HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(updatedAlarm, HttpStatus.OK);
+        return new ResponseEntity<>(savedAlarm, HttpStatus.OK);
     }
 
     @ApiResponses({

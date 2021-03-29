@@ -1,6 +1,5 @@
 package com.experiencers.server.smj.api;
 
-import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.dto.BoardDto;
 import com.experiencers.server.smj.service.BoardService;
 import io.swagger.annotations.*;
@@ -23,10 +22,10 @@ public class BoardApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiOperation(value = "모든 게시글 목록",notes = "성공시 모든 게시글을 반환합니다.",response = Board.class)
+    @ApiOperation(value = "모든 게시글 목록",notes = "성공시 모든 게시글을 반환합니다.",response = BoardDto.BoardDtoResponse.class)
     @GetMapping("")
     public ResponseEntity<?> getBoards(){
-        List<Board> boardList = boardService.readAllBoard();
+        List<BoardDto.BoardDtoResponse> boardList = boardService.readAllBoardofApi();
 
         return new ResponseEntity<>(boardList,HttpStatus.OK);
     }
@@ -34,10 +33,10 @@ public class BoardApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiOperation(value = "사용자 게시글 목록",notes = "성공시 사용자의 모든 게시글을 반환합니다.",response = Board.class)
+    @ApiOperation(value = "사용자 게시글 목록",notes = "성공시 사용자의 모든 게시글을 반환합니다.",response = BoardDto.BoardDtoResponse.class)
     @GetMapping("/my")
     public ResponseEntity<?> getMyBoards(){
-        List<Board> board = boardService.readMyBoard();
+        List<BoardDto.BoardDtoResponse> board = boardService.readMyBoard();
 
         return new ResponseEntity<>(board,HttpStatus.OK);
     }
@@ -47,9 +46,8 @@ public class BoardApiController {
     })
     @ApiOperation(value = "게시글 작성",notes = "성공시 게시글을 저장합니다.")
     @PostMapping("")
-    public ResponseEntity<?> postBoards(@RequestBody BoardDto boardDto){
-        Board savedBoard = boardService.saveBoard(boardDto);
-
+    public ResponseEntity<?> postBoards(@RequestBody BoardDto.BoardDtoRequest boardDto){
+        BoardDto.BoardDtoResponse savedBoard = boardService.saveBoard(boardDto);
 
         return new ResponseEntity<>(savedBoard,HttpStatus.CREATED);
     }
@@ -60,8 +58,8 @@ public class BoardApiController {
     @ApiImplicitParam(name = "board_id",value = "게시글번호",required = true,paramType = "path")
     @ApiOperation(value = "게시글 수정",notes = "성공시 해당 게시글의 내용을 변경합니다.")
     @PutMapping("/{board_id}")
-    public ResponseEntity<?> putBoards(@PathVariable("board_id")Long boardId, @RequestBody BoardDto boardDto){
-        Board updatedBoard = boardService.readAndUpdateBoard(boardId,boardDto);
+    public ResponseEntity<?> putBoards(@PathVariable("board_id")Long boardId, @RequestBody BoardDto.BoardDtoRequest boardDto){
+        BoardDto.BoardDtoResponse updatedBoard = boardService.readAndUpdateBoard(boardId,boardDto);
 
         if(updatedBoard == null){
 

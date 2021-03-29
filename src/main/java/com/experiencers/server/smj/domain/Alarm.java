@@ -3,13 +3,10 @@ package com.experiencers.server.smj.domain;
 import com.experiencers.server.smj.enumerate.RepeatType;
 import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.NotNull;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
 
 @Getter
 @Setter
@@ -19,35 +16,29 @@ public class Alarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="alarm_id")
-    @ApiModelProperty(position = 1,notes = "알람 아이디")
     private Long id;
 
-    @ApiModelProperty(position = 2,notes = "알람 제목")
     @Column(length = 255)
     private String title;
 
-    @ApiModelProperty(position = 3,notes = "알람 내용")
     @Column(length = 10000)
     private String content;
 
     @NotNull
-    @ApiModelProperty(position = 4,notes = "날짜",example = "yyyy-MM-dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd",timezone = "Asia/Seoul")
-    private Date day;
+    @Column(nullable = false)
+    private String startDate;
 
     @NotNull
-    @ApiModelProperty(position = 5,notes = "시작시간",example = "HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    private Time startTime;
+    @Column(nullable = false)
+    private String startTime;
 
     @NotNull
-    @ApiModelProperty(position = 6,notes = "종료 시간",example = "HH:mm:ss")
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    private Time endTime;
+    @Column(nullable = false)
+    private String endTime;
 
     @NotNull
-    @ApiModelProperty(position = 7,notes = "반복 주기",example = "ONCE, HOURLY, DAILY, MONTHLY, YEARLY")
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private RepeatType repeat; //Enum 타입
 
     @JsonIgnore
@@ -61,7 +52,7 @@ public class Alarm {
                 "id="+id+
                 ", title='" +title+'\''+
                 ", content='" +content+'\''+
-                ", day='"+day+'\''+
+                ", startDate='"+ startDate +'\''+
                 ", startTime='"+startTime+'\''+
                 ", endTime='"+endTime+'\''+
                 ", repeat='"+repeat+'\''+
@@ -71,9 +62,9 @@ public class Alarm {
     public static class Builder{
         private String title;
         private String content;
-        private Date day;
-        private Time startTime;
-        private Time endTime;
+        private String startDate;
+        private String startTime;
+        private String endTime;
         private RepeatType repeat;
         private Member member;
 
@@ -85,15 +76,15 @@ public class Alarm {
             this.content = content;
             return this;
         }
-        public Builder day(Date day){
-            this.day = day;
+        public Builder startDate(String startDate){
+            this.startDate = startDate;
             return this;
         }
-        public Builder startTime(Time startTime){
+        public Builder startTime(String startTime){
             this.startTime = startTime;
             return this;
         }
-        public Builder endTime(Time endTime){
+        public Builder endTime(String endTime){
             this.endTime = endTime;
             return this;
         }
@@ -113,7 +104,7 @@ public class Alarm {
     private Alarm(Builder builder){
         this.title = builder.title;
         this.content = builder.content;
-        this.day = builder.day;
+        this.startDate = builder.startDate;
         this.startTime = builder.startTime;
         this.endTime = builder.endTime;
         this.repeat = builder.repeat;

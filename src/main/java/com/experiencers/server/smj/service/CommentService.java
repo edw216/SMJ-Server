@@ -3,7 +3,7 @@ package com.experiencers.server.smj.service;
 import com.experiencers.server.smj.domain.Board;
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.dto.CommentDto;
-import com.experiencers.server.smj.manager.ManageMember;
+import com.experiencers.server.smj.manager.MemberManager;
 import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.domain.Comment;
 import com.experiencers.server.smj.repository.CommentRepository;
@@ -20,40 +20,33 @@ public class CommentService {
     @Autowired
     private BoardRepository boardRepository;
     @Autowired
-    private ManageMember manageMember;
+    private MemberManager memberManager;
 
-    public Comment saveComment(CommentDto commentDto, Long boardId){
+    public CommentDto.CommentDtoResponse saveComment(CommentDto.CommentDtoRequest commentDto, Long boardId){
         Board board = boardRepository.findById(boardId).get();
-        String member = manageMember.getManageMember().getNickname();
+        Member member = memberManager.getMember();
 
-        Comment comment = Comment.builder()
-                .content(commentDto.getContent())
-                .user(member)
-                .board(board)
-                .build();
+        Comment comment = commentDto.toEntity(board,member);
+        Comment saveComment = commentRepository.save(comment);
 
-        Comment savedComment = commentRepository.save(comment);
-
-        return savedComment;
+        return CommentDto.CommentDtoResponse.of(saveComment);
     }
-    public Comment readAndUpdateComment(Long commentId, CommentDto commentDto){
+    public CommentDto.CommentDtoResponse readAndUpdateComment(Long commentId, CommentDto.CommentDtoRequest commentDto){
         Optional<Comment> data = commentRepository.findById(commentId);
 
         if(data.isPresent()){
             Comment target = data.get();
-
             target.setContent(commentDto.getContent());
-
             target = commentRepository.save(target);
 
-            return target;
+            return CommentDto.CommentDtoResponse.of(target);
         }
         return null;
     }
-    public List<Comment> readComment(Long boardId){
-        List<Comment> comments = boardRepository.findById(boardId).get().getComments();
+    public List<CommentDto.CommentDtoResponse> readComment(Long boardId){
+        List<Comment> commentList = boardRepository.findById(boardId).get().getComments();
 
-        return comments;
+        return CommentDto.CommentDtoResponse.of(commentList);
     }
 
 
@@ -88,7 +81,7 @@ public class CommentService {
         if(data.isPresent()){
             Comment target = data.get();
 
-            target.setUser(comment.getUser());
+            //target.setUser(comment.getUser());
             target.setContent(comment.getContent());
 
 

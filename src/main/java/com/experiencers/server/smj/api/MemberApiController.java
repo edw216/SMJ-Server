@@ -26,10 +26,10 @@ public class MemberApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiOperation(value = "사용자 상세",notes = "성공시 사용자의 정보를 반환합니다.")
+    @ApiOperation(value = "사용자 상세",notes = "성공시 사용자의 정보를 반환합니다.",response = MemberDto.MemberDtoResponse.class)
     @GetMapping("")
     public ResponseEntity<?> getMember(){
-        List<Member> memberList = memberService.readAllMember();
+        List<MemberDto.MemberDtoResponse> memberList = memberService.readAllMemberOfApi();
 
         return new ResponseEntity<>(memberList,HttpStatus.OK);
     }
@@ -37,11 +37,10 @@ public class MemberApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiImplicitParam(name = "member_id",value = "유저번호",required = true,paramType = "path")
-    @ApiOperation(value = "사용자 수정",notes = "성공시 사용자의 정보를 변경합니다.",response = Member.class)
+    @ApiOperation(value = "사용자 수정",notes = "성공시 사용자의 정보를 변경합니다.")
     @PutMapping("/{member_id}")
-    public ResponseEntity<?> putMember(@PathVariable("member_id")Long memberId, @RequestBody MemberDto memberDto){
-        Member updatedMember = memberService.readAndUpdateMember(memberId, memberDto);
+    public ResponseEntity<?> putMember(@RequestBody MemberDto.MemberDtoRequest memberDto){
+        MemberDto.MemberDtoResponse updatedMember = memberService.readAndUpdateMember(memberDto);
 
         if(updatedMember == null){
 

@@ -1,7 +1,7 @@
 package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.configuration.JwtAuthTokenProvider;
-import com.experiencers.server.smj.domain.KakaoProfile;
+import com.experiencers.server.smj.dto.KakaoProfileDto;
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Setting;
 import com.experiencers.server.smj.repository.MemberRepository;
@@ -49,11 +49,11 @@ public class LoginAuthService {
         );
 
         ObjectMapper objectMapper = new ObjectMapper();
-        KakaoProfile profile = null;
+        KakaoProfileDto profile = null;
 
         //받아온 Response Body의 사용자 데이터를 저장하기
         try{
-            profile = objectMapper.readValue(response.getBody(),KakaoProfile.class);
+            profile = objectMapper.readValue(response.getBody(), KakaoProfileDto.class);
         }catch (JsonProcessingException e){
             e.printStackTrace();
         }

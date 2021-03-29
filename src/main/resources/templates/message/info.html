@@ -28,29 +28,28 @@
             <!-- HERE::Main Content -->
             <div class="jumbotron py-4 mb-2">
                 <h1 class="h2 mb-4">Message</h1>
-                <form name="userForm" method="POST" action="/admin/message" enctype="multipart/form-data">
+                <form method="POST" action="/admin/message">
+
                     <div class="form-group row">
-                        <label for="sender" class="col-sm-1 col-form-label col-form-label-sm">Sender</label>
+                        <label for="sender" class="col-sm-1 col-form-label col-form-label-sm">보내는 사람</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" id="sender" name="sender" required>
+                            <input type="text" class="form-control form-control-sm" id="sender" name="sender" value="" required>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="receiver" class="col-sm-1 col-form-label col-form-label-sm">Receiver</label>
+                        <label for="receiver" class="col-sm-1 col-form-label col-form-label-sm">받는 사람</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-sm" id="receiver" name="receiver" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="content" class="col-sm-1 col-form-label col-form-label-sm">Content</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control form-control-file form-control-sm" id="content" name="content">
+                            <input type="text" class="form-control form-control-sm" id="receiver" name="receiver" value="" required>
                         </div>
                     </div>
 
                     <div class="form-group row">
+                        <label for="content" class="col-sm-1 col-form-label col-form-label-sm">Content</label>
                         <div class="col-sm">
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <textarea class="form-control form-control-sm" name="content" id="content" rows="5" placeholder="내용을 입력하세요."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm">
+                            <button type="submit" class="btn btn-success">Save</button>
                         </div>
                     </div>
                 </form>
@@ -63,32 +62,32 @@
                     <th scope="col">Sender</th>
                     <th scope="col">Receiver</th>
                     <th scope="col">Content</th>
-                    <th scope="col">Read Confirmaiton</th>
-                    <th scope="col">Controller</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#messages}}
+                {{#messageList}}
                 <tr>
                     <th scope="row">{{id}}</th>
                     <td>{{sender}}</td>
                     <td>{{receiver}}</td>
                     <td>{{content}}</td>
+
                     <td colspan="2">
                         <div class="btn-group" role="group">
-                            <a href="/{message_id}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
-                            <form action="/{message_id}/delete" method="post">
+                            <a href="/admin/message/{{id}}/edit" role="button" class="btn btn-sm btn-success">Edit</a>
+                            <form action="/admin/message/{{id}}/delete" method="post">
+
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </div>
                     </td>
                 </tr>
-                {{/messages}}
-                {{^messages}}
+                {{/messageList}}
+                {{^messageList}}
                 <tr>
-                    <td colspan="5" class="text-center">메세지가 없습니다.</td>
+                    <td colspan="5" class="text-center">쪽지함이 비어있습니다.</td>
                 </tr>
-                {{/messages}}
+                {{/messageList}}
                 </tbody>
             </table>
         </main>
@@ -104,7 +103,7 @@
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
-    feather.replace()
-</script>
+        feather.replace()
+    </script>
 </body>
 </html>
