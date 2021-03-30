@@ -22,10 +22,6 @@ public class Board {
     private Long id;
 
     @NotNull
-    @Column(nullable = false)
-    private String writer;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(length = 50,nullable = false)
     private BoardType type;
@@ -55,7 +51,7 @@ public class Board {
     private Category category;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="member_id",nullable = false)
     private Member member;
 
@@ -77,7 +73,6 @@ public class Board {
     }
 
     public static class Builder{
-        private String writer;
         private BoardType type;
         private String title;
         private String content;
@@ -87,10 +82,6 @@ public class Board {
         private String imageTwo;
         private String imageThree;
 
-        public Builder writer(String writer){
-            this.writer = writer;
-            return this;
-        }
         public Builder type(BoardType type){
             this.type = type;
             return this;
@@ -130,7 +121,6 @@ public class Board {
 
 
     private Board(Builder builder){
-        this.writer = builder.writer;
         this.type = builder.type;
         this.title = builder.title;
         this.content = builder.content;

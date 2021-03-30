@@ -44,7 +44,7 @@ public class BoardService {
             category = categoryOptional.get();
         }
 
-        Board board = boardDto.toEntity(category, member.getNickname(), member);
+        Board board = boardDto.toEntity(category, member);
         Board saveBoard = boardRepository.save(board);
 
         return BoardDto.BoardDtoResponse.of(saveBoard);

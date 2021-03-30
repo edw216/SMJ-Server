@@ -71,6 +71,14 @@ public class AlarmService {
         return AlarmDto.AlarmDtoResponse.of(alarms);
     }
 
+    public List<AlarmDto.AlarmDtoResponse> readAllAlarmOfDate(String startDate){
+        Member member = memberManager.getMember();
+
+        List<Alarm> alarmList = alarmRepository.findAllByMemberEqualsAndStartDate(member,startDate);
+
+        return AlarmDto.AlarmDtoResponse.of(alarmList);
+    }
+
     public void removeAlarm(Long alarmId){
         alarmRepository.deleteById(alarmId);
     }

@@ -43,7 +43,7 @@ public class BoardDto {
         @ApiModelProperty(position = 7,notes = "게시글 사진3")
         private String imageThree;
 
-        public Board toEntity(Category category, String writer, Member member){
+        public Board toEntity(Category category, Member member){
             return Board.builder()
                     .category(category)
                     .type(this.type)
@@ -52,7 +52,6 @@ public class BoardDto {
                     .imageOne(this.imageOne)
                     .imageTwo(this.imageTwo)
                     .imageThree(this.imageThree)
-                    .writer(writer)
                     .member(member)
                     .build();
         }
@@ -65,11 +64,11 @@ public class BoardDto {
         @ApiModelProperty(position = 1,notes = "게시글 구분아이디")
         private Long id;
 
-        @ApiModelProperty(position = 2,notes = "게시글 카테고리")
-        private CategoryDto.CategoryDtoResponse category;
+        @ApiModelProperty(position = 2,notes = "게시글 작성자")
+        private MemberDto.MemberDtoResponse member;
 
-        @ApiModelProperty(position = 3,notes = "게시글 작성자")
-        private String writer;
+        @ApiModelProperty(position = 3,notes = "게시글 카테고리")
+        private CategoryDto.CategoryDtoResponse category;
 
         @ApiModelProperty(position = 4,notes = "게시글 유형")
         private BoardType type;

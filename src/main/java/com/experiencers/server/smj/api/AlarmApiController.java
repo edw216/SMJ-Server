@@ -24,6 +24,17 @@ public class AlarmApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
+    @ApiImplicitParam(name = "startDate",value = "해당날짜",required = true,paramType = "path",example = "yyyy-MM-dd")
+    @ApiOperation(value = "해당날짜 알람 목록",notes = "성공시 사용자의 해당하는 날짜의 모든 알람을 반환합니다.",response = AlarmDto.AlarmDtoResponse.class)
+    @GetMapping("/{startDate}")
+    public ResponseEntity<?> getAlarmsOfDate(@PathVariable("startDate")String startDate) {
+        List<AlarmDto.AlarmDtoResponse> alarmList = alarmService.readAllAlarmOfDate(startDate);
+
+        return new ResponseEntity<>(alarmList,HttpStatus.OK);
+    }
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공")
+    })
     @ApiOperation(value = "알람 목록",notes = "성공시 사용자의 모든 알람을 반환합니다.",response = AlarmDto.AlarmDtoResponse.class)
     @GetMapping("")
     public ResponseEntity<?> getAlarms() {
