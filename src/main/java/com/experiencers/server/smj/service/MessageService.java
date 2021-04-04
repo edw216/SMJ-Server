@@ -3,7 +3,7 @@ package com.experiencers.server.smj.service;
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.domain.Message;
 import com.experiencers.server.smj.dto.MessageDto;
-import com.experiencers.server.smj.manager.ManageMember;
+import com.experiencers.server.smj.manager.MemberManager;
 import com.experiencers.server.smj.repository.MemberRepository;
 import com.experiencers.server.smj.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,30 +20,28 @@ public class MessageService {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ManageMember manageMember;
+    private MemberManager memberManager;
+
 
     ////////////////////////////////////////////////////
     //API Service
     ////////////////////////////////////////////////////
-    public Message saveMessage(MessageDto messageDto) {
-        Member sendMember = manageMember.getManageMember();
 
-        Message message = Message.builder()
-                .content(messageDto.getContent())
-                .receiver(messageDto.getReceiver())
-                .sender(sendMember.getEmail())
-                .build();
+    //Api Service
+    public MessageDto.MessageDtoResponse saveMessage(MessageDto.MessageDtoRequest messageDto) {
+        Member sendMember = memberManager.getMember();
 
-        Message savedMessage = messageRepository.save(message);
+        Message message = messageDto.toEntity(sendMember.getEmail());
+        Message saveMessage = messageRepository.save(message);
 
-        return savedMessage;
+        return MessageDto.MessageDtoResponse.of(saveMessage);
     }
 
-    public List<Message> readAllMessage() {
-        String email = manageMember.getManageMembername();
+    public List<MessageDto.MessageDtoResponse> readAllMessage() {
+        String email = memberManager.getEmailOfMember();
         List<Message> messages = messageRepository.findAllByReceiver(email);
 
-        return messages;
+        return MessageDto.MessageDtoResponse.of(messages);
     }
 
     public void deleteMessage(Long message_id){
@@ -67,11 +65,15 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public void removeMessage(Long message_id){
-        messageRepository.deleteById(message_id);
+
+    public void removeMessage(Long messageId){
+        messageRepository.deleteById(messageId);
     }
-    public void updateMessage(Message message){
-        Message beforeMessage = messageRepository.findById(message.getId()).get();
+
+
+    public void updateMessage(Long messageId, Message message){
+        Message beforeMessage = messageRepository.findById(messageId).get();
+
         beforeMessage.setContent(message.getContent());
         beforeMessage.setSender(message.getSender());
         beforeMessage.setReceiver(message.getReceiver());

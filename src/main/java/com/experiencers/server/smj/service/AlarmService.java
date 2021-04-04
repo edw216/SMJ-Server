@@ -5,9 +5,8 @@ import com.experiencers.server.smj.domain.Alarm;
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.dto.AlarmDto;
 import com.experiencers.server.smj.enumerate.RepeatType;
-import com.experiencers.server.smj.manager.ManageMember;
+import com.experiencers.server.smj.manager.MemberManager;
 import com.experiencers.server.smj.repository.AlarmRepository;
-import com.experiencers.server.smj.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,39 +19,31 @@ public class AlarmService {
     @Autowired
     private AlarmRepository alarmRepository;
     @Autowired
-    private ManageMember manageMember;
+    private MemberManager memberManager;
 
     //Api Service
-    public Alarm saveAlarm(AlarmDto alarmDto){
+    public AlarmDto.AlarmDtoResponse saveAlarm(AlarmDto.AlarmDtoRequest alarmDto){
         boolean check = false;
-        Member member = manageMember.getManageMember();
+        Member member = memberManager.getMember();
 
         RepeatType repeatType[] = RepeatType.values();
 
         for(RepeatType rt : repeatType){
             if(rt.toString().equals(alarmDto.getRepeat().toString())){
-                check =true;
+                check = true;
             }
         }
         if(check == false){
             alarmDto.setRepeat(RepeatType.ONCE);
+
         }
 
-        Alarm inputtedAlarm = Alarm.builder()
-                .title(alarmDto.getTitle())
-                .content(alarmDto.getContent())
-                .day(alarmDto.getDay())
-                .startTime(alarmDto.getStartTime())
-                .endTime(alarmDto.getEndTime())
-                .repeat(alarmDto.getRepeat())
-                .member(member)
-                .build();
+        Alarm inputtedAlarm = alarmDto.toEntity(member);
 
         Alarm savedAlarm = alarmRepository.save(inputtedAlarm);
-
-        return savedAlarm;
+        return AlarmDto.AlarmDtoResponse.of(savedAlarm);
     }
-    public Alarm readAndUpdateAlarm(Long alarmId, AlarmDto alarmDto) {
+    public AlarmDto.AlarmDtoResponse readAndUpdateAlarm(Long alarmId, AlarmDto.AlarmDtoRequest alarmDto) {
         Optional<Alarm> data = alarmRepository.findById(alarmId);
 
         if (!data.isPresent()) {
@@ -62,21 +53,30 @@ public class AlarmService {
         Alarm updateData = data.get();
         updateData.setTitle(alarmDto.getTitle());
         updateData.setContent(alarmDto.getContent());
-        updateData.setDay(alarmDto.getDay());
+        updateData.setStartDate(alarmDto.getStartDate());
         updateData.setStartTime(alarmDto.getStartTime());
         updateData.setEndTime(alarmDto.getEndTime());
         updateData.setRepeat(alarmDto.getRepeat());
 
         Alarm updatedalarm = alarmRepository.save(updateData);
 
-        return updatedalarm;
+        return AlarmDto.AlarmDtoResponse.of(updatedalarm);
     }
-    public List<Alarm> readAllAlarm(){
-        Member member = manageMember.getManageMember();
+    public List<AlarmDto.AlarmDtoResponse> readAllAlarm(){
+        Member member = memberManager.getMember();
 
         List<Alarm> alarms = member.getAlarms();
 
-        return alarms;
+
+        return AlarmDto.AlarmDtoResponse.of(alarms);
+    }
+
+    public List<AlarmDto.AlarmDtoResponse> readAllAlarmOfDate(String startDate){
+        Member member = memberManager.getMember();
+
+        List<Alarm> alarmList = alarmRepository.findAllByMemberEqualsAndStartDate(member,startDate);
+
+        return AlarmDto.AlarmDtoResponse.of(alarmList);
     }
 
     public void removeAlarm(Long alarmId){
@@ -108,7 +108,7 @@ public class AlarmService {
         Alarm updateData = data.get();
         updateData.setTitle(alarm.getTitle());
         updateData.setContent(alarm.getContent());
-        updateData.setDay(alarm.getDay());
+        updateData.setStartDate(alarm.getStartDate());
         updateData.setStartTime(alarm.getStartTime());
         updateData.setEndTime(alarm.getEndTime());
         updateData.setRepeat(alarm.getRepeat());

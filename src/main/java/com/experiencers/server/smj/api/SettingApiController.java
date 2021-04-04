@@ -25,10 +25,10 @@ public class SettingApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiOperation(value = "설정 상세",notes = "성공시 사용자의 설정정보를 반환합니다.",response = Setting.class)
+    @ApiOperation(value = "설정 상세",notes = "성공시 사용자의 설정정보를 반환합니다.",response = SettingDto.SettingDtoResponse.class)
     @GetMapping("")
     public ResponseEntity<?> getSetting(){
-        Setting setting = settingService.readMemberSetting();
+        SettingDto.SettingDtoResponse setting = settingService.readMemberSetting();
 
         return new ResponseEntity<>(setting,HttpStatus.OK);
     }
@@ -38,8 +38,8 @@ public class SettingApiController {
     })
     @ApiOperation(value = "설정 수정",notes = "성공시 사용자의 설정내용을 변경합니다.")
     @PutMapping("")
-    public ResponseEntity<?> putSetting(@RequestBody SettingDto settingDto){
-        Setting updateSetting = settingService.updateSetting(settingDto);
+    public ResponseEntity<?> putSetting(@RequestBody SettingDto.SettingDtoRequest settingDto){
+        SettingDto.SettingDtoResponse updateSetting = settingService.updateSetting(settingDto);
 
         if(updateSetting ==null){
             return new ResponseEntity<>(settingDto, HttpStatus.NOT_FOUND);

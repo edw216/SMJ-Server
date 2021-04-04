@@ -15,28 +15,14 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     //Api Service
-    public Category saveCategory(CategoryDto categoryDto){
-        Category category = Category.builder()
-                .name(categoryDto.getName())
-                .build();
-        Category savedCategory = categoryRepository.save(category);
+    public List<CategoryDto.CategoryDtoResponse> readAllCategoryOfApi(){
 
-        return savedCategory;
+        List<Category> categoryList = categoryRepository.findAll();
+
+        return CategoryDto.CategoryDtoResponse.of(categoryList);
     }
-    public Category readAndUpdateCategory(Long categoryId, CategoryDto categoryDto){
-        Optional<Category> data = categoryRepository.findById(categoryId);
 
-        if (data.isPresent()) {
-            Category target = data.get();
-            target.setName(categoryDto.getName());
-            target = categoryRepository.save(target);
-
-            return target;
-
-        }
-        return null;
-    }
-    //Api, Admin Service
+    //Admin Service
     public List<Category> readAllCategory(){
         return categoryRepository.findAll();
     }
@@ -45,7 +31,6 @@ public class CategoryService {
         categoryRepository.deleteById(category_id);
     }
 
-    //Admin Service
     public Category readCategory(Long categoryId){
         Category result = categoryRepository.findById(categoryId).get();
 

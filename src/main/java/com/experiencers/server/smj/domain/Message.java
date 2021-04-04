@@ -18,25 +18,20 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
-    @ApiModelProperty(position = 1,notes = "쪽지 아이디")
     private Long id;
 
     @NotNull
-    @ApiModelProperty(position = 2,notes = "쪽지 내용(최대 255자)")
-    @Column(length = 255)
+    @Column(length = 255,nullable = false)
     private String content;
 
     @NotNull
-    @ApiModelProperty(position = 3,notes = "쪽지 보내는사람(이메일)",example = "example@example.com")
-    @Column(length = 50)
+    @Column(length = 50,nullable = false)
     private String sender;
 
     @NotNull
-    @ApiModelProperty(position = 4,notes = "쪽지 받는사람(이메일)",example = "example@example.com")
-    @Column(length = 50)
+    @Column(length = 50,nullable = false)
     private String receiver;
 
-    @ApiModelProperty(position = 5)
     @CreationTimestamp
     private LocalDateTime createAt;
 

@@ -5,7 +5,7 @@ import com.experiencers.server.smj.domain.Category;
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.dto.BoardDto;
 import com.experiencers.server.smj.enumerate.BoardType;
-import com.experiencers.server.smj.manager.ManageMember;
+import com.experiencers.server.smj.manager.MemberManager;
 import com.experiencers.server.smj.repository.BoardRepository;
 import com.experiencers.server.smj.repository.CategoryRepository;
 import com.experiencers.server.smj.repository.MemberRepository;
@@ -22,20 +22,19 @@ public class BoardService {
     @Autowired
     private MemberRepository memberRepository;
     @Autowired
-    private ManageMember manageMember;
+    private MemberManager memberManager;
     @Autowired
     private CategoryRepository categoryRepository;
 
     //Api service
-    public Board saveBoard(BoardDto boardDto){
-        Member member = manageMember.getManageMember();
+    public BoardDto.BoardDtoResponse saveBoard(BoardDto.BoardDtoRequest boardDto){
+        Member member = memberManager.getMember();
 
         if(boardDto.getType().toString().equals("TRADE")){
             boardDto.setType(BoardType.TRADE);
         }else {
             boardDto.setType(BoardType.LIVE);
         }
-
 
         Optional<Category> categoryOptional = categoryRepository.findById(boardDto.getCategoryId());
         Category category = null;
@@ -45,21 +44,12 @@ public class BoardService {
             category = categoryOptional.get();
         }
 
-        Board inputtedBoard = Board.builder()
-                .writer(member.getNickname())
-                .content(boardDto.getContent())
-                .title(boardDto.getTitle())
-                .member(member)
-                .category(category)
-                .type(boardDto.getType())
-                .build();
+        Board board = boardDto.toEntity(category, member);
+        Board saveBoard = boardRepository.save(board);
 
-
-        Board savedBoard = boardRepository.save(inputtedBoard);
-
-        return savedBoard;
+        return BoardDto.BoardDtoResponse.of(saveBoard);
     }
-    public Board readAndUpdateBoard(Long boardId, BoardDto boardDto){
+    public BoardDto.BoardDtoResponse readAndUpdateBoard(Long boardId, BoardDto.BoardDtoRequest boardDto){
 
         Optional<Board> data = boardRepository.findById(boardId);
         if(data.isPresent()){
@@ -82,26 +72,23 @@ public class BoardService {
 
             target = boardRepository.save(target);
 
-            return target;
+            return BoardDto.BoardDtoResponse.of(target);
         }
 
         return null;
     }
 
-    public List<Board> readMyBoard(){
-        Member member = manageMember.getManageMember();
+    public List<BoardDto.BoardDtoResponse> readMyBoard(){
+        Member member = memberManager.getMember();
         List<Board> boards = boardRepository.findAllByMember_EmailEquals(member.getEmail());
-        //List<Board> boards2 = boardRepository.findAllByMemberEmail(member.getEmail());
 
-        System.out.println("my error check");
-        System.out.println(member);
-        System.out.println(boards);
-
-        return boards;
+        return BoardDto.BoardDtoResponse.of(boards);
     }
 
-    public List<Board> readAllBoard(){
-        return boardRepository.findAll();
+    public List<BoardDto.BoardDtoResponse> readAllBoardofApi() {
+        List<Board> boardList = boardRepository.findAll();
+
+        return BoardDto.BoardDtoResponse.of(boardList);
     }
 
     //delete - Api, Admin 공통
@@ -110,6 +97,10 @@ public class BoardService {
     }
 
     //Admin service
+    public List<Board> readAllBoard(){
+            return boardRepository.findAll();
+    }
+
     public Board readBoard(Long boardId){return boardRepository.findById(boardId).get();}
 
     public Board saveBoardOfAdmin(Board inputtedBoard,Long categoryId,Long memberId){

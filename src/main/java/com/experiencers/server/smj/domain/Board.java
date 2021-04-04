@@ -1,9 +1,7 @@
 package com.experiencers.server.smj.domain;
 
 import com.experiencers.server.smj.enumerate.BoardType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -21,47 +19,42 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
-    @ApiModelProperty(position = 1,notes = "게시글 아이디")
     private Long id;
 
     @NotNull
-    @ApiModelProperty(position = 2,notes = "작성자")
-    private String writer;
-
-    @NotNull
-    @ApiModelProperty(position = 3,notes = "게시글 유형",example = "LIVE, TRADE")
     @Enumerated(EnumType.STRING)
-    @Column(length = 50)
+    @Column(length = 50,nullable = false)
     private BoardType type;
 
     @NotNull
-    @ApiModelProperty(position = 4,notes = "게시글 제목(최대 255자)")
-    @Column(length = 255)
+    @Column(length = 255,nullable = false)
     private String title;
 
     @NotNull
-    @ApiModelProperty(position = 5,notes = "게시글 내용(최대 10000자)")
-    @Column(length = 10000)
+    @Column(length = 10000,nullable = false)
     private String content;
 
-    @ApiModelProperty(position = 7)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Lob
+    private String imageOne;
 
-    @ApiModelProperty(position = 6,notes = "게시글 카테고리(카테고리 참고)")
+    @Lob
+    private String imageTwo;
+
+    @Lob
+    private String imageThree;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 
-
     @NotNull
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="member_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name ="member_id",nullable = false)
     private Member member;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Comment> comments = new ArrayList<>();
 
@@ -80,17 +73,15 @@ public class Board {
     }
 
     public static class Builder{
-        private String writer;
         private BoardType type;
         private String title;
         private String content;
         private Category category;
         private Member member;
+        private String imageOne;
+        private String imageTwo;
+        private String imageThree;
 
-        public Builder writer(String writer){
-            this.writer = writer;
-            return this;
-        }
         public Builder type(BoardType type){
             this.type = type;
             return this;
@@ -111,6 +102,18 @@ public class Board {
             this.member = member;
             return this;
         }
+        public Builder imageOne(String imageOne){
+            this.imageOne = imageOne;
+            return this;
+        }
+        public Builder imageTwo(String imageTwo){
+            this.imageTwo = imageTwo;
+            return this;
+        }
+        public Builder imageThree(String imageThree){
+            this.imageThree = imageThree;
+            return this;
+        }
         public Board build(){
             return new Board(this);
         }
@@ -118,12 +121,14 @@ public class Board {
 
 
     private Board(Builder builder){
-        this.writer = builder.writer;
         this.type = builder.type;
         this.title = builder.title;
         this.content = builder.content;
         this.category = builder.category;
         this.member = builder.member;
+        this.imageOne = builder.imageOne;
+        this.imageTwo = builder.imageTwo;
+        this.imageThree = builder.imageThree;
     }
     public Board() {}
 

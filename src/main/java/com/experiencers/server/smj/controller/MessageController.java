@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/message")
+@RequestMapping("/admin/message")
 public class MessageController {
     @Autowired
     private MessageService messageService;
@@ -26,15 +26,15 @@ public class MessageController {
         return response;
 
     }
-
     @PostMapping("")
     public String postMessage(@ModelAttribute Message inputtedMessage) {
         Message savedMessage = messageService.writeMessage(inputtedMessage);
 
-        return "redirect:/message";
+        return "redirect:/admin/message";
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
+>>>>>>> main
     public ModelAndView getPost(@PathVariable("id") Long message_id) {
         Message message = messageService.readMessage(message_id);
 
@@ -42,12 +42,14 @@ public class MessageController {
         response.addObject(message);
 
         return response;
-    }
+    }*/
+
     @PostMapping("/{message_id}/delete")
-    public String deleteMessage(@PathVariable("message_id") Long message_id, HttpServletRequest request){
-        messageService.removeMessage(message_id);
+    public String deleteMessage(@PathVariable("message_id") Long messageId, HttpServletRequest request){
+        messageService.removeMessage(messageId);
         return "redirect:"+request.getHeader("referer");
     }
+
     @GetMapping("/{message_id}/edit")
     public ModelAndView editMessage(@PathVariable("message_id")Long message_id){
         Message message = messageService.readMessage(message_id);
@@ -55,10 +57,12 @@ public class MessageController {
         response.addObject(message);
         return response;
     }
-    @PostMapping("/{message_id}/edit/update")
-    public String updateMessage(Message message, HttpServletRequest request){
-        messageService.updateMessage(message);
 
-        return "redirect:/message";
+
+    @PostMapping("/{message_id}/update")
+    public String updateMessage(@PathVariable("message_id") Long messageId, Message message){
+        messageService.updateMessage(messageId, message);
+        return "redirect:/admin/message";
+
     }
 }

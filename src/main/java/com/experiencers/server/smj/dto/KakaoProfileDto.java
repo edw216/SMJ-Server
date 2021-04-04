@@ -1,9 +1,9 @@
-package com.experiencers.server.smj.domain;
+package com.experiencers.server.smj.dto;
 
 import lombok.Data;
 
 @Data
-public class KakaoProfile {
+public class KakaoProfileDto {
 
     public int id;
     public String connected_at;

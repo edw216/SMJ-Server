@@ -2,7 +2,6 @@ package com.experiencers.server.smj.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,12 +17,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    @ApiModelProperty(position = 1,notes = "카테고리 아이디")
     public Long id;
 
     @NotNull
-    @ApiModelProperty(position = 2,notes = "카테고리 이름")
-    @Column(length = 255,unique = true)
+    @Column(length = 255,unique = true,nullable = false)
     public String name;
 
     @JsonIgnore

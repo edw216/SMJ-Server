@@ -26,10 +26,10 @@ public class MessageApiController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공")
     })
-    @ApiOperation(value = "쪽지 목록",notes = "성공시 사용자가 받은 모든 쪽지를 반환합니다.",response = Message.class)
+    @ApiOperation(value = "쪽지 목록",notes = "성공시 사용자가 받은 모든 쪽지를 반환합니다.",response = MessageDto.MessageDtoResponse.class)
     @GetMapping("")
     public ResponseEntity<?> getMessages(){
-        List<Message> messageList = messageService.readAllMessage();
+        List<MessageDto.MessageDtoResponse> messageList = messageService.readAllMessage();
 
         return new ResponseEntity<>(messageList,HttpStatus.OK);
     }
@@ -39,8 +39,8 @@ public class MessageApiController {
     })
     @ApiOperation(value = "쪽지 작성",notes = "성공시 받은 사람에게 쪽지가 저장합니다.")
     @PostMapping("")
-    public ResponseEntity<?> postMessages(@RequestBody MessageDto messageDto){
-        Message savedMessage = messageService.saveMessage(messageDto);
+    public ResponseEntity<?> postMessages(@RequestBody MessageDto.MessageDtoRequest messageDto){
+        MessageDto.MessageDtoResponse savedMessage = messageService.saveMessage(messageDto);
 
 
         return new ResponseEntity<>(savedMessage,HttpStatus.CREATED);

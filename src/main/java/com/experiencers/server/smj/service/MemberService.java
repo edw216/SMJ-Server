@@ -2,18 +2,12 @@ package com.experiencers.server.smj.service;
 
 import com.experiencers.server.smj.domain.Member;
 import com.experiencers.server.smj.dto.MemberDto;
-import com.experiencers.server.smj.manager.ManageMember;
+import com.experiencers.server.smj.manager.MemberManager;
 import com.experiencers.server.smj.repository.MemberRepository;
-import com.experiencers.server.smj.repository.MessageRepository;
-import com.experiencers.server.smj.repository.SettingRepository;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MemberService {
@@ -21,26 +15,27 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     @Autowired
-    private ManageMember manageMember;
+    private MemberManager memberManager;
 
     //Api Service
-    public List<Member> readAllMember() {
-        return memberRepository.findAll();
+    public List<MemberDto.MemberDtoResponse> readAllMemberOfApi() {
+        List<Member> memberList = memberRepository.findAll();
+
+        return MemberDto.MemberDtoResponse.of(memberList);
     }
-    public Member readAndUpdateMember(Long memberId, MemberDto memberDto){
-        Optional<Member> data = memberRepository.findById(memberId);
 
-        if(data.isPresent()){
-            Member target = data.get();
-            target.setNickname(memberDto.getNickname());
-            target.setEmail(memberDto.getEmail());
-            target.setImage(memberDto.getImage());
+    public MemberDto.MemberDtoResponse readAndUpdateMember(MemberDto.MemberDtoRequest memberDto){
 
-            target = memberRepository.save(target);
-
-            return target;
+        Member member = memberManager.getMember();
+        if(!memberDto.getNickname().equals("닉네임")) {
+            member.setNickname(memberDto.getNickname());
         }
-        return null;
+        if(!memberDto.getImage().equals("image.jpg")) {
+            member.setImage(memberDto.getImage());
+        }
+
+        member = memberRepository.save(member);
+        return MemberDto.MemberDtoResponse.of(member);
     }
     //Api Admin Service
     public void deleteMember(Long memberId){
@@ -48,6 +43,9 @@ public class MemberService {
     }
 
     //Admin Service
+    public List<Member> readAllMember() {
+        return memberRepository.findAll();
+    }
     public Member saveMemberWithConvertImage(String image, Member member)  {
 
         if (!image.isEmpty()) {
